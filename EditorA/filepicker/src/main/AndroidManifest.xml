@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.kelfan.filepicker" >
+
+    <application>
+        <activity android:name=".ActivityFilePicker"
+            android:theme="@style/MFP_BaseTheme"/>
+    </application>
+</manifest>

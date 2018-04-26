@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Log Filer</string>
+    <string name="others">其他</string>
+    <string name="please_input_a_content">please input a content</string>
+</resources>
