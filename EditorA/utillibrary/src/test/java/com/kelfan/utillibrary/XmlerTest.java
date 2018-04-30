@@ -1,9 +1,8 @@
-package com.kelfan.textfiler;
+package com.kelfan.utillibrary;
+
+import com.kelfan.utillibrary.Xmler;
 
 import org.junit.Test;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertEquals;
 

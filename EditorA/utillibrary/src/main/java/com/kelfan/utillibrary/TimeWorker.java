@@ -1,6 +1,7 @@
 package com.kelfan.utillibrary;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -38,6 +39,10 @@ public class TimeWorker {
         Date date = now.getTime();
         String format = new SimpleDateFormat(UtilConstant.DAYWEEKFORMAT).format(date);
         return format;
+    }
+
+    public static String getLocalTime(){
+        return new Date().toString();
     }
 
 }

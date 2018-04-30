@@ -1,6 +1,4 @@
-package com.kelfan.textfiler;
-
-import com.kelfan.utillibrary.StringWorker;
+package com.kelfan.utillibrary;
 
 public class Xmler {
     private String text;
@@ -17,8 +15,13 @@ public class Xmler {
         getRemain();
     }
 
+    public String getContent() {
+        return content;
+    }
+
     public static Xmler set(String text, String indicator) {
         return new Xmler(text, indicator);
+
     }
 
     public Xmler setContent(String content) {
@@ -44,12 +47,12 @@ public class Xmler {
         return this;
     }
 
-    public Xmler getRemain(){
+    public String getRemain(){
         remain = text.replaceAll(getRegex(), "");
-        return this;
+        return remain;
     }
 
-    private String setXmlContent() {
+    public String setXmlContent() {
         String pre = getPreFormat();
         String pos = getPosFormat();
         content = content.replaceAll("\n", "\\\\n");
