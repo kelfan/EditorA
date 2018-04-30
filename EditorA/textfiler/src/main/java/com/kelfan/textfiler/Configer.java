@@ -49,7 +49,7 @@ public class Configer {
         attributes.put(configSplit, new String[]{" "});
         attributes.put(delimiters, new String[]{"\n"});
         attributes.put(levels, new String[]{});
-        attributes.put(records, new String[]{"True"});
+        attributes.put(records, new String[]{"false"});
         attributes.put(parseMode, new String[]{"txt"});
     }
 

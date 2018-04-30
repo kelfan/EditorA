@@ -20,9 +20,8 @@ public class DataSetUnitTest {
 //            String[] strList = a.split(c.getAttributes().get(Configer.delimiters)[0]);
             ListString strList = ListString.set(a);
             String[] levels = c.getLevels();
-            TextData textData = new TextData();
-            textData.setData(strList.get(0));
-            textData.setSigns(levels);
+            DataObject dataObject = new DataObject();
+            dataObject.setData(strList.get(0));
             int z = 0;
         }else{
 

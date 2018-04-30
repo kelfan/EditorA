@@ -1,5 +1,7 @@
 package com.kelfan.textfiler;
 
+import com.kelfan.utillibrary.ListString;
+
 import org.junit.Test;
 
 import java.util.regex.Matcher;
@@ -12,11 +14,13 @@ import static org.junit.Assert.assertEquals;
  *
  * @see <a href="http://d.andro2id.com/tools/testing">Testing documentation</a>
  */
-public class TextDataListTest {
+public class DataMapTest {
     @Test
     public void addition_isCorrect() {
-        String  a = "<1>aba;'as@#$@#$</1>asadf";
-        TextDataList textDataList = TextDataList.set(a);
-        assertEquals(4, 2 + 2);
+        String  a = "# title1\ncontent1:text1\n\tsub1\n\tsub2";
+        ListString l  = ListString.set(a).getPatternList();
+        int level = 0;
+
+        int z = 0;
     }
 }
