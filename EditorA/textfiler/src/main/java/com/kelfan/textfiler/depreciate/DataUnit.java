@@ -1,4 +1,4 @@
-package com.kelfan.editfiler;
+package com.kelfan.textfiler.depreciate;
 
 import com.kelfan.utillibrary.StringLocal;
 
