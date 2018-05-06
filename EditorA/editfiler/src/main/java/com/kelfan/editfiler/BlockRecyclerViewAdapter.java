@@ -6,7 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.kelfan.utillibrary.ColorWorker;
 import com.kelfan.utillibrary.ListString;
+import com.kelfan.utillibrary.StringLocal;
+
+import java.util.List;
 
 public class BlockRecyclerViewAdapter extends RecyclerView.Adapter<BlockItemViewHolder> {
     private LayoutInflater fInflater;
@@ -34,8 +38,22 @@ public class BlockRecyclerViewAdapter extends RecyclerView.Adapter<BlockItemView
 
     @Override
     public void onBindViewHolder(BlockItemViewHolder holder, int position) {
-        holder.textView.setTag(position);
-        holder.textView.setText(blockList.get(position));
+        holder.itemTextView.setTag(position);
+        StringLocal curContent = blockList.getItem(position);
+        int titleLevel = curContent.countLetter("#");
+        StringLocal tmp = curContent;
+        if (titleLevel>0){
+            String test = curContent.getPattern("[#]*[^\n]*").toString().replaceAll("#", "");
+            holder.titleTextView.setText(curContent.getPattern("[#]*[^\n]*").toString().replaceAll("#", ""));
+            tmp = curContent.getRemain("[#]*[^\n]+[\n]*");
+            holder.titleTextView.setBackgroundColor(ColorWorker.pickColor(titleLevel));
+            holder.titleTextView.setTextSize(titleLevel * 5 + 10);
+            holder.titleTextView.setVisibility(View.VISIBLE);
+        }else {
+            holder.titleTextView.setVisibility(View.GONE);
+        }
+
+        holder.itemTextView.setText(tmp.toString());
     }
 
     @Override

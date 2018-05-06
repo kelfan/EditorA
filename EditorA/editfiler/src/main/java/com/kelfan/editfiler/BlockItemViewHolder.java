@@ -6,10 +6,12 @@ import android.widget.TextView;
 
 public class BlockItemViewHolder extends RecyclerView.ViewHolder {
 
-    TextView textView;
+    TextView itemTextView;
+    TextView titleTextView;
 
     public BlockItemViewHolder(View itemView) {
         super(itemView);
-        textView = itemView.findViewById(R.id.block_item_textview);
+        itemTextView = itemView.findViewById(R.id.block_item_textview);
+        titleTextView = itemView.findViewById(R.id.block_item_title_textview);
     }
 }

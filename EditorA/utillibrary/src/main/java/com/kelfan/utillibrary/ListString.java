@@ -116,6 +116,10 @@ public class ListString implements List<String> {
         return this;
     }
 
+    public StringLocal getItem(int i){
+        return StringLocal.set(this.strList.get(i));
+    }
+
     @Override
     public String toString() {
         return toString(this.delimiter);

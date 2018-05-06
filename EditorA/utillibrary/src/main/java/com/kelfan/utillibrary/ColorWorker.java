@@ -63,16 +63,16 @@ public class ColorWorker {
     }
 
     public static int strToColor(String txt){
-        int th = txt.hashCode()%14;
+        int th = txt.hashCode()%15;
         return pickColor(th);
     }
 
     public static int pickColor(int num){
         switch (num) {
             case 0: return YELLOW_DEEP;
-            case 1: return SALMON;
-            case 2: return RED_CRIMSON;
-            case 3: return BLUE_SKY;
+            case 1: return BLUE_SKY;
+            case 2: return GREEN_GRASS;
+            case 3: return SALMON;
             case 4: return GREEN_COPPER;
             case 5: return ORANGE_LIGHT;
             case 6: return PURPLE_LIGHT;

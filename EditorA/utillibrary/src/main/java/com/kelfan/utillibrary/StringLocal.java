@@ -1,5 +1,10 @@
 package com.kelfan.utillibrary;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class StringLocal {
 
     private String inStr = "";
@@ -25,6 +30,35 @@ public class StringLocal {
         int preInt = inStr.indexOf(preSign);
         int posInt = inStr.indexOf(posSign, preInt);
         return inStr.substring(preInt, posInt);
+    }
+
+    public StringLocal getRemain(String pattern){
+        List<String> all = getPatterns(pattern);
+        if (all.size()>0){
+            String tmp = inStr;
+            String tmp2 = all.get(0);
+            return StringLocal.set(tmp.replace(tmp2, ""));
+        }else{
+            return StringLocal.set(inStr);
+        }
+    }
+
+    public StringLocal getPattern(String pattern){
+        List<String> all = getPatterns(pattern);
+        if (all.size() > 0 ){
+            return StringLocal.set(all.get(0));
+        }else{
+            return StringLocal.set("");
+        }
+    }
+
+    public List<String> getPatterns(String pattern){
+        List<String> allMatches = new ArrayList<String>();
+        Matcher m = Pattern.compile(pattern).matcher(this.inStr);
+        while (m.find()) {
+            allMatches.add(m.group());
+        }
+        return allMatches;
     }
 
     public int countLetter(String letter){
