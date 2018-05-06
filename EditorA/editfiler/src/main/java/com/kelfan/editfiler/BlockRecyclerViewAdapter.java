@@ -16,7 +16,7 @@ public class BlockRecyclerViewAdapter extends RecyclerView.Adapter<BlockItemView
 
     public BlockRecyclerViewAdapter setText(String text) {
         this.text = text;
-        this.blockList = ListString.set(text);
+        this.blockList = ListString.set(text).getPatternList("[#]*[^#]+");
         return this;
     }
 
