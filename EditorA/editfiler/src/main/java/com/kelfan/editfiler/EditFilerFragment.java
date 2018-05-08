@@ -11,12 +11,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kelfan.utillibrary.FileWorker;
+import com.kelfan.utillibrary.Xmler;
 
 public class EditFilerFragment extends Fragment {
 
     private String filepath = "";
     private String fileContent = "";
-    private BlockRecyclerViewAdapter blockRecyclerViewAdapter;
+    private EditFilerRecyclerViewAdapter editFilerRecyclerViewAdapter;
 
     public EditFilerFragment setFilepath(String path){
         filepath = path;
@@ -29,13 +30,21 @@ public class EditFilerFragment extends Fragment {
         View view = inflater.inflate(R.layout.editfiler_fragment, container, false);
         TextView textView = view.findViewById(R.id.editfiler_textview);
         textView.setText(filepath);
-
-        RecyclerView blockRecyclerView = view.findViewById(R.id.block_recycler_view);
         this.fileContent = FileWorker.readSmallTxtFile(this.filepath);
-        blockRecyclerViewAdapter = new BlockRecyclerViewAdapter(this.getActivity(),fileContent);
-        blockRecyclerView.setAdapter(blockRecyclerViewAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
-        blockRecyclerView.setLayoutManager(linearLayoutManager);
+        RecyclerView editfilerRecyclerView = view.findViewById(R.id.editfiler_recycler_view);
+        String flag = Xmler.set(fileContent, "adapter").getContent();
+        if (flag.equals( "block")){
+            BlockRecyclerViewAdapter blockRecyclerViewAdapter = new BlockRecyclerViewAdapter(this.getActivity(),fileContent);
+            editfilerRecyclerView.setAdapter(blockRecyclerViewAdapter);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
+            editfilerRecyclerView.setLayoutManager(linearLayoutManager);
+        }else{
+            LineRecyclerViewAdapter lineRecyclerViewAdapter = new LineRecyclerViewAdapter(this.getActivity(),fileContent);
+            editfilerRecyclerView.setAdapter(lineRecyclerViewAdapter);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
+            editfilerRecyclerView.setLayoutManager(linearLayoutManager);
+        }
+
 
         return view;
     }

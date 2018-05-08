@@ -35,6 +35,12 @@ public class ListString implements List<String> {
         return this;
     }
 
+    public ListString setSeparateSign(String separator){
+        this.pattern = String.format("([%s]*[^%s]+)", separator, separator);
+        this.delimiter = separator;
+        return this;
+    }
+
     public ListString setPattern(String pattern) {
         getPatternList(pattern);
         return this;
@@ -106,12 +112,12 @@ public class ListString implements List<String> {
         return this;
     }
 
-    public List<String> getTokenList(String inStr) {
+    public ListString getTokenList(String inStr) {
         getPatternList("[^(a-zA-Z0-9\\\\u4e00-\\\\u9fa5)]*[(a-zA-Z0-9\\\\u4e00-\\\\u9fa5_)]+[^(a-zA-Z0-9\\\\u4e00-\\\\u9fa5)]*");
         return this;
     }
 
-    public List<String> getLineList(String inStr) {
+    public ListString getLineList(String inStr) {
         getPatternList("([^\n\r]+[\n\r]*)");
         return this;
     }
