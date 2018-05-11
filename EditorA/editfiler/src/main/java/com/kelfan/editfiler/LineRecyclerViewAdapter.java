@@ -5,42 +5,92 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.kelfan.utillibrary.ListString;
 import com.kelfan.utillibrary.Xmler;
 
+import java.lang.reflect.Field;
+
+/**
+ * Process -> set text content -> get patterns [listPattern, contentPattern, titlePattern, subPattern]
+ * -> getDataList
+ */
 public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHolder> {
     private LayoutInflater inflater;
     private String textContent;
     private ListString dataList;
     private Context context;
-    private String delimiter;
+    public String listPattern = "[\n\r]*(.+)[\n\r]*";
+    public String contentPattern = ".*";
+    public String titlePattern = "";
+    public String subPattern = "";
+    public String scopePattern = "";
 
     public LineRecyclerViewAdapter(Context context, String text) {
         this.context = context;
-        this.dataList = ListString.set(text);
         inflater = LayoutInflater.from(context);
-        setContent(text).getDelimiter();
+        setContent(text).getPatterns().setDataList();
     }
-    private LineRecyclerViewAdapter setContent(String inStr){
+
+    private LineRecyclerViewAdapter setContent(String inStr) {
         this.textContent = inStr;
-        this.dataList = ListString.set(inStr);
         return this;
     }
 
-    private LineRecyclerViewAdapter getDelimiter(){
-        delimiter = Xmler.set(textContent, delimiter).getContent();
-        if (delimiter.equals("")){
-            delimiter = "\n\r";
+    private LineRecyclerViewAdapter setDataList() {
+        getListPattern();
+        this.dataList = ListString.set(this.textContent).getPatternList(this.listPattern);
+        return this;
+    }
+
+    private LineRecyclerViewAdapter getPatterns() {
+        getListPattern();
+        getContentPattern();
+        getTitlePattern();
+        getSubPattern();
+        return this;
+    }
+
+    ;
+
+    private LineRecyclerViewAdapter getListPattern() {
+        getPattern("listPattern");
+        return this;
+    }
+
+    private LineRecyclerViewAdapter getContentPattern() {
+        getPattern("contentPattern");
+        return this;
+    }
+
+    private LineRecyclerViewAdapter getTitlePattern() {
+        getPattern("titlePattern");
+        return this;
+    }
+
+    private LineRecyclerViewAdapter getSubPattern() {
+        getPattern("subPattern");
+        return this;
+    }
+
+    private LineRecyclerViewAdapter getPattern(String patternName) {
+        String tmp = Xmler.set(textContent, patternName).getContent();
+        if (!tmp.equals("")) {
+            try {
+                Field filed = this.getClass().getField(patternName);
+                filed.set(this, tmp);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
         return this;
     }
 
-    LineRecyclerViewAdapter getDataList(){
-        dataList = ListString.set(textContent).setDelimiter(delimiter).getPatternList();
+    LineRecyclerViewAdapter getDataList() {
+        dataList = ListString.set(textContent).setDelimiter(listPattern).getPatternList();
         return this;
     }
-
 
 
     @Override
@@ -51,8 +101,20 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
 
     @Override
     public void onBindViewHolder(LineItemViewHolder holder, int position) {
-        String  s = dataList.get(position);
-        holder.contentTextView.setText(s);
+        String s = dataList.get(position);
+        String title = dataList.getItem(position).getPattern(titlePattern).toString();
+        setTextView(holder.titleTextView, title);
+        setTextView(holder.subContentTextView, dataList.getItem(position).getPattern(subPattern).toString());
+        holder.contentTextView.setText(dataList.getItem(position).getRemain(titlePattern).getRemain(subPattern).getRemain(scopePattern).toString());
+    }
+
+    private void setTextView(TextView view, String text) {
+        if (text.equals("")) {
+            view.setVisibility(View.GONE);
+        } else {
+            view.setText(text);
+            view.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

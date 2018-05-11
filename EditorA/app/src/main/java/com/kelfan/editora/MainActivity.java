@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity
     private FilelistAdapter filelistAdapter;
     private LogFilerFragment logFilerFragment = null;
     private EditFilerFragment editFilerFragment = null;
+    private Fragment mainFragment=null;
     private String currentFilePath = "";
 
     @Override
@@ -115,16 +116,14 @@ public class MainActivity extends AppCompatActivity
     public void processFragment(String fpath) {
         String extend = StringWorker.getLast2end(fpath, ".");
         if (extend.toLowerCase().equals(FileWorker.FILE_LOG)) {
-            logFilerFragment = new LogFilerFragment().setFilepath(fpath);
-            setFragment(logFilerFragment);
+            mainFragment = new LogFilerFragment().setFilepath(fpath);
+
         } else if (extend.toLowerCase().equals("txt")){
-            editFilerFragment = new EditFilerFragment().setFilepath(fpath);
-            setFragment(editFilerFragment);
+            mainFragment = new EditFilerFragment().setFilepath(fpath);
         } else{
-            DefaultFragment defaultFragment = new DefaultFragment();
-            defaultFragment.setFilepath(fpath);
-            setFragment(defaultFragment);
+            mainFragment = new DefaultFragment();
         }
+        setFragment(mainFragment);
     }
 
     @Override
