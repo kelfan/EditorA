@@ -16,7 +16,7 @@ import java.lang.reflect.Field;
  * Process -> set text content -> get patterns [listPattern, contentPattern, titlePattern, subPattern]
  * -> getDataList
  */
-public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHolder> {
+public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHolder> implements View.OnClickListener{
     private LayoutInflater inflater;
     private String textContent;
     private ListString dataList;
@@ -26,6 +26,12 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
     public String titlePattern = "";
     public String subPattern = "";
     public String scopePattern = "";
+    private LineRecyclerViewAdapter.OnItemClickListener onItemClickListener;
+
+    //define interface
+    public static interface OnItemClickListener {
+        void onItemClick(View view , int position);
+    }
 
     public LineRecyclerViewAdapter(Context context, String text) {
         this.context = context;
@@ -36,6 +42,10 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
     private LineRecyclerViewAdapter setContent(String inStr) {
         this.textContent = inStr;
         return this;
+    }
+
+    public String getText(int pos){
+        return this.dataList.get(pos);
     }
 
     private LineRecyclerViewAdapter setDataList() {
@@ -96,6 +106,7 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
     @Override
     public LineItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.line_item_view, parent, false);
+        view.setOnClickListener(this);
         return new LineItemViewHolder(view);
     }
 
@@ -106,6 +117,7 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
         setTextView(holder.titleTextView, title);
         setTextView(holder.subContentTextView, dataList.getItem(position).getPattern(subPattern).toString());
         holder.contentTextView.setText(dataList.getItem(position).getRemain(titlePattern).getRemain(subPattern).getRemain(scopePattern).toString());
+        holder.itemView.setTag(position);
     }
 
     private void setTextView(TextView view, String text) {
@@ -120,5 +132,17 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
     @Override
     public int getItemCount() {
         return dataList.size();
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (onItemClickListener != null) {
+            //注意这里使用getTag方法获取position
+            onItemClickListener.onItemClick(view,(int)view.getTag());
+        }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
     }
 }

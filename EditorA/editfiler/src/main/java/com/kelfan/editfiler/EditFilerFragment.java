@@ -17,7 +17,7 @@ public class EditFilerFragment extends Fragment {
 
     private String filepath = "";
     private String fileContent = "";
-    private EditFilerRecyclerViewAdapter editFilerRecyclerViewAdapter;
+    private TextView textView;
 
     public EditFilerFragment setFilepath(String path){
         filepath = path;
@@ -28,7 +28,7 @@ public class EditFilerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.editfiler_fragment, container, false);
-        TextView textView = view.findViewById(R.id.editfiler_textview);
+        textView = view.findViewById(R.id.editfiler_textview);
         textView.setText(filepath);
         this.fileContent = FileWorker.readSmallTxtFile(this.filepath);
         RecyclerView editfilerRecyclerView = view.findViewById(R.id.editfiler_recycler_view);
@@ -39,10 +39,16 @@ public class EditFilerFragment extends Fragment {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
             editfilerRecyclerView.setLayoutManager(linearLayoutManager);
         }else{
-            LineRecyclerViewAdapter lineRecyclerViewAdapter = new LineRecyclerViewAdapter(this.getActivity(),fileContent);
+            final LineRecyclerViewAdapter lineRecyclerViewAdapter = new LineRecyclerViewAdapter(this.getActivity(),fileContent);
             editfilerRecyclerView.setAdapter(lineRecyclerViewAdapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
             editfilerRecyclerView.setLayoutManager(linearLayoutManager);
+            lineRecyclerViewAdapter.setOnItemClickListener(new LineRecyclerViewAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    textView.setText(lineRecyclerViewAdapter.getText(position));
+                }
+            });
         }
 
 
