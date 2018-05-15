@@ -56,8 +56,11 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 int actResult = 0;
-                if (logFilerFragment != null){
-                    logFilerFragment.saveNewItem();
+                if (mainFragment != null){
+                    if (mainFragment instanceof LogFilerFragment ){
+                        logFilerFragment = (LogFilerFragment) mainFragment;
+                        logFilerFragment.saveNewItem();
+                    }
                     actResult = 1;
                 }
                 String out = "Update File Fail.";
