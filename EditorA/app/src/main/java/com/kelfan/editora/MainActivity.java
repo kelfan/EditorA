@@ -64,10 +64,8 @@ public class MainActivity extends AppCompatActivity
                     }
                     if (mainFragment instanceof EditFilerFragment){
                         editFilerFragment = (EditFilerFragment) mainFragment;
-                        editFilerFragment.saveNewItem();
-                        actResult = 1;
+                        actResult = editFilerFragment.saveNewItem();
                     }
-
                 }
                 String out = "Update File Fail.";
                 if (actResult == 1) {

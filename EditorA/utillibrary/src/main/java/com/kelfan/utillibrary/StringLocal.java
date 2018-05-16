@@ -27,7 +27,7 @@ public class StringLocal {
     }
 
     public String getBetween(String preSign, String posSign){
-        int preInt = inStr.indexOf(preSign);
+        int preInt = inStr.indexOf(preSign) + preSign.length();
         int posInt = inStr.indexOf(posSign, preInt);
         return inStr.substring(preInt, posInt);
     }

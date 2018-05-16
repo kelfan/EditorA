@@ -43,6 +43,7 @@ public class ListString implements List<String> {
 
     public ListString setPattern(String pattern) {
         getPatternList(pattern);
+
         return this;
     }
 
@@ -60,6 +61,14 @@ public class ListString implements List<String> {
         this.text = strList.toString();
         this.strList = Arrays.asList(strList);
         this.pattern = "";
+    }
+
+    public String conbine(String delimiter){
+        String out = "";
+        for (String s: strList){
+            out += s + delimiter;
+        }
+        return out;
     }
 
     public static ListString set(String inStr) {

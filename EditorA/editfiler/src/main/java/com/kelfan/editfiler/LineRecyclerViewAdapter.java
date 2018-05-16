@@ -21,11 +21,13 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
     private String textContent;
     private ListString dataList;
     private Context context;
-    public String listPattern = "[\n\r]*(.+)[\n\r]*";
+//   public String listPattern = "[\n\r]*(.+)[\n\r]*";
+    public String listPattern = "";
     public String contentPattern = ".*";
     public String titlePattern = "";
     public String subPattern = "";
     public String scopePattern = "";
+    public String delimiter = "\n";
     private LineRecyclerViewAdapter.OnItemClickListener onItemClickListener;
 
     //define interface
@@ -48,7 +50,7 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
         return this.dataList.get(pos);
     }
 
-    public void  addItem(String text){
+    public void addItem(String text) {
         this.dataList.add(text);
     }
 
@@ -57,38 +59,47 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
     }
 
     private LineRecyclerViewAdapter setDataList() {
-        getListPattern();
-        this.dataList = ListString.set(this.textContent).getPatternList(this.listPattern);
+        if (this.delimiter.equals("")){
+            this.dataList = ListString.set(this.textContent).getPatternList(this.listPattern);
+        }else {
+            String s  = String.format("([^%s]+)", delimiter, delimiter);
+            this.dataList = ListString.set(this.textContent).getPatternList(s);
+        }
         return this;
     }
 
     private LineRecyclerViewAdapter getPatterns() {
-        getListPattern();
-        getContentPattern();
-        getTitlePattern();
-        getSubPattern();
+        acquireDelimiter();
+        acquireListPattern();
+        acquireContentPattern();
+        acquireTitlePattern();
+        acquireSubPattern();
         return this;
     }
 
-    ;
 
-    private LineRecyclerViewAdapter getListPattern() {
+    private LineRecyclerViewAdapter acquireListPattern() {
         getPattern("listPattern");
         return this;
     }
 
-    private LineRecyclerViewAdapter getContentPattern() {
+    private LineRecyclerViewAdapter acquireContentPattern() {
         getPattern("contentPattern");
         return this;
     }
 
-    private LineRecyclerViewAdapter getTitlePattern() {
+    private LineRecyclerViewAdapter acquireTitlePattern() {
         getPattern("titlePattern");
         return this;
     }
 
-    private LineRecyclerViewAdapter getSubPattern() {
+    private LineRecyclerViewAdapter acquireSubPattern() {
         getPattern("subPattern");
+        return this;
+    }
+
+    private LineRecyclerViewAdapter acquireDelimiter(){
+        getPattern("delimiter");
         return this;
     }
 
@@ -105,11 +116,9 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
         return this;
     }
 
-    LineRecyclerViewAdapter getDataList() {
-        dataList = ListString.set(textContent).setDelimiter(listPattern).getPatternList();
-        return this;
+    ListString getDataList() {
+        return this.dataList;
     }
-
 
     @Override
     public LineItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

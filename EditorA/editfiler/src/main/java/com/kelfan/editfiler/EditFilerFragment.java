@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.kelfan.utillibrary.FileWorker;
 import com.kelfan.utillibrary.Xmler;
@@ -19,7 +18,6 @@ public class EditFilerFragment extends Fragment {
 
     private String filepath = "";
     private String fileContent = "";
-    private TextView textView;
     private EditText editText;
     private ImageButton imageButton;
     private int currentItem = -1;
@@ -30,22 +28,22 @@ public class EditFilerFragment extends Fragment {
         return this;
     }
 
-    public void saveNewItem() {
+    public int saveNewItem() {
         String text = editText.getText().toString();
         if (currentItem < 0) {
             lineRecyclerViewAdapter.addItem(text);
         } else {
             lineRecyclerViewAdapter.setData(text, currentItem);
         }
+        int result = FileWorker.writeToFile(filepath, lineRecyclerViewAdapter.getDataList().conbine(lineRecyclerViewAdapter.delimiter));
         lineRecyclerViewAdapter.notifyDataSetChanged();
+        return result;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.editfiler_fragment, container, false);
-        textView = view.findViewById(R.id.editfiler_textview);
-        textView.setText(filepath);
         editText = view.findViewById(R.id.editfiler_fragment_edit_text);
         imageButton = view.findViewById(R.id.editfiler_fragment_image_button);
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +69,6 @@ public class EditFilerFragment extends Fragment {
             lineRecyclerViewAdapter.setOnItemClickListener(new LineRecyclerViewAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    textView.setText(lineRecyclerViewAdapter.getText(position));
                     editText.setText(lineRecyclerViewAdapter.getText(position));
                     currentItem = position;
                 }

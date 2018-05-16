@@ -23,7 +23,7 @@ public class FileWorker {
     public static final int MODE_APPEND = 0;
     public static final int MODE_WRITE = 1;
 
-    public static final int RESULT_SUCCESS = 0;
+    public static final int RESULT_SUCCESS = 1;
     public static final int RESULT_ERROR = 0;
 
     public static final String FILE_LOG = "log";
@@ -204,10 +204,10 @@ public class FileWorker {
             }
             writer.flush();
             writer.close();
-            return 1;
+            return RESULT_SUCCESS;
         }catch (IOException e){
             e.printStackTrace();
-            return 0;
+            return RESULT_ERROR;
         }
     }
 
@@ -284,10 +284,10 @@ public class FileWorker {
             }
             writer.flush();
             writer.close();
-            return 1;
+            return RESULT_SUCCESS;
         } catch (IOException e) {
             e.printStackTrace();
-            return 0;
+            return RESULT_ERROR;
         }
     }
 

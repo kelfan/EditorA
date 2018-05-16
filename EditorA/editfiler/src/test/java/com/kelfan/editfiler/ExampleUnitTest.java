@@ -1,5 +1,7 @@
 package com.kelfan.editfiler;
 
+import com.kelfan.utillibrary.StringLocal;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -24,7 +26,10 @@ public class ExampleUnitTest {
         while (m.find()) {
             allMatches.add(m.group());
         }
-
+        s = "([^%s]+[%s]*)";
+        if (pattern.matches(".*\\[\\^.*]\\+\\[.*]\\*.*")){
+            s = StringLocal.set(pattern).getBetween("[^","]" );
+        }
         assertEquals(4, 2 + 2);
     }
 }
