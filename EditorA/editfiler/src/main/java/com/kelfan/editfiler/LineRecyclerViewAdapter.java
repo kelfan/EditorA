@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.kelfan.utillibrary.ColorWorker;
 import com.kelfan.utillibrary.ListString;
 import com.kelfan.utillibrary.Xmler;
 
@@ -133,6 +134,9 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
         String title = dataList.getItem(position).getPattern(titlePattern).toString();
         setTextView(holder.titleTextView, title);
         setTextView(holder.subContentTextView, dataList.getItem(position).getPattern(subPattern).toString());
+        holder.titleTextView.setBackgroundColor(
+                ColorWorker.strToColor(holder.titleTextView.getText().toString())
+        );
         holder.contentTextView.setText(dataList.getItem(position).getRemain(titlePattern).getRemain(subPattern).getRemain(scopePattern).toString());
         holder.itemView.setTag(position);
     }
