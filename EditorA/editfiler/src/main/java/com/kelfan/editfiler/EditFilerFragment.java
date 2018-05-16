@@ -22,10 +22,22 @@ public class EditFilerFragment extends Fragment {
     private TextView textView;
     private EditText editText;
     private ImageButton imageButton;
+    private int currentItem = -1;
+    private LineRecyclerViewAdapter lineRecyclerViewAdapter;
 
     public EditFilerFragment setFilepath(String path) {
         filepath = path;
         return this;
+    }
+
+    public void saveNewItem() {
+        String text = editText.getText().toString();
+        if (currentItem < 0) {
+            lineRecyclerViewAdapter.addItem(text);
+        } else {
+            lineRecyclerViewAdapter.setData(text, currentItem);
+        }
+        lineRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     @Nullable
@@ -36,6 +48,13 @@ public class EditFilerFragment extends Fragment {
         textView.setText(filepath);
         editText = view.findViewById(R.id.editfiler_fragment_edit_text);
         imageButton = view.findViewById(R.id.editfiler_fragment_image_button);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editText.setText("");
+                currentItem = -1;
+            }
+        });
         this.fileContent = FileWorker.readSmallTxtFile(this.filepath);
         RecyclerView editfilerRecyclerView = view.findViewById(R.id.editfiler_recycler_view);
         String flag = Xmler.set(fileContent, "adapter").getContent();
@@ -45,7 +64,7 @@ public class EditFilerFragment extends Fragment {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
             editfilerRecyclerView.setLayoutManager(linearLayoutManager);
         } else {
-            final LineRecyclerViewAdapter lineRecyclerViewAdapter = new LineRecyclerViewAdapter(this.getActivity(), fileContent);
+            lineRecyclerViewAdapter = new LineRecyclerViewAdapter(this.getActivity(), fileContent);
             editfilerRecyclerView.setAdapter(lineRecyclerViewAdapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
             editfilerRecyclerView.setLayoutManager(linearLayoutManager);
@@ -54,6 +73,7 @@ public class EditFilerFragment extends Fragment {
                 public void onItemClick(View view, int position) {
                     textView.setText(lineRecyclerViewAdapter.getText(position));
                     editText.setText(lineRecyclerViewAdapter.getText(position));
+                    currentItem = position;
                 }
             });
         }

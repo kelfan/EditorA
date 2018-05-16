@@ -16,7 +16,7 @@ import java.lang.reflect.Field;
  * Process -> set text content -> get patterns [listPattern, contentPattern, titlePattern, subPattern]
  * -> getDataList
  */
-public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHolder> implements View.OnClickListener{
+public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHolder> implements View.OnClickListener {
     private LayoutInflater inflater;
     private String textContent;
     private ListString dataList;
@@ -30,7 +30,7 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
 
     //define interface
     public static interface OnItemClickListener {
-        void onItemClick(View view , int position);
+        void onItemClick(View view, int position);
     }
 
     public LineRecyclerViewAdapter(Context context, String text) {
@@ -44,8 +44,16 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
         return this;
     }
 
-    public String getText(int pos){
+    public String getText(int pos) {
         return this.dataList.get(pos);
+    }
+
+    public void  addItem(String text){
+        this.dataList.add(text);
+    }
+
+    public void setData(String text, int position) {
+        dataList.set(position, text);
     }
 
     private LineRecyclerViewAdapter setDataList() {
@@ -138,7 +146,7 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
     public void onClick(View view) {
         if (onItemClickListener != null) {
             //注意这里使用getTag方法获取position
-            onItemClickListener.onItemClick(view,(int)view.getTag());
+            onItemClickListener.onItemClick(view, (int) view.getTag());
         }
     }
 
