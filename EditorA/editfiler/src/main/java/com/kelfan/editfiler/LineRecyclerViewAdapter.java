@@ -37,6 +37,11 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
         void onItemClick(View view, int position);
     }
 
+    public LineRecyclerViewAdapter removeItem(int position){
+        this.dataList.remove(position);
+        return this;
+    }
+
     public LineRecyclerViewAdapter(Context context, String text) {
         this.context = context;
         inflater = LayoutInflater.from(context);

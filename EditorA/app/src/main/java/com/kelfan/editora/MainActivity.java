@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity
     private FilelistAdapter filelistAdapter;
     private LogFilerFragment logFilerFragment = null;
     private EditFilerFragment editFilerFragment = null;
-    private Fragment mainFragment=null;
+    private Fragment mainFragment = null;
     private String currentFilePath = "";
 
     @Override
@@ -56,13 +56,13 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 int actResult = 0;
-                if (mainFragment != null){
-                    if (mainFragment instanceof LogFilerFragment ){
+                if (mainFragment != null) {
+                    if (mainFragment instanceof LogFilerFragment) {
                         logFilerFragment = (LogFilerFragment) mainFragment;
                         logFilerFragment.saveNewItem();
                         actResult = 1;
                     }
-                    if (mainFragment instanceof EditFilerFragment){
+                    if (mainFragment instanceof EditFilerFragment) {
                         editFilerFragment = (EditFilerFragment) mainFragment;
                         actResult = editFilerFragment.saveNewItem();
                     }
@@ -86,9 +86,9 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         String config = FileConfiger.getConfigStr(FileConfiger.OPEN_FILE_LIST);
-        if (!config.equals("")){
+        if (!config.equals("")) {
             openFilelist = StringWorker.stringToListByLine(config);
-        }else{
+        } else {
             openFilelist = new ArrayList<String>();
         }
 
@@ -125,9 +125,9 @@ public class MainActivity extends AppCompatActivity
         if (extend.toLowerCase().equals(FileWorker.FILE_LOG)) {
             mainFragment = new LogFilerFragment().setFilepath(fpath);
 
-        } else if (extend.toLowerCase().equals("txt")){
+        } else if (extend.toLowerCase().equals("txt")) {
             mainFragment = new EditFilerFragment().setFilepath(fpath);
-        } else{
+        } else {
             mainFragment = new DefaultFragment();
         }
         setFragment(mainFragment);
