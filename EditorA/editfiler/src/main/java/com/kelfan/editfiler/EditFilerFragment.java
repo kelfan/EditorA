@@ -39,7 +39,9 @@ public class EditFilerFragment extends Fragment {
     public int saveNewItem() {
         String text = editText.getText().toString();
         if (currentItem < 0) {
-            lineRecyclerViewAdapter.addItem(text);
+            if (!text.equals("")){
+                lineRecyclerViewAdapter.addItem(text);
+            }
         } else {
             lineRecyclerViewAdapter.setData(text, currentItem);
         }

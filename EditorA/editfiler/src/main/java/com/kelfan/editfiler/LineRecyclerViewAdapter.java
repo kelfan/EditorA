@@ -79,8 +79,10 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
         } else if (!x2.getContent().equals("")) {
             this.dataList = ListString.set(x2.getRemain()).getPatternList(this.listPattern);
             this.dataList.add(x2.setXmlContent());
+        } else if (this.delimiter.equals("")) {
+            this.dataList = ListString.set(this.textContent).getPatternList(this.listPattern);
         } else {
-            this.dataList = ListString.set(this.textContent).setDelimiter(delimiter).getPatternList();
+            this.dataList = ListString.set(this.textContent).setDelimiterWithoutDelimiter(delimiter).getPatternList();
         }
         return this;
     }
