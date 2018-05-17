@@ -30,6 +30,5 @@ dependencies {
     implementation project(path: ':logfiler')
     implementation 'com.android.support:recyclerview-v7:26.1.0'
     implementation project(path: ':utillibrary')
-    implementation project(path: ':textfiler')
     implementation project(path: ':editfiler')
 }

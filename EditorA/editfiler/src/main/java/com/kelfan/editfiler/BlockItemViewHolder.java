@@ -11,7 +11,7 @@ public class BlockItemViewHolder extends RecyclerView.ViewHolder {
 
     public BlockItemViewHolder(View itemView) {
         super(itemView);
-        itemTextView = itemView.findViewById(R.id.block_item_textview);
-        titleTextView = itemView.findViewById(R.id.block_item_title_textview);
+        itemTextView = itemView.findViewById(R.id.line_item_content_text_view);
+        titleTextView = itemView.findViewById(R.id.line_item_title_view);
     }
 }

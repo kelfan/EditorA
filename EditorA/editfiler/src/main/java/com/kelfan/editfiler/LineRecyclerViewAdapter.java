@@ -29,6 +29,7 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
     public String subPattern = "";
     public String scopePattern = "";
     public String delimiter = "\n";
+    public String adapter = "";
     private LineRecyclerViewAdapter.OnItemClickListener onItemClickListener;
 
     //define interface
@@ -70,6 +71,7 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
     }
 
     private LineRecyclerViewAdapter getPatterns() {
+        acquireAdapter();
         acquireDelimiter();
         acquireListPattern();
         acquireContentPattern();
@@ -104,6 +106,10 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
         return this;
     }
 
+    private LineRecyclerViewAdapter acquireAdapter(){
+        return getPattern("adapter");
+    }
+
     private LineRecyclerViewAdapter getPattern(String patternName) {
         String tmp = Xmler.set(textContent, patternName).getContent();
         if (!tmp.equals("")) {
@@ -123,14 +129,19 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
 
     @Override
     public LineItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.line_item_view, parent, false);
+        View view;
+        if (adapter.equals("block")){
+            view = inflater.inflate(R.layout.block_item_view, parent, false);
+        }else{
+            view = inflater.inflate(R.layout.line_item_view, parent, false);
+        }
         view.setOnClickListener(this);
         return new LineItemViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(LineItemViewHolder holder, int position) {
-        String s = dataList.get(position);
+//        String s = dataList.get(position);
         String title = dataList.getItem(position).getPattern(titlePattern).toString();
         setTextView(holder.titleTextView, title);
         setTextView(holder.subContentTextView, dataList.getItem(position).getPattern(subPattern).toString());
