@@ -6,6 +6,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -38,6 +39,11 @@ public class ListString implements List<String> {
     public ListString setSeparateSign(String separator){
         this.pattern = String.format("([%s]*[^%s]+)", separator, separator);
         this.delimiter = separator;
+        return this;
+    }
+
+    public ListString sortItem(){
+        Collections.sort(strList);
         return this;
     }
 

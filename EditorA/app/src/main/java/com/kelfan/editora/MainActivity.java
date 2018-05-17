@@ -236,4 +236,25 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.replace(R.id.content_frame, inFragment);
         fragmentTransaction.commit();
     }
+
+    public void getFragments() {
+        if (mainFragment != null) {
+            if (mainFragment instanceof LogFilerFragment) {
+                logFilerFragment = (LogFilerFragment) mainFragment;
+            }
+            if (mainFragment instanceof EditFilerFragment) {
+                editFilerFragment = (EditFilerFragment) mainFragment;
+            }
+        }
+    }
+
+    public void onClick(MenuItem item) {
+        getFragments();
+        int cId = item.getItemId();
+        if (cId == R.id.sort_menu) {
+            if (editFilerFragment != null) {
+                editFilerFragment.sort();
+            }
+        }
+    }
 }

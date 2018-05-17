@@ -48,6 +48,10 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
         setContent(text).getPatterns().setDataList();
     }
 
+    public void sort(){
+        this.dataList.sortItem();
+    }
+
     private LineRecyclerViewAdapter setContent(String inStr) {
         this.textContent = inStr;
         return this;

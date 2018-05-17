@@ -52,6 +52,10 @@ public class EditFilerFragment extends Fragment {
         return FileWorker.writeToFile(filepath, lineRecyclerViewAdapter.getDataList().conbine(lineRecyclerViewAdapter.delimiter));
     }
 
+    public void sort(){
+        lineRecyclerViewAdapter.sort();
+        lineRecyclerViewAdapter.notifyDataSetChanged();
+    }
 
     @Nullable
     @Override
