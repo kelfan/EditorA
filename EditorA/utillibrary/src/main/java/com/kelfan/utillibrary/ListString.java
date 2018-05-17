@@ -36,6 +36,12 @@ public class ListString implements List<String> {
         return this;
     }
 
+    public ListString setDelimiterWithoutDelimiter(String delimiter){
+        this.pattern = String.format("([^%s]+(?=[%s]*))", delimiter, delimiter);
+        this.delimiter = delimiter;
+        return this;
+    }
+
     public ListString setSeparateSign(String separator){
         this.pattern = String.format("([%s]*[^%s]+)", separator, separator);
         this.delimiter = separator;

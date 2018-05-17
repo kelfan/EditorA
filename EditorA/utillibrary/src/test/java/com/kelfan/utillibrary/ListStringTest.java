@@ -42,9 +42,9 @@ public class ListStringTest {
 
     @Test
     public void getLines() {
-        String a = "1_2,3,4";
+        String a = "1_2,3,4\n56\n78";
         String[] alist = a.split(",");
-        ListString la = ListString.set(a).setDelimiter("\n");
+        ListString la = ListString.set(a).setDelimiterWithoutDelimiter("\n").getPatternList();
 
         int z = 9;
     }
