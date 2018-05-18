@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 public class StringLocal {
 
     private String inStr = "";
+    private String pattern = "";
 
     public String getInStr() {
         return inStr;
@@ -32,7 +33,12 @@ public class StringLocal {
         return inStr.substring(preInt, posInt);
     }
 
+    public StringLocal getRemain(){
+        return getRemain(this.pattern);
+    }
+
     public StringLocal getRemain(String pattern){
+        this.pattern = pattern;
         List<String> all = getPatterns(pattern);
         if (all.size()>0){
             String tmp = inStr;
@@ -44,6 +50,7 @@ public class StringLocal {
     }
 
     public StringLocal getPattern(String pattern){
+        this.pattern = pattern;
         List<String> all = getPatterns(pattern);
         if (all.size() > 0 ){
             return StringLocal.set(all.get(0));
@@ -53,6 +60,7 @@ public class StringLocal {
     }
 
     public List<String> getPatterns(String pattern){
+        this.pattern = pattern;
         List<String> allMatches = new ArrayList<String>();
         Matcher m = Pattern.compile(pattern).matcher(this.inStr);
         while (m.find()) {

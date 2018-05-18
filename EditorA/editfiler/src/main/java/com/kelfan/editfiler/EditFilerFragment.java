@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.kelfan.utillibrary.FileWorker;
+import com.kelfan.utillibrary.TimeWorker;
 import com.kelfan.utillibrary.Xmler;
 
 public class EditFilerFragment extends Fragment {
@@ -39,14 +40,22 @@ public class EditFilerFragment extends Fragment {
     public int saveNewItem() {
         String text = editText.getText().toString();
         if (currentItem < 0) {
-            if (!text.equals("")){
+            if (!text.equals("")) {
+                if (Boolean.valueOf(lineRecyclerViewAdapter.recordTime)) {
+                    text = Xmler.set(text, "recordTime").setContent(TimeWorker.getLocalTime()).toString();
+                }
                 lineRecyclerViewAdapter.addItem(text);
             }
         } else {
+            if (Boolean.valueOf(lineRecyclerViewAdapter.updateTime)) {
+                text = Xmler.set(text, "updateTime").setContent(TimeWorker.getLocalTime()).toString();
+            }
             lineRecyclerViewAdapter.setData(text, currentItem);
         }
         int result = FileWorker.writeToFile(filepath, lineRecyclerViewAdapter.getDataList().conbine(lineRecyclerViewAdapter.delimiter));
         lineRecyclerViewAdapter.notifyDataSetChanged();
+        editText.setText("");
+        currentItem = -1;
         return result;
     }
 
@@ -54,7 +63,7 @@ public class EditFilerFragment extends Fragment {
         return FileWorker.writeToFile(filepath, lineRecyclerViewAdapter.getDataList().conbine(lineRecyclerViewAdapter.delimiter));
     }
 
-    public void sort(){
+    public void sort() {
         lineRecyclerViewAdapter.sort();
         lineRecyclerViewAdapter.notifyDataSetChanged();
     }
