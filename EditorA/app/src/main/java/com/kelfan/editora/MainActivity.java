@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity
     private EditFilerFragment editFilerFragment = null;
     private Fragment mainFragment = null;
     private String currentFilePath = "";
+    private DrawerLayout drawer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -131,6 +133,13 @@ public class MainActivity extends AppCompatActivity
     public void updateConfig(){
         FileConfiger.writeConfig(FileConfiger.RECENT_OPEN_FILE, currentFilePath);
         FileConfiger.writeConfig(FileConfiger.OPEN_FILE_LIST, StringWorker.listToStringByLine(openFilelist));
+    }
+
+    public void doNewFile(String filename){
+        currentFilePath = filename;
+        FileConfiger.writeConfig(FileConfiger.RECENT_OPEN_FILE, currentFilePath);
+        processFragment(filename);
+        setTitle(FileLocal.set(filename).fileName);
     }
 
     public void processFragment(String fpath) {
@@ -227,6 +236,7 @@ public class MainActivity extends AppCompatActivity
                     FileConfiger.writeConfig(FileConfiger.OPEN_FILE_LIST, StringWorker.listToStringByLine(openFilelist));
                     Log.e("open files: ", openFilelist.toString());
                     filelistAdapter.notifyDataSetChanged();
+                    doNewFile(path);
                 }
             }
         }
@@ -236,8 +246,10 @@ public class MainActivity extends AppCompatActivity
     public void onClick(View view) {
         int cId = view.getId();
         if (cId == R.id.nav_internal_storage) {
+            drawer.closeDrawers();
             openFilePicker(FileWorker.getStoragePath(FileWorker.STORAGE_EXTERNAL, "/").toString());
         } else if (cId == R.id.nav_sd_storage) {
+            drawer.closeDrawers();
             openFilePicker(FileWorker.getStoragePath(FileWorker.STORAGE_EXTERNAL_SECOND, "/").toString());
         }
     }
