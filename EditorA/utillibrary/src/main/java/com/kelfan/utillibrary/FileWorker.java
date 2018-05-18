@@ -61,6 +61,28 @@ public class FileWorker {
         }
     }
 
+    public static String getFileName(String sFilename){
+        return new File(sFilename).getName();
+    }
+
+    public static boolean checkFile(String filename){
+        File file = new File(filename);
+        if (!file.exists()){
+            try {
+                file.createNewFile();
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public static String getNewFilePath(String sfile, String newName){
+        File file = new File(sfile);
+        return file.getPath().concat(newName);
+    }
 
     public static String readSmallTxtFile(String sFilename){
         try{

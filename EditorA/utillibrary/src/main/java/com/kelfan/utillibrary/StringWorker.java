@@ -63,6 +63,18 @@ public class StringWorker {
         return (inStr.length() - inStr.replace(letter, "").length()) / letter.length();
     }
 
+    public static String getStart2First(String inStr, String delimiter){
+        if (inStr.contains(delimiter)) {
+            if (delimiter.equals(".")) {
+                delimiter = "[.]";
+            }
+            String[] txtList = inStr.split(delimiter);
+            String result = txtList[0];
+            return result;
+        }
+        return inStr;
+    }
+
     public static String getLast2end(String inStr, String delimiter) {
         if (inStr.contains(delimiter)) {
             if (delimiter.equals(".")) {
