@@ -23,11 +23,13 @@
                 android:layout_margin="2dp"
                 android:background="@color/cardview_dark_background"
                 android:ellipsize="end"
+                android:textIsSelectable="true"
                 android:text="@string/others"
                 android:textColor="@color/cardview_light_background" />
 
             <TextView
                 android:id="@+id/log_item_text_view"
+                android:textIsSelectable="true"
                 style="@style/Base.Widget.AppCompat.ActionButton"
                 android:layout_width="0dp"
                 android:layout_margin="2dp"
