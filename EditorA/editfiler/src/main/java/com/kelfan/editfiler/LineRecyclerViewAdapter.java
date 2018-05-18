@@ -34,6 +34,9 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
     public String style = "";
     public String recordTime = "False";
     public String updateTime = "False";
+
+    public final static String recordTag = "record_time";
+    public final static String updateTag = "update_time";
     private LineRecyclerViewAdapter.OnItemClickListener onItemClickListener;
 
     //define interface
@@ -113,38 +116,6 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
         return this;
     }
 
-
-//    private LineRecyclerViewAdapter acquireListPattern() {
-//        getPattern("listPattern");
-//        return this;
-//    }
-//
-//    private LineRecyclerViewAdapter acquireContentPattern() {
-//        getPattern("contentPattern");
-//        return this;
-//    }
-//
-//    private LineRecyclerViewAdapter acquireTitlePattern() {
-//        getPattern("titlePattern");
-//        return this;
-//    }
-//
-//    private LineRecyclerViewAdapter acquireSubPattern() {
-//        getPattern("subPattern");
-//        return this;
-//    }
-//
-//    private LineRecyclerViewAdapter acquireDelimiter() {
-//        getPattern("delimiter");
-//        return this;
-//    }
-//
-//    private LineRecyclerViewAdapter acquireStyle() {
-//        getPattern("style");
-//        processStyle();
-//        return this;
-//    }
-
     private LineRecyclerViewAdapter processStyle() {
         if (this.style.equals("block")) {
             this.titlePattern = ".+";
@@ -164,10 +135,6 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
         }
         return this;
     }
-
-//    private LineRecyclerViewAdapter acquireAdapter() {
-//        return getPattern("adapter");
-//    }
 
     private LineRecyclerViewAdapter getPattern(String patternName) {
         String tmp = Xmler.set(textContent, patternName).getContent();
@@ -200,8 +167,7 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
 
     @Override
     public void onBindViewHolder(LineItemViewHolder holder, int position) {
-//        String s = dataList.get(position);
-        StringLocal s = dataList.getItem(position).getRemain("<recordTime>.*</recordTime>").getRemain("<updateTime>.*</updateTime>");
+        StringLocal s = dataList.getItem(position).getRemain("<"+recordTag+">.*</"+recordTag+">").getRemain("<"+updateTag+">.*</"+updateTag+">");
         String title = s.getPattern(titlePattern).toString();
         setTextView(holder.titleTextView, title);
         setTextView(holder.subContentTextView, s.getPattern(subPattern).toString());
