@@ -42,13 +42,13 @@ public class EditFilerFragment extends Fragment {
         if (currentItem < 0) {
             if (!text.equals("")) {
                 if (Boolean.valueOf(lineRecyclerViewAdapter.recordTime)) {
-                    text = Xmler.set(text, "recordTime").setContent(TimeWorker.getLocalTime()).toString();
+                    text = Xmler.set(text, "record_time").setContent(TimeWorker.getLocalTime()).toString();
                 }
                 lineRecyclerViewAdapter.addItem(text);
             }
         } else {
             if (Boolean.valueOf(lineRecyclerViewAdapter.updateTime)) {
-                text = Xmler.set(text, "updateTime").setContent(TimeWorker.getLocalTime()).toString();
+                text = Xmler.set(text, "update_time").setContent(TimeWorker.getLocalTime()).toString();
             }
             lineRecyclerViewAdapter.setData(text, currentItem);
         }
