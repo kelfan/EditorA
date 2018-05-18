@@ -109,7 +109,7 @@ public class EditFilerFragment extends Fragment {
                 int position = viewHolder.getAdapterPosition();
                 if (Boolean.valueOf(lineRecyclerViewAdapter.archive)){
                     FileLocal f = FileLocal.set(filepath).addPostfix("_archive");
-                    f.appendToFile(lineRecyclerViewAdapter.getItem(position).concat(lineRecyclerViewAdapter.delimiter));
+                    f.appendToFile(lineRecyclerViewAdapter.getItem(position).concat(Xmler.set("", "complete_time").setContent(TimeWorker.getLocalTime()).toString()).concat(lineRecyclerViewAdapter.delimiter));
                 }
                 lineRecyclerViewAdapter.removeItem(position).notifyItemRemoved(position);
                 save();
