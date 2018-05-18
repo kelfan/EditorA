@@ -30,6 +30,7 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
     public String scopePattern = "";
     public String delimiter = "\n";
     public String adapter = "";
+    public String style = "";
     private LineRecyclerViewAdapter.OnItemClickListener onItemClickListener;
 
     //define interface
@@ -88,6 +89,7 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
     }
 
     private LineRecyclerViewAdapter getPatterns() {
+        acquireStyle();
         acquireAdapter();
         acquireDelimiter();
         acquireListPattern();
@@ -120,6 +122,26 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
 
     private LineRecyclerViewAdapter acquireDelimiter() {
         getPattern("delimiter");
+        return this;
+    }
+
+    private LineRecyclerViewAdapter acquireStyle() {
+        getPattern("style");
+        processStyle();
+        return this;
+    }
+
+    private LineRecyclerViewAdapter processStyle(){
+        if (this.style.equals("block")){
+            this.titlePattern = ".+";
+            this.adapter = "block";
+            this.subPattern = "[~~][\\s\\S]*";
+            this.delimiter = "\n\n\n";
+        }else if (this.style.equals("line")){
+            this.titlePattern = "[^:：]+[:：]";
+            this.subPattern = "[~~][\\s\\S]*";
+            this.delimiter = "\n";
+        }
         return this;
     }
 
