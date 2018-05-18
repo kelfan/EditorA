@@ -28,6 +28,7 @@ import com.kelfan.filepicker.ActivityFilePicker;
 import com.kelfan.filepicker.MaterialFilePicker;
 import com.kelfan.logfiler.LogFilerFragment;
 import com.kelfan.utillibrary.FileConfiger;
+import com.kelfan.utillibrary.FileLocal;
 import com.kelfan.utillibrary.FileWorker;
 import com.kelfan.utillibrary.StringWorker;
 
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         String config = FileConfiger.getConfigStr(FileConfiger.OPEN_FILE_LIST);
@@ -106,6 +108,7 @@ public class MainActivity extends AppCompatActivity
                 FileConfiger.writeConfig(FileConfiger.RECENT_OPEN_FILE, currentFilePath);
                 processFragment(filename);
                 drawer.closeDrawers();
+                setTitle(FileLocal.set(filename).fileName);
             }
         });
 
@@ -118,6 +121,8 @@ public class MainActivity extends AppCompatActivity
         // set new Fragment
         String recentFile = FileConfiger.getConfigStr(FileConfiger.RECENT_OPEN_FILE);
         processFragment(recentFile);
+        currentFilePath = recentFile;
+        setTitle(FileLocal.set(recentFile).fileName);
     }
 
     public void processFragment(String fpath) {
