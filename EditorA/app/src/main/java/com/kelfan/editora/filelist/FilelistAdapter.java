@@ -30,6 +30,14 @@ public class FilelistAdapter extends RecyclerView.Adapter<FilelistViewholder> im
 
     }
 
+    public void removeItem(String item){
+        fData.remove(item);
+    }
+
+    public void addItem(String item){
+        fData.add(item);
+    }
+
     public FilelistAdapter(Context context, ArrayList<String> data) {
         this.fContext = context;
         this.fData = data;

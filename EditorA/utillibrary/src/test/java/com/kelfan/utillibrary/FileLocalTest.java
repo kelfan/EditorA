@@ -17,6 +17,7 @@ public class FileLocalTest {
         f.addPostfix("_archive");
         f.checkFile();
         f.saveFile("test", FileLocal.MODE_APPEND);
+        boolean b = f.rename("test2");
         assertEquals(4, 2 + 2);
     }
 }

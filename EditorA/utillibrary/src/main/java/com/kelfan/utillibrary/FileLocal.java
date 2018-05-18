@@ -13,7 +13,7 @@ public class FileLocal {
     public static final int RESULT_ERROR = 0;
 
 
-    private File file;
+    public File file;
     public String extension;
     public String fileName;
     public String nameNoExtension;
@@ -136,7 +136,7 @@ public class FileLocal {
      * @param sBody string to storage
      * @param mode  0 for append, 1 for write
      */
-    public int saveFile(String sBody, int mode) {
+    public boolean saveFile(String sBody, int mode) {
         try {
             checkFile();
             FileWriter writer;
@@ -156,19 +156,41 @@ public class FileLocal {
             }
             writer.flush();
             writer.close();
-            return RESULT_SUCCESS;
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
-            return RESULT_ERROR;
+            return false;
         }
     }
 
-    public int writeToFile(String sBody) {
+    /**
+     * write content sBody into a file
+     * @param sBody String text
+     * @return
+     */
+    public boolean writeToFile(String sBody) {
         return saveFile(sBody, FileLocal.MODE_WRITE);
     }
 
-    public int appendToFile(String sBody) {
+    /**
+     * append content sBody into a file
+     * @param sBody
+     * @return
+     */
+
+    public boolean appendToFile(String sBody) {
         return saveFile(sBody, FileLocal.MODE_APPEND);
+    }
+
+    public boolean rename(String newName){
+        checkFile();
+        File newFile = new File(this.path + newName);
+        if (!newFile.exists()){
+            file.renameTo(newFile);
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }

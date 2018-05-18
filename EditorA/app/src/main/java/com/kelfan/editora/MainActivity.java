@@ -3,10 +3,12 @@ package com.kelfan.editora;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,6 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.kelfan.editfiler.EditFilerFragment;
@@ -123,6 +126,11 @@ public class MainActivity extends AppCompatActivity
         processFragment(recentFile);
         currentFilePath = recentFile;
         setTitle(FileLocal.set(recentFile).fileName);
+    }
+
+    public void updateConfig(){
+        FileConfiger.writeConfig(FileConfiger.RECENT_OPEN_FILE, currentFilePath);
+        FileConfiger.writeConfig(FileConfiger.OPEN_FILE_LIST, StringWorker.listToStringByLine(openFilelist));
     }
 
     public void processFragment(String fpath) {
@@ -260,6 +268,55 @@ public class MainActivity extends AppCompatActivity
             if (editFilerFragment != null) {
                 editFilerFragment.sort();
             }
+        } else if (cId == R.id.action_rename) {
+            getUserInput(FileLocal.set(currentFilePath).fileName);
         }
     }
+
+    public void showSnackbar(String message) {
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT)
+                .setAction("Action", null).show();
+    }
+
+    public void getUserInput(String editStr) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle("Rename File");
+        alert.setMessage("Please input a new file name");
+
+        // Set an EditText view to get user input
+        final EditText input = new EditText(this);
+        input.setText(editStr);
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String value = input.getText().toString();
+                // Do something with value!
+                if (!value.equals("")){
+                    if (FileLocal.set(currentFilePath).rename(value)){
+                        FileLocal f  = FileLocal.set(currentFilePath).setNewFileName(value);
+                        setTitle(f.fileName);
+                        filelistAdapter.removeItem(currentFilePath);
+                        filelistAdapter.addItem(f.file.getAbsoluteFile().toString());
+                        filelistAdapter.notifyDataSetChanged();
+                        currentFilePath = f.file.getAbsolutePath();
+                        updateConfig();
+                        showSnackbar("Rename success");
+                    }else{
+                        showSnackbar("Rename fail");
+                    }
+                }
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+
+        alert.show();
+    }
+
 }

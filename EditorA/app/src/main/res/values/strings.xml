@@ -8,4 +8,5 @@
     <string name="internal_storage">Internal Storage</string>
     <string name="sd_storage">SD Storage</string>
     <string name="sort">sort</string>
+    <string name="rename_file">rename file</string>
 </resources>
