@@ -73,8 +73,8 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
         Xmler x = Xmler.set(this.textContent, "delimiter");
         Xmler x2 = Xmler.set(this.textContent, "listPattern");
         if (!x.getContent().equals("")) {
-            String s = String.format("([^%s]+)", delimiter, delimiter);
-            this.dataList = ListString.set(x.getRemain()).getPatternList(s);
+//            String s = String.format("([^%s]+)", delimiter, delimiter);
+            this.dataList = ListString.set(x.getRemain()).setDelimiter(delimiter).getSplitList();
             this.dataList.add(x.setXmlContent());
         } else if (!x2.getContent().equals("")) {
             this.dataList = ListString.set(x2.getRemain()).getPatternList(this.listPattern);
@@ -82,7 +82,7 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
         } else if (this.delimiter.equals("")) {
             this.dataList = ListString.set(this.textContent).getPatternList(this.listPattern);
         } else {
-            this.dataList = ListString.set(this.textContent).setDelimiterWithoutDelimiter(delimiter).getPatternList();
+            this.dataList = ListString.set(this.textContent).setDelimiter(delimiter).getSplitList();
         }
         return this;
     }

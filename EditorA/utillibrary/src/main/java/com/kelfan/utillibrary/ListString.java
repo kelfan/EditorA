@@ -31,7 +31,7 @@ public class ListString implements List<String> {
     }
 
     public ListString setDelimiter(String delimiter){
-        this.pattern = String.format("([^%s]+[%s]*)", delimiter, delimiter);
+        this.pattern = String.format("([^(%s)]+[%s]*)", delimiter, delimiter);
         this.delimiter = delimiter;
         return this;
     }
@@ -43,7 +43,7 @@ public class ListString implements List<String> {
     }
 
     public ListString setSeparateSign(String separator){
-        this.pattern = String.format("([%s]*[^%s]+)", separator, separator);
+        this.pattern = String.format("([^%s]+[%s]*)", separator, separator);
         this.delimiter = separator;
         return this;
     }
@@ -130,6 +130,12 @@ public class ListString implements List<String> {
             allMatches.add(m.group());
         }
         this.strList = allMatches;
+        return this;
+    }
+
+    public ListString getSplitList(){
+        this.strList = new ArrayList<String>(Arrays.asList(this.text.split(this.delimiter)));
+        this.strList.removeAll(Arrays.asList(null, "", "\n"));
         return this;
     }
 

@@ -5,6 +5,8 @@ public class Xmler {
     private String indicator;
     private String content;
     private String remain;
+    private String prefix = "";
+    private String posfix = "";
     private boolean putTail = true;
     private boolean newLine = false;
 
@@ -47,8 +49,18 @@ public class Xmler {
         return this;
     }
 
-    public String getRemain(){
-        remain = text.replaceAll(getRegex(), "");
+    public Xmler setPrefix(String prefix) {
+        this.prefix = prefix;
+        return this;
+    }
+
+    public Xmler setPosfix(String posfix) {
+        this.posfix = posfix;
+        return this;
+    }
+
+    public String getRemain() {
+        remain = text.replaceAll(prefix + getRegex() + posfix, "");
         return remain;
     }
 
@@ -59,7 +71,7 @@ public class Xmler {
         return pre.concat(content).concat(pos);
     }
 
-    private String getRegex() {
+    public String getRegex() {
         return "<" + indicator + ">(.*)</" + indicator + ">";
     }
 
@@ -68,14 +80,14 @@ public class Xmler {
         String out = "";
         if (text.contains(getPreFormat())) {
             out = text.replaceAll(getRegex(), setXmlContent());
-        }else{
+        } else {
             String xml = setXmlContent();
-            if (newLine){
+            if (newLine) {
                 xml += "\n";
             }
-            if (putTail){
+            if (putTail) {
                 out = remain.concat(xml);
-            }else{
+            } else {
                 out = xml.concat(remain);
             }
         }

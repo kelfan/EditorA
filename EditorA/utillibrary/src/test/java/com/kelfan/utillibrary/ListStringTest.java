@@ -2,6 +2,8 @@ package com.kelfan.utillibrary;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -42,10 +44,12 @@ public class ListStringTest {
 
     @Test
     public void getLines() {
-        String a = "1_2,3,4\n56\n78";
-        String[] alist = a.split(",");
-        ListString la = ListString.set(a).setDelimiterWithoutDelimiter("\n").getPatternList();
-
+        String a = "1234\n#56\n#78\n123\n";
+        String[] alist = a.split("\n#");
+        new ArrayList<String>(Arrays.asList(alist)).add(String.valueOf(3));
+        ListString l = ListString.set(a).setDelimiter("\n#").getSplitList();
+        ListString la = ListString.set(a).setDelimiterWithoutDelimiter("#").getPatternList();
+        ListString la2 = ListString.set(a).setDelimiter("#").getPatternList();
         int z = 9;
     }
 }
