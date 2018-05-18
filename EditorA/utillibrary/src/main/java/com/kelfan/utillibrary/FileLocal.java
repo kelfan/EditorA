@@ -1,9 +1,16 @@
 package com.kelfan.utillibrary;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileLocal {
+
+    public static final int MODE_APPEND = 0;
+    public static final int MODE_WRITE = 1;
+
+    public static final int RESULT_SUCCESS = 1;
+    public static final int RESULT_ERROR = 0;
 
 
     private File file;
@@ -22,15 +29,17 @@ public class FileLocal {
 
     /**
      * automatically to run essential processes
+     *
      * @return
      */
-    public FileLocal auto(){
+    public FileLocal auto() {
         doFileName().doExtension().doPath();
         return this;
     }
 
     /**
      * get extension from file
+     *
      * @return
      */
     public FileLocal doExtension() {
@@ -40,9 +49,10 @@ public class FileLocal {
 
     /**
      * get file name from file
+     *
      * @return
      */
-    public FileLocal doFileName(){
+    public FileLocal doFileName() {
         fileName = file.getName();
         nameNoExtension = StringWorker.getStart2First(fileName, ".");
         return this;
@@ -50,20 +60,26 @@ public class FileLocal {
 
     /**
      * get file path from file
+     *
      * @return
      */
-    public FileLocal doPath(){
-        path = file.getPath().substring(0,file.getPath().lastIndexOf("\\")+1);
+    public FileLocal doPath() {
+        String s = file.getAbsolutePath();
+        path = s.substring(0, file.getPath().lastIndexOf("\\") + 1);
+        if (path.equals("")) {
+            path = s.substring(0, s.lastIndexOf("/") + 1);
+        }
         return this;
     }
 
 
     /**
      * change the name of the file
+     *
      * @param newFileName new file name
      * @return
      */
-    public FileLocal setNewFileName(String newFileName){
+    public FileLocal setNewFileName(String newFileName) {
         String filePath = path + newFileName;
         file = new File(filePath);
         auto();
@@ -72,38 +88,39 @@ public class FileLocal {
 
     /**
      * change the name of file but keep the same extension
+     *
      * @param fileName new file name
      * @return
      */
-    public FileLocal setNewNameNoExtension(String fileName){
+    public FileLocal setNewNameNoExtension(String fileName) {
         file = new File(path + fileName + extension);
         auto();
         return this;
     }
 
-    public FileLocal setNameWithPostfix(String fileName, String postfix){
+    public FileLocal setNameWithPostfix(String fileName, String postfix) {
         file = new File(path + fileName + postfix + extension);
         auto();
         return this;
     }
 
-    public FileLocal addPostfix(String postfix){
+    public FileLocal addPostfix(String postfix) {
         file = new File(path + nameNoExtension + postfix + extension);
         auto();
         return this;
     }
 
-    public  FileLocal checkPath(){
-        File f= new File(path);
-        if (!f.exists()){
+    public FileLocal checkPath() {
+        File f = new File(path);
+        if (!f.exists()) {
             f.mkdirs();
         }
         return this;
     }
 
-    public  FileLocal checkFile(){
+    public FileLocal checkFile() {
         checkPath();
-        if (!file.exists()){
+        if (!file.exists()) {
             try {
                 file.createNewFile();
             } catch (IOException e) {
@@ -111,6 +128,47 @@ public class FileLocal {
             }
         }
         return this;
+    }
+
+    /**
+     * function to save string into a file
+     *
+     * @param sBody string to storage
+     * @param mode  0 for append, 1 for write
+     */
+    public int saveFile(String sBody, int mode) {
+        try {
+            checkFile();
+            FileWriter writer;
+            switch (mode) {
+                case MODE_APPEND:
+                    writer = new FileWriter(file, true);
+                    writer.append(sBody);
+                    break;
+                case MODE_WRITE:
+                    writer = new FileWriter(file, false);
+                    writer.write(sBody);
+                    break;
+                default:
+                    writer = new FileWriter(file, true);
+                    writer.append(sBody);
+                    break;
+            }
+            writer.flush();
+            writer.close();
+            return RESULT_SUCCESS;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return RESULT_ERROR;
+        }
+    }
+
+    public int writeToFile(String sBody) {
+        return saveFile(sBody, FileLocal.MODE_WRITE);
+    }
+
+    public int appendToFile(String sBody) {
+        return saveFile(sBody, FileLocal.MODE_APPEND);
     }
 
 }

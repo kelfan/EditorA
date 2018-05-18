@@ -34,6 +34,7 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
     public String style = "";
     public String recordTime = "False";
     public String updateTime = "False";
+    public String archive = "false";
 
     public final static String recordTag = "record_time";
     public final static String updateTag = "update_time";
@@ -95,14 +96,6 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
     }
 
     private LineRecyclerViewAdapter getPatterns() {
-
-//        acquireStyle();
-//        acquireAdapter();
-//        acquireDelimiter();
-//        acquireListPattern();
-//        acquireContentPattern();
-//        acquireTitlePattern();
-//        acquireSubPattern();
         getPattern("style");
         processStyle();
         getPattern("adapter");
@@ -113,6 +106,7 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
         getPattern("subPattern");
         getPattern("recordTime");
         getPattern("updateTime");
+        getPattern("archive");
         return this;
     }
 
@@ -132,6 +126,19 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
             this.delimiter = "\n";
             this.recordTime = "true";
             this.updateTime = "true";
+            this.archive = "true";
+        } else if(this.style.equals("md")){
+            this.titlePattern = ".+";
+            this.adapter = "block";
+            this.subPattern = "[~~][\\s\\S]*";
+            this.delimiter = "\n\n#";
+        }else if (this.style.equals("todo")){
+            this.titlePattern = "[^:：]+?[:：]";
+            this.subPattern = "[~~][\\s\\S]*";
+            this.delimiter = "\n";
+            this.recordTime = "true";
+            this.updateTime = "true";
+            this.archive = "true";
         }
         return this;
     }
@@ -203,4 +210,9 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;
     }
+
+    public String getItem(int position){
+        return this.dataList.get(position);
+    }
+
 }

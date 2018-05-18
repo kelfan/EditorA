@@ -16,6 +16,7 @@ public class FileLocalTest {
         FileLocal f = FileLocal.set(s);
         f.addPostfix("_archive");
         f.checkFile();
+        f.saveFile("test", FileLocal.MODE_APPEND);
         assertEquals(4, 2 + 2);
     }
 }

@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.kelfan.utillibrary.FileLocal;
 import com.kelfan.utillibrary.FileWorker;
 import com.kelfan.utillibrary.TimeWorker;
 import com.kelfan.utillibrary.Xmler;
@@ -87,7 +88,7 @@ public class EditFilerFragment extends Fragment {
 
         lineRecyclerViewAdapter = new LineRecyclerViewAdapter(this.getActivity(), fileContent);
         editfilerRecyclerView.setAdapter(lineRecyclerViewAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
         editfilerRecyclerView.setLayoutManager(linearLayoutManager);
         lineRecyclerViewAdapter.setOnItemClickListener(new LineRecyclerViewAdapter.OnItemClickListener() {
             @Override
@@ -106,8 +107,14 @@ public class EditFilerFragment extends Fragment {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
+                if (Boolean.valueOf(lineRecyclerViewAdapter.archive)){
+                    FileLocal f = FileLocal.set(filepath).addPostfix("_archive");
+                    f.appendToFile(lineRecyclerViewAdapter.getItem(position).concat(lineRecyclerViewAdapter.delimiter));
+                }
                 lineRecyclerViewAdapter.removeItem(position).notifyItemRemoved(position);
                 save();
+                currentItem = -1;
+                editText.setText("");
             }
         };
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(editfilerRecyclerView);
