@@ -53,7 +53,7 @@ public class EditFilerFragment extends Fragment {
             }
             lineRecyclerViewAdapter.setData(text, currentItem);
         }
-        int result = FileWorker.writeToFile(filepath, lineRecyclerViewAdapter.getDataList().conbine(lineRecyclerViewAdapter.delimiter));
+        int result = save();
         lineRecyclerViewAdapter.notifyDataSetChanged();
         editText.setText("");
         currentItem = -1;
@@ -61,7 +61,10 @@ public class EditFilerFragment extends Fragment {
     }
 
     public int save() {
-        return FileWorker.writeToFile(filepath, lineRecyclerViewAdapter.getDataList().conbine(lineRecyclerViewAdapter.delimiter));
+        lineRecyclerViewAdapter.reverse();
+        int result =  FileWorker.writeToFile(filepath, lineRecyclerViewAdapter.getDataList().conbine(lineRecyclerViewAdapter.delimiter));
+        lineRecyclerViewAdapter.reverse();
+        return result;
     }
 
     public void sort() {

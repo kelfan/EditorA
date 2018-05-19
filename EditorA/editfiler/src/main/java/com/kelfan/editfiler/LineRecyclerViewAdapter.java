@@ -13,6 +13,7 @@ import com.kelfan.utillibrary.StringLocal;
 import com.kelfan.utillibrary.Xmler;
 
 import java.lang.reflect.Field;
+import java.util.Collections;
 
 /**
  * Process -> set text content -> get patterns [listPattern, contentPattern, titlePattern, subPattern]
@@ -60,6 +61,11 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
         this.dataList.sortItem();
     }
 
+    public LineRecyclerViewAdapter reverse() {
+        Collections.reverse(this.dataList);
+        return this;
+    }
+
     private LineRecyclerViewAdapter setContent(String inStr) {
         this.textContent = inStr;
         return this;
@@ -70,7 +76,9 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
     }
 
     public void addItem(String text) {
+        reverse();
         this.dataList.add(text);
+        reverse();
     }
 
     public void setData(String text, int position) {
@@ -92,6 +100,7 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
         } else {
             this.dataList = ListString.set(this.textContent).setDelimiter(delimiter).getSplitList();
         }
+        reverse();
         return this;
     }
 
@@ -127,12 +136,12 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
             this.recordTime = "true";
             this.updateTime = "true";
             this.archive = "true";
-        } else if(this.style.equals("md")){
+        } else if (this.style.equals("md")) {
             this.titlePattern = ".+";
             this.adapter = "block";
             this.subPattern = "[~~][\\s\\S]*";
             this.delimiter = "\n\n#";
-        }else if (this.style.equals("todo")){
+        } else if (this.style.equals("todo")) {
             this.titlePattern = "[^:：]+?[:：]";
             this.subPattern = "[~~][\\s\\S]*";
             this.delimiter = "\n";
@@ -174,7 +183,7 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
 
     @Override
     public void onBindViewHolder(LineItemViewHolder holder, int position) {
-        StringLocal s = dataList.getItem(position).getRemain("<"+recordTag+">.*</"+recordTag+">").getRemain("<"+updateTag+">.*</"+updateTag+">");
+        StringLocal s = dataList.getItem(position).getRemain("<" + recordTag + ">.*</" + recordTag + ">").getRemain("<" + updateTag + ">.*</" + updateTag + ">");
         String title = s.getPattern(titlePattern).toString();
         setTextView(holder.titleTextView, title);
         setTextView(holder.subContentTextView, s.getPattern(subPattern).toString());
@@ -211,7 +220,7 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
         this.onItemClickListener = listener;
     }
 
-    public String getItem(int position){
+    public String getItem(int position) {
         return this.dataList.get(position);
     }
 
