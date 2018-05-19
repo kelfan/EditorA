@@ -62,13 +62,15 @@ public class EditFilerFragment extends Fragment {
 
     public int save() {
         lineRecyclerViewAdapter.reverse();
-        int result =  FileWorker.writeToFile(filepath, lineRecyclerViewAdapter.getDataList().conbine(lineRecyclerViewAdapter.delimiter));
+        int result = FileWorker.writeToFile(filepath, lineRecyclerViewAdapter.getDataList().conbine(lineRecyclerViewAdapter.delimiter));
         lineRecyclerViewAdapter.reverse();
         return result;
     }
 
     public void sort() {
         lineRecyclerViewAdapter.sort();
+        editText.setText("");
+        currentItem = -1;
         lineRecyclerViewAdapter.notifyDataSetChanged();
     }
 
@@ -110,7 +112,7 @@ public class EditFilerFragment extends Fragment {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
-                if (Boolean.valueOf(lineRecyclerViewAdapter.archive)){
+                if (Boolean.valueOf(lineRecyclerViewAdapter.archive)) {
                     FileLocal f = FileLocal.set(filepath).addPostfix("_archive");
                     f.appendToFile(lineRecyclerViewAdapter.getItem(position).concat(Xmler.set("", "complete_time").setContent(TimeWorker.getLocalTime()).toString()).concat(lineRecyclerViewAdapter.delimiter));
                 }
