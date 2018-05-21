@@ -105,7 +105,7 @@ public class EditFilerFragment extends Fragment implements TouchHelper.ITouchHel
                 currentItem = position;
             }
         });
-        
+
         TouchHelper.newHelper(editfilerRecyclerView, lineRecyclerViewAdapter.getDataList(), this);
         return view;
     }
