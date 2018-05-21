@@ -120,6 +120,7 @@ public class EditFilerFragment extends Fragment {
                     }
                 }
                 lineRecyclerViewAdapter.notifyItemMoved(fromPos, toPos);
+                lineRecyclerViewAdapter.notifyDataSetChanged();
                 editText.setText("");
                 currentItem = -1;
                 return true;

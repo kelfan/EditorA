@@ -34,6 +34,7 @@ import com.kelfan.utillibrary.FileConfiger;
 import com.kelfan.utillibrary.FileLocal;
 import com.kelfan.utillibrary.FileWorker;
 import com.kelfan.utillibrary.StringWorker;
+import com.kelfan.utillibrary.android.TouchHelper;
 
 import java.util.ArrayList;
 

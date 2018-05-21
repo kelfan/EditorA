@@ -1,4 +1,4 @@
-package com.kelfan.editora;
+package com.kelfan.utillibrary.android;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -27,6 +27,7 @@ public class TouchHelper {
                     }
                 }
                 recyclerView.getAdapter().notifyItemMoved(fromPos, toPos);
+                recyclerView.getAdapter().notifyDataSetChanged();
                 if (moveActor != null){
                     moveActor.run();
                 }
@@ -47,7 +48,7 @@ public class TouchHelper {
             public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
                 int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
                 int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
-                return makeMovementFlags(dragFlags, swipeFlags);
+                return ItemTouchHelper.Callback.makeMovementFlags(dragFlags, swipeFlags);
             }
 
             @Override
