@@ -19,6 +19,8 @@ import com.kelfan.utillibrary.FileWorker;
 import com.kelfan.utillibrary.TimeWorker;
 import com.kelfan.utillibrary.Xmler;
 
+import java.util.Collections;
+
 public class EditFilerFragment extends Fragment {
 
     private String filepath = "";
@@ -103,10 +105,22 @@ public class EditFilerFragment extends Fragment {
             }
         });
 
-        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
+                int fromPos = viewHolder.getAdapterPosition();
+                int toPos = target.getAdapterPosition();
+                if (fromPos < toPos) {
+                    for (int i = fromPos; i < toPos; i++) {
+                        Collections.swap(lineRecyclerViewAdapter.getDataList(), i, i + 1);
+                    }
+                } else {
+                    for (int i = fromPos; i > toPos; i--) {
+                        Collections.swap(lineRecyclerViewAdapter.getDataList(), i, i - 1);
+                    }
+                }
+                lineRecyclerViewAdapter.notifyItemMoved(fromPos, toPos);
+                return true;
             }
 
             @Override
@@ -120,6 +134,23 @@ public class EditFilerFragment extends Fragment {
                 save();
                 currentItem = -1;
                 editText.setText("");
+            }
+
+            @Override
+            public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+                int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+                return makeMovementFlags(dragFlags, swipeFlags);
+            }
+
+            @Override
+            public boolean isItemViewSwipeEnabled() {
+                return true;
+            }
+
+            @Override
+            public boolean isLongPressDragEnabled() {
+                return true;
             }
         };
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(editfilerRecyclerView);
