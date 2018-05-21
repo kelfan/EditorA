@@ -8,16 +8,16 @@ import java.util.List;
 
 public class TouchHelper {
 
-    interface ITouchHelper {
+    public interface ITouchHelper {
         void swipeAction();
-
         void moveAction();
+        void releaseAction();
     }
 
     public static final int emptyFlag = 0;
     public static final int moveFlag = 1;
 
-    public static ItemTouchHelper newHelper(final RecyclerView recyclerView, final List dataList, final LoopActor swipeActor, final LoopActor moveActor) {
+    public static ItemTouchHelper newHelper(final RecyclerView recyclerView, final List dataList, final ITouchHelper iTouchHelper) {
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -34,10 +34,7 @@ public class TouchHelper {
                 }
                 recyclerView.getAdapter().notifyItemMoved(fromPos, toPos);
                 recyclerView.setTag(moveFlag);
-//                recyclerView.getAdapter().notifyDataSetChanged();
-                if (moveActor != null) {
-                    moveActor.run();
-                }
+                iTouchHelper.swipeAction();
                 return true;
             }
 
@@ -46,9 +43,8 @@ public class TouchHelper {
                 int position = viewHolder.getAdapterPosition();
                 dataList.remove(position);
                 recyclerView.getAdapter().notifyItemRemoved(position);
-                if (swipeActor != null) {
-                    swipeActor.run();
-                }
+                recyclerView.getAdapter().notifyDataSetChanged();
+                iTouchHelper.swipeAction();
             }
 
             @Override
@@ -59,6 +55,7 @@ public class TouchHelper {
                         recyclerView.setTag(emptyFlag);
                     }
                 }
+                iTouchHelper.releaseAction();
                 super.clearView(recyclerView, viewHolder);
             }
 

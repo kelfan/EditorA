@@ -34,13 +34,12 @@ import com.kelfan.utillibrary.FileConfiger;
 import com.kelfan.utillibrary.FileLocal;
 import com.kelfan.utillibrary.FileWorker;
 import com.kelfan.utillibrary.StringWorker;
-import com.kelfan.utillibrary.android.LoopActor;
 import com.kelfan.utillibrary.android.TouchHelper;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, LoopActor {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, TouchHelper.ITouchHelper {
 
     public static final int FILE_PICKER_REQUEST_CODE = 1;
     private ArrayList<String> openFilelist;
@@ -119,7 +118,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        TouchHelper.newHelper(fileRecyclerView, openFilelist, this, this);
+        TouchHelper.newHelper(fileRecyclerView, openFilelist, this);
 
         // set navigation buttons
         Button internalButton = findViewById(R.id.nav_internal_storage);
@@ -336,7 +335,22 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void run(Object... args) {
+    public void swipeAction() {
+
+    }
+
+    @Override
+    public void moveAction() {
+
+    }
+
+    @Override
+    public void releaseAction() {
         FileConfiger.writeConfig(FileConfiger.OPEN_FILE_LIST, StringWorker.listToStringByLine(openFilelist));
     }
+
+//    @Override
+//    public void run(Object... args) {
+//        FileConfiger.writeConfig(FileConfiger.OPEN_FILE_LIST, StringWorker.listToStringByLine(openFilelist));
+//    }
 }

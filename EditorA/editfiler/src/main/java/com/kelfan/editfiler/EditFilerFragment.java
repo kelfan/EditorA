@@ -18,10 +18,11 @@ import com.kelfan.utillibrary.FileLocal;
 import com.kelfan.utillibrary.FileWorker;
 import com.kelfan.utillibrary.TimeWorker;
 import com.kelfan.utillibrary.Xmler;
+import com.kelfan.utillibrary.android.TouchHelper;
 
 import java.util.Collections;
 
-public class EditFilerFragment extends Fragment {
+public class EditFilerFragment extends Fragment implements TouchHelper.ITouchHelper {
 
     private String filepath = "";
     private String fileContent = "";
@@ -104,71 +105,8 @@ public class EditFilerFragment extends Fragment {
                 currentItem = position;
             }
         });
-
-        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                int fromPos = viewHolder.getAdapterPosition();
-                int toPos = target.getAdapterPosition();
-                if (fromPos < toPos) {
-                    for (int i = fromPos; i < toPos; i++) {
-                        Collections.swap(lineRecyclerViewAdapter.getDataList(), i, i + 1);
-                    }
-                } else {
-                    for (int i = fromPos; i > toPos; i--) {
-                        Collections.swap(lineRecyclerViewAdapter.getDataList(), i, i - 1);
-                    }
-                }
-                lineRecyclerViewAdapter.notifyItemMoved(fromPos, toPos);
-                editText.setText("");
-                currentItem = -1;
-                recyclerView.setTag("move");
-                return true;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                int position = viewHolder.getAdapterPosition();
-                if (Boolean.valueOf(lineRecyclerViewAdapter.archive)) {
-                    FileLocal f = FileLocal.set(filepath).addPostfix("_archive");
-                    f.appendToFile(lineRecyclerViewAdapter.getItem(position).concat(Xmler.set("", "complete_time").setContent(TimeWorker.getLocalTime()).toString()).concat(lineRecyclerViewAdapter.delimiter));
-                }
-                lineRecyclerViewAdapter.removeItem(position).notifyItemRemoved(position);
-                lineRecyclerViewAdapter.notifyDataSetChanged();
-                save();
-                currentItem = -1;
-                editText.setText("");
-            }
-
-            @Override
-            public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-                int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-                int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
-                return makeMovementFlags(dragFlags, swipeFlags);
-            }
-
-            @Override
-            public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-                if(recyclerView.getTag() != null ){
-                    if (recyclerView.getTag().equals("move")){
-                        lineRecyclerViewAdapter.notifyDataSetChanged();
-                        recyclerView.setTag("");
-                    }
-                }
-                super.clearView(recyclerView, viewHolder);
-            }
-
-            @Override
-            public boolean isItemViewSwipeEnabled() {
-                return true;
-            }
-
-            @Override
-            public boolean isLongPressDragEnabled() {
-                return true;
-            }
-        };
-        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(editfilerRecyclerView);
+        
+        TouchHelper.newHelper(editfilerRecyclerView, lineRecyclerViewAdapter.getDataList(), this);
         return view;
     }
 
@@ -178,5 +116,22 @@ public class EditFilerFragment extends Fragment {
 
     public void clearEditText() {
         editText.setText("");
+    }
+
+    @Override
+    public void swipeAction() {
+
+    }
+
+    @Override
+    public void moveAction() {
+
+    }
+
+    @Override
+    public void releaseAction() {
+        currentItem = -1;
+        editText.setText("");
+        save();
     }
 }
