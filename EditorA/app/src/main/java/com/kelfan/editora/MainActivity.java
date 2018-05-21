@@ -34,12 +34,13 @@ import com.kelfan.utillibrary.FileConfiger;
 import com.kelfan.utillibrary.FileLocal;
 import com.kelfan.utillibrary.FileWorker;
 import com.kelfan.utillibrary.StringWorker;
+import com.kelfan.utillibrary.android.LoopActor;
 import com.kelfan.utillibrary.android.TouchHelper;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, TouchHelper.LoopActor {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, LoopActor {
 
     public static final int FILE_PICKER_REQUEST_CODE = 1;
     private ArrayList<String> openFilelist;

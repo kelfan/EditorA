@@ -7,9 +7,15 @@ import java.util.Collections;
 import java.util.List;
 
 public class TouchHelper {
-    public interface LoopActor {
-        void run(Object... args);
+
+    interface ITouchHelper {
+        void swipeAction();
+
+        void moveAction();
     }
+
+    public static final int emptyFlag = 0;
+    public static final int moveFlag = 1;
 
     public static ItemTouchHelper newHelper(final RecyclerView recyclerView, final List dataList, final LoopActor swipeActor, final LoopActor moveActor) {
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -27,8 +33,9 @@ public class TouchHelper {
                     }
                 }
                 recyclerView.getAdapter().notifyItemMoved(fromPos, toPos);
-                recyclerView.getAdapter().notifyDataSetChanged();
-                if (moveActor != null){
+                recyclerView.setTag(moveFlag);
+//                recyclerView.getAdapter().notifyDataSetChanged();
+                if (moveActor != null) {
                     moveActor.run();
                 }
                 return true;
@@ -39,9 +46,25 @@ public class TouchHelper {
                 int position = viewHolder.getAdapterPosition();
                 dataList.remove(position);
                 recyclerView.getAdapter().notifyItemRemoved(position);
-                if (swipeActor != null){
+                if (swipeActor != null) {
                     swipeActor.run();
                 }
+            }
+
+            @Override
+            public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                if (recyclerView.getTag() != null) {
+                    if (recyclerView.getTag().equals(moveFlag)) {
+                        recyclerView.getAdapter().notifyDataSetChanged();
+                        recyclerView.setTag(emptyFlag);
+                    }
+                }
+                super.clearView(recyclerView, viewHolder);
+            }
+
+            @Override
+            public void onMoved(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, int fromPos, RecyclerView.ViewHolder target, int toPos, int x, int y) {
+                super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y);
             }
 
             @Override
@@ -60,10 +83,11 @@ public class TouchHelper {
             public boolean isLongPressDragEnabled() {
                 return true;
             }
+
         };
         ItemTouchHelper result = new ItemTouchHelper(itemTouchHelperCallback);
         result.attachToRecyclerView(recyclerView);
-        return  result;
+        return result;
     }
 
 }

@@ -120,9 +120,9 @@ public class EditFilerFragment extends Fragment {
                     }
                 }
                 lineRecyclerViewAdapter.notifyItemMoved(fromPos, toPos);
-                lineRecyclerViewAdapter.notifyDataSetChanged();
                 editText.setText("");
                 currentItem = -1;
+                recyclerView.setTag("move");
                 return true;
             }
 
@@ -134,6 +134,7 @@ public class EditFilerFragment extends Fragment {
                     f.appendToFile(lineRecyclerViewAdapter.getItem(position).concat(Xmler.set("", "complete_time").setContent(TimeWorker.getLocalTime()).toString()).concat(lineRecyclerViewAdapter.delimiter));
                 }
                 lineRecyclerViewAdapter.removeItem(position).notifyItemRemoved(position);
+                lineRecyclerViewAdapter.notifyDataSetChanged();
                 save();
                 currentItem = -1;
                 editText.setText("");
@@ -144,6 +145,17 @@ public class EditFilerFragment extends Fragment {
                 int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
                 int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
                 return makeMovementFlags(dragFlags, swipeFlags);
+            }
+
+            @Override
+            public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                if(recyclerView.getTag() != null ){
+                    if (recyclerView.getTag().equals("move")){
+                        lineRecyclerViewAdapter.notifyDataSetChanged();
+                        recyclerView.setTag("");
+                    }
+                }
+                super.clearView(recyclerView, viewHolder);
             }
 
             @Override
