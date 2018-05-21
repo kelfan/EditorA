@@ -38,7 +38,7 @@ import com.kelfan.utillibrary.StringWorker;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, LoopActor {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, TouchHelper.LoopActor {
 
     public static final int FILE_PICKER_REQUEST_CODE = 1;
     private ArrayList<String> openFilelist;

@@ -7,6 +7,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class TouchHelper {
+    public interface LoopActor {
+        void run(Object... args);
+    }
+
     public static ItemTouchHelper newHelper(final RecyclerView recyclerView, final List dataList, final LoopActor swipeActor, final LoopActor moveActor) {
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -62,3 +66,5 @@ public class TouchHelper {
     }
 
 }
+
+

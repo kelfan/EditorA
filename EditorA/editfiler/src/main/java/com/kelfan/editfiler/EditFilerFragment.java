@@ -120,6 +120,8 @@ public class EditFilerFragment extends Fragment {
                     }
                 }
                 lineRecyclerViewAdapter.notifyItemMoved(fromPos, toPos);
+                editText.setText("");
+                currentItem = -1;
                 return true;
             }
 
@@ -155,5 +157,13 @@ public class EditFilerFragment extends Fragment {
         };
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(editfilerRecyclerView);
         return view;
+    }
+
+    public void setCurrentItem(int currentItem) {
+        this.currentItem = currentItem;
+    }
+
+    public void clearEditText() {
+        editText.setText("");
     }
 }
