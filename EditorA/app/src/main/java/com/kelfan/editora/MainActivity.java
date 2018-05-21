@@ -38,7 +38,7 @@ import com.kelfan.utillibrary.StringWorker;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, LoopActor {
 
     public static final int FILE_PICKER_REQUEST_CODE = 1;
     private ArrayList<String> openFilelist;
@@ -116,6 +116,8 @@ public class MainActivity extends AppCompatActivity
                 setTitle(FileLocal.set(filename).fileName);
             }
         });
+
+        TouchHelper.newHelper(fileRecyclerView, openFilelist, this, this);
 
         // set navigation buttons
         Button internalButton = findViewById(R.id.nav_internal_storage);
@@ -331,4 +333,8 @@ public class MainActivity extends AppCompatActivity
         alert.show();
     }
 
+    @Override
+    public void run(Object... args) {
+        FileConfiger.writeConfig(FileConfiger.OPEN_FILE_LIST, StringWorker.listToStringByLine(openFilelist));
+    }
 }
