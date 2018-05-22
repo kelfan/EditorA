@@ -10,13 +10,10 @@ import android.widget.TextView;
 import com.kelfan.utillibrary.ColorWorker;
 import com.kelfan.utillibrary.ListString;
 import com.kelfan.utillibrary.StringLocal;
-import com.kelfan.utillibrary.StringWorker;
 import com.kelfan.utillibrary.Xmler;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * Process -> set text content -> get patterns [listPattern, contentPattern, titlePattern, subPattern]
@@ -26,7 +23,6 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
     private LayoutInflater inflater;
     private String textContent;
     private ListString dataList;
-    private ListString originList=new ListString();
     private Context context;
     //   public String listPattern = "[\n\r]*(.+)[\n\r]*";
     public String listPattern = "";
@@ -40,9 +36,6 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
     public String recordTime = "False";
     public String updateTime = "False";
     public String archive = "false";
-    private String previewText = "";
-    public int currentItem = -1;
-    public List<Integer> actualPostion = new ArrayList<Integer>();
 
     public final static String recordTag = "record_time";
     public final static String updateTag = "update_time";
@@ -51,14 +44,6 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
     //define interface
     public static interface OnItemClickListener {
         void onItemClick(View view, int position);
-    }
-
-    public int getCurrentItem() {
-        return currentItem;
-    }
-
-    public void setCurrentItem(int currentItem) {
-        this.currentItem = currentItem;
     }
 
     public LineRecyclerViewAdapter removeItem(int position) {
@@ -91,11 +76,9 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
     }
 
     public void addItem(String text) {
-        resetData();
         reverse();
         this.dataList.add(text);
         reverse();
-        syncOriginal();
     }
 
     public void setData(String text, int position) {
@@ -118,7 +101,6 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
             this.dataList = ListString.set(this.textContent).setDelimiter(delimiter).getSplitList();
         }
         reverse();
-        syncOriginal();
         return this;
     }
 
@@ -221,29 +203,6 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
         }
     }
 
-    public void filter(String text) {
-        if(currentItem != -1){
-            dataList.copy(originList);
-            notifyDataSetChanged();
-            return;
-        }
-
-        if (previewText.equals("")){
-            originList.copy(dataList);
-        }else {
-            dataList.copy(originList);
-            notifyDataSetChanged();
-        }
-        previewText = text;
-        for (int i = 0; i <  this.dataList.size(); i++) {
-            if (!StringWorker.contain(this.dataList.get(i), text, " ")) {
-                removeItem(i);
-                i--;
-            }
-        }
-        notifyDataSetChanged();
-    }
-
     @Override
     public int getItemCount() {
         return dataList.size();
@@ -263,16 +222,6 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
 
     public String getItem(int position) {
         return this.dataList.get(position);
-    }
-
-    public LineRecyclerViewAdapter resetData(){
-        this.dataList.copy(this.originList);
-        return this;
-    }
-
-    public LineRecyclerViewAdapter syncOriginal(){
-        this.originList.copy(this.dataList);
-        return this;
     }
 
 }

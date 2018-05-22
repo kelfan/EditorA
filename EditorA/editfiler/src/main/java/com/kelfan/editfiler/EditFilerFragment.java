@@ -7,8 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,13 +54,12 @@ public class EditFilerFragment extends Fragment implements TouchHelper.ITouchHel
             if (Boolean.valueOf(lineRecyclerViewAdapter.updateTime)) {
                 text = Xmler.set(text, LineRecyclerViewAdapter.updateTag).setContent(TimeWorker.getLocalTime()).toString();
             }
-            lineRecyclerViewAdapter.resetData().setData(text, currentItem);
-            lineRecyclerViewAdapter.syncOriginal();
+            lineRecyclerViewAdapter.setData(text, currentItem);
         }
         int result = save();
+        lineRecyclerViewAdapter.notifyDataSetChanged();
         editText.setText("");
         currentItem = -1;
-        lineRecyclerViewAdapter.notifyDataSetChanged();
         return result;
     }
 
@@ -85,23 +82,6 @@ public class EditFilerFragment extends Fragment implements TouchHelper.ITouchHel
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.editfiler_fragment, container, false);
         editText = view.findViewById(R.id.editfiler_fragment_edit_text);
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                lineRecyclerViewAdapter.filter(s.toString());
-            }
-        });
-
         imageButton = view.findViewById(R.id.editfiler_fragment_image_button);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,10 +101,8 @@ public class EditFilerFragment extends Fragment implements TouchHelper.ITouchHel
         lineRecyclerViewAdapter.setOnItemClickListener(new LineRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                String text = lineRecyclerViewAdapter.getText(position);
-                editText.setText(text);
-                currentItem = lineRecyclerViewAdapter.resetData().getDataList().getPosition(text);
-                lineRecyclerViewAdapter.notifyDataSetChanged();
+                editText.setText(lineRecyclerViewAdapter.getText(position));
+                currentItem = position;
             }
         });
 
