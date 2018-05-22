@@ -235,9 +235,10 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
             notifyDataSetChanged();
         }
         previewText = text;
-        for (int i = 0; i < this.dataList.size(); i++) {
+        for (int i = 0; i <  this.dataList.size(); i++) {
             if (!StringWorker.contain(this.dataList.get(i), text, " ")) {
                 removeItem(i);
+                i--;
             }
         }
         notifyDataSetChanged();
