@@ -19,6 +19,13 @@ public class ListString implements List<String> {
     private List<String> strList;
     private String pattern = "([^\n\r]+[\n\r]*)";
     private String delimiter = "";
+    private List<String> filteredList;
+
+
+    public ListString(){
+        this.strList = new ArrayList<String>();
+        this.strList = new ArrayList<String>();
+    }
 
     public ListString(String inStr) {
         this.text = inStr;
@@ -48,6 +55,10 @@ public class ListString implements List<String> {
         return this;
     }
 
+    public List<String> getFilteredList() {
+        return filteredList;
+    }
+
     public ListString sortItem(){
         Collections.sort(strList);
         return this;
@@ -61,6 +72,16 @@ public class ListString implements List<String> {
 
     public List<String> getStrList() {
         return strList;
+    }
+
+    public ListString filter(String text){
+        filteredList = new ArrayList<String>();
+        for (String s:strList){
+            if (StringWorker.contain(s, text, " ")){
+                filteredList.add(s);
+            }
+        }
+        return this;
     }
 
     public ListString(List<String> strList) {
@@ -81,6 +102,44 @@ public class ListString implements List<String> {
             out += s + delimiter;
         }
         return out;
+    }
+
+    public ListString copy(List<String> aList){
+        Collections.copy(this.strList, aList);
+        return this;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setStrList(List<String> strList) {
+        this.strList = strList;
+    }
+
+    public String getPattern() {
+        return pattern;
+    }
+
+    public String getDelimiter() {
+        return delimiter;
+    }
+
+    public void setFilteredList(List<String> filteredList) {
+        this.filteredList = filteredList;
+    }
+
+    public ListString copy(ListString aList){
+        this.text = aList.getText();
+        this.strList = aList.getStrList();
+        this.filteredList = aList.getFilteredList();
+        this.delimiter  = aList.getDelimiter();
+        this.pattern = aList.getPattern();
+        return this;
     }
 
     public static ListString set(String inStr) {

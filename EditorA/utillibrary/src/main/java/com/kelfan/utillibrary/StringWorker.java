@@ -137,4 +137,25 @@ public class StringWorker {
         Matcher matcher = pattern.matcher(inStr);
         return matcher.replaceAll(preSign + replace + posSign);
     }
+
+    /**
+     * check wether a String contain a list of Strings in subStr
+     * @param intext a String
+     * @param subStr a String
+     * @param delimiter default is " "
+     * @return true or false
+     */
+    public static boolean contain(String intext, String subStr, String delimiter){
+        if (delimiter == null){
+            delimiter = " ";
+        }
+        String[] aList = subStr.split(delimiter);
+        for (String s: aList){
+            if (!intext.contains(s)){
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
