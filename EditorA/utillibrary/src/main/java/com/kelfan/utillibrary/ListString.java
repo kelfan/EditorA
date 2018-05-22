@@ -16,10 +16,10 @@ import java.util.regex.Pattern;
 public class ListString implements List<String> {
 
     private String text;
-    private List<String> strList;
+    private List<String> strList = new ArrayList<String>();
     private String pattern = "([^\n\r]+[\n\r]*)";
     private String delimiter = "";
-    private List<String> filteredList;
+    private List<String> filteredList = new ArrayList<String>();
 
 
     public ListString(){
@@ -135,8 +135,10 @@ public class ListString implements List<String> {
 
     public ListString copy(ListString aList){
         this.text = aList.getText();
-        this.strList = aList.getStrList();
-        this.filteredList = aList.getFilteredList();
+        this.strList  = new ArrayList<String>();
+        this.filteredList =  new ArrayList<String>();
+        this.strList.addAll(aList.getStrList());
+        this.filteredList.addAll(aList.getFilteredList());
         this.delimiter  = aList.getDelimiter();
         this.pattern = aList.getPattern();
         return this;
@@ -196,6 +198,15 @@ public class ListString implements List<String> {
         this.strList = new ArrayList<String>(Arrays.asList(this.text.split(this.delimiter)));
         this.strList.removeAll(Arrays.asList(null, "", "\n"));
         return this;
+    }
+
+    public int getPosition(String text){
+        for (int i = 0; i < this.strList.size(); i++) {
+            if (this.strList.get(i).equals(text)){
+                return i;
+            }
+        }
+        return -1;
     }
 
     public ListString getTokenList(String inStr) {
