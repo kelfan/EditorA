@@ -2,7 +2,6 @@ package com.kelfan.utillibrary;
 
 import android.support.annotation.NonNull;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,15 +15,15 @@ import java.util.regex.Pattern;
 public class ListString implements List<String> {
 
     private String text;
-    private List<String> strList = new ArrayList<String>();
+    private StringHash strList = new StringHash();
     private String pattern = "([^\n\r]+[\n\r]*)";
     private String delimiter = "";
-    private List<String> filteredList = new ArrayList<String>();
+    private StringHash filteredList = new StringHash();
 
 
     public ListString(){
-        this.strList = new ArrayList<String>();
-        this.strList = new ArrayList<String>();
+        this.strList = new StringHash();
+        this.strList = new StringHash();
     }
 
     public ListString(String inStr) {
@@ -55,12 +54,12 @@ public class ListString implements List<String> {
         return this;
     }
 
-    public List<String> getFilteredList() {
+    public StringHash getFilteredList() {
         return filteredList;
     }
 
     public ListString sortItem(){
-        Collections.sort(strList);
+        strList.sort();
         return this;
     }
 
@@ -70,42 +69,49 @@ public class ListString implements List<String> {
         return this;
     }
 
-    public List<String> getStrList() {
+    public StringHash getStrList() {
         return strList;
     }
 
     public ListString filter(String text){
-        filteredList = new ArrayList<String>();
-        for (String s:strList){
-            if (StringWorker.contain(s, text, " ")){
-                filteredList.add(s);
+        filteredList = new StringHash();
+        for (int i:strList.keySet()){
+            String value = strList.get(i);
+            if (StringWorker.contain(value, text, " ")){
+                filteredList.putIn(i, value);
             }
         }
         return this;
     }
 
-    public ListString(List<String> strList) {
+    public ListString(StringHash strList) {
         this.text = strList.toString();
         this.strList = strList;
         this.pattern = "";
     }
 
+    public ListString(List<String> strList) {
+        this.text = strList.toString();
+        this.strList = StringHash.set(strList);
+        this.pattern = "";
+    }
+
     public ListString(String[] strList) {
         this.text = strList.toString();
-        this.strList = Arrays.asList(strList);
+        this.strList = StringHash.set(strList);
         this.pattern = "";
     }
 
     public String conbine(String delimiter){
         String out = "";
-        for (String s: strList){
+        for (String s: strList.values()){
             out += s + delimiter;
         }
         return out;
     }
 
     public ListString copy(List<String> aList){
-        Collections.copy(this.strList, aList);
+        strList  = StringHash.set(aList);
         return this;
     }
 
@@ -118,7 +124,7 @@ public class ListString implements List<String> {
     }
 
     public void setStrList(List<String> strList) {
-        this.strList = strList;
+        this.strList = StringHash.set(strList);
     }
 
     public String getPattern() {
@@ -129,16 +135,14 @@ public class ListString implements List<String> {
         return delimiter;
     }
 
-    public void setFilteredList(List<String> filteredList) {
+    public void setFilteredList(StringHash filteredList) {
         this.filteredList = filteredList;
     }
 
     public ListString copy(ListString aList){
         this.text = aList.getText();
-        this.strList  = new ArrayList<String>();
-        this.filteredList =  new ArrayList<String>();
-        this.strList.addAll(aList.getStrList());
-        this.filteredList.addAll(aList.getFilteredList());
+        this.strList  = aList.getStrList();
+        this.filteredList =  aList.getFilteredList();
         this.delimiter  = aList.getDelimiter();
         this.pattern = aList.getPattern();
         return this;
@@ -166,7 +170,7 @@ public class ListString implements List<String> {
 
     public String toString(String delimiter) {
         StringBuilder out = new StringBuilder();
-        for (String item : this.strList) {
+        for (String item : this.strList.values()) {
             out.append(item).append(delimiter);
         }
         out = new StringBuilder(out.substring(0, out.length() - delimiter.length()));
@@ -179,7 +183,7 @@ public class ListString implements List<String> {
         while (m.find()) {
             allMatches.add(m.group());
         }
-        this.strList = allMatches;
+        this.strList = StringHash.set(allMatches);
         return this;
     }
 
@@ -190,13 +194,15 @@ public class ListString implements List<String> {
         while (m.find()) {
             allMatches.add(m.group());
         }
-        this.strList = allMatches;
+        this.strList = StringHash.set(allMatches);
         return this;
     }
 
     public ListString getSplitList(){
-        this.strList = new ArrayList<String>(Arrays.asList(this.text.split(this.delimiter)));
-        this.strList.removeAll(Arrays.asList(null, "", "\n"));
+//        List<String> strings = Arrays.asList(this.text.split(this.delimiter));
+//        strings.removeAll(Arrays.asList(null, "", "\n"));
+//        this.strList = StringHash.set(strings);
+        this.strList = StringHash.set(this.text.split(this.delimiter)).removeAll(Arrays.asList(null, "", "\n"));
         return this;
     }
 
@@ -220,7 +226,7 @@ public class ListString implements List<String> {
     }
 
     public StringLocal getItem(int i){
-        return StringLocal.set(this.strList.get(i));
+        return StringLocal.set(this.strList.getItem(i));
     }
 
     @Override
@@ -240,60 +246,66 @@ public class ListString implements List<String> {
 
     @Override
     public boolean contains(Object o) {
-        return strList.contains(o);
+        return strList.values().contains(o);
     }
 
     @NonNull
     @Override
     public Iterator<String> iterator() {
-        return strList.iterator();
+        return strList.values().iterator();
     }
 
     @NonNull
     @Override
     public Object[] toArray() {
-        return strList.toArray();
+        return strList.values().toArray();
     }
 
     @NonNull
     @Override
     public <T> T[] toArray(@NonNull T[] ts) {
-        return strList.toArray(ts);
+        return strList.values().toArray(ts);
     }
 
     @Override
     public boolean add(String s) {
-        return strList.add(s);
+        strList.putIn(s);
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        return strList.remove(o);
+        strList.remove(o);
+        return true;
     }
 
     @Override
     public boolean containsAll(@NonNull Collection<?> collection) {
-        return strList.containsAll(collection);
+        return strList.values().containsAll(collection);
     }
 
     @Override
     public boolean addAll(@NonNull Collection<? extends String> collection) {
-        return strList.addAll(collection);
+        strList.putAll(collection);
+        return true;
     }
 
     @Override
     public boolean addAll(int i, @NonNull Collection<? extends String> collection) {
-        return strList.addAll(collection);
+        strList.putAll(collection);
+        return true;
     }
 
     @Override
     public boolean removeAll(@NonNull Collection<?> collection) {
-        return strList.removeAll(collection);
+        strList.removeAll((Collection<? extends String>) collection);
+        return true;
     }
 
     @Override
     public boolean retainAll(@NonNull Collection<?> collection) {
-        return strList.retainAll(collection);
+        strList.retainAll((Collection<? extends String>) collection);
+        return true;
     }
 
     @Override
@@ -303,12 +315,13 @@ public class ListString implements List<String> {
 
     @Override
     public String get(int i) {
-        return strList.get(i);
+        return strList.getItem(i);
     }
 
     @Override
     public String set(int i, String s) {
-        return strList.set(i, s);
+        strList.set(i, s);
+        return s;
     }
 
     @Override
@@ -317,8 +330,8 @@ public class ListString implements List<String> {
     }
 
     @Override
-    public String remove(int i) {
-        return strList.remove(i);
+    public String remove(int key) {
+        return strList.remove(key);
     }
 
     @Override
@@ -334,18 +347,18 @@ public class ListString implements List<String> {
     @NonNull
     @Override
     public ListIterator<String> listIterator() {
-        return strList.listIterator();
+        return new ArrayList<>(strList.values()).listIterator();
     }
 
     @NonNull
     @Override
     public ListIterator<String> listIterator(int i) {
-        return strList.listIterator(i);
+        return new ArrayList<>(strList.values()).listIterator(i);
     }
 
     @NonNull
     @Override
     public List<String> subList(int i, int i1) {
-        return strList.subList(i, i1);
+        return new ArrayList<>(strList.values()).subList(i, i1);
     }
 }
