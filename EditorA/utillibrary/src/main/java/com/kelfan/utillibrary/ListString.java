@@ -320,8 +320,7 @@ public class ListString implements List<String> {
 
     @Override
     public String set(int i, String s) {
-        strList.set(i, s);
-        return s;
+        return strList.set(i, s);
     }
 
     @Override

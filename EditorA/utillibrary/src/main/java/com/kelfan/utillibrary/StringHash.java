@@ -77,6 +77,27 @@ public class StringHash extends LinkedHashMap<Integer, String> {
         return this;
     }
 
+    public StringHash putAll(StringHash stringHash){
+        for (int i: stringHash.keySet()){
+            this.putIn(i, stringHash.get(i));
+        }
+        return this;
+    }
+
+    public StringHash copy(StringHash stringHash){
+        this.clear();
+        this.putAll(stringHash);
+        return this;
+    }
+
+    public StringHash copy(){
+        StringHash stringHash = new StringHash();
+        for (int i: this.keySet()){
+            stringHash.putIn(i, this.get(i));
+        }
+        return  stringHash;
+    }
+
     public StringHash removeAll(Collection<? extends String> collection) {
         StringHash stringHash = new StringHash();
         keyLoop:
@@ -89,6 +110,7 @@ public class StringHash extends LinkedHashMap<Integer, String> {
             }
             stringHash.putIn(key, value);
         }
+        this.copy(stringHash);
         return this;
     }
 
@@ -104,6 +126,7 @@ public class StringHash extends LinkedHashMap<Integer, String> {
                 }
             }
         }
+        this.copy(stringHash);
         return this;
     }
 
@@ -135,21 +158,25 @@ public class StringHash extends LinkedHashMap<Integer, String> {
             }
             stringHash.putIn(s);
         }
+        this.copy(stringHash);
         return this;
     }
 
-    public StringHash set(int i, String s) {
+    public String set(int i, String s) {
         StringHash stringHash = new StringHash();
+        String out = "";
         int counter = 0;
         for (int key : this.keySet()) {
             if (counter == i) {
+                out = this.get(key);
                 stringHash.putIn(s);
             } else {
                 stringHash.putIn(key, this.get(key));
             }
             counter += 1;
         }
-        return this;
+        this.copy(stringHash);
+        return out ;
     }
 
     public static StringHash set(List<String> strings) {
