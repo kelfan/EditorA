@@ -169,7 +169,7 @@ public class StringHash extends LinkedHashMap<Integer, String> {
         for (int key : this.keySet()) {
             if (counter == i) {
                 out = this.get(key);
-                stringHash.putIn(s);
+                stringHash.putIn(key, s);
             } else {
                 stringHash.putIn(key, this.get(key));
             }

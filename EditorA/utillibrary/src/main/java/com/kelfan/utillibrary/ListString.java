@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -18,12 +17,17 @@ public class ListString implements List<String> {
     private StringHash strList = new StringHash();
     private String pattern = "([^\n\r]+[\n\r]*)";
     private String delimiter = "";
+    private String filter = "";
     private StringHash filteredList = new StringHash();
+    private List<Integer> positionList = new ArrayList<Integer>();
+    private List<Integer> positionFilter = new ArrayList<Integer>();
 
 
     public ListString(){
         this.strList = new StringHash();
         this.strList = new StringHash();
+        this.positionList = new ArrayList<Integer>();
+        this.positionFilter = new ArrayList<Integer>();
     }
 
     public ListString(String inStr) {
@@ -60,12 +64,32 @@ public class ListString implements List<String> {
 
     public ListString sortItem(){
         strList.sort();
+        sync();
         return this;
+    }
+
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
+    }
+
+    ListString syncPositionList(){
+        this.positionList = new ArrayList<>(strList.keySet());
+        this.positionFilter = new ArrayList<>(filteredList.keySet());
+        return this;
+    }
+
+    ListString sync(){
+        filter(this.filter);
+        syncPositionList();
+        return  this;
     }
 
     public ListString setPattern(String pattern) {
         getPatternList(pattern);
-
         return this;
     }
 
@@ -74,6 +98,7 @@ public class ListString implements List<String> {
     }
 
     public ListString filter(String text){
+        this.filter = text;
         filteredList = new StringHash();
         for (int i:strList.keySet()){
             String value = strList.get(i);
@@ -81,6 +106,7 @@ public class ListString implements List<String> {
                 filteredList.putIn(i, value);
             }
         }
+        syncPositionList();
         return this;
     }
 
@@ -88,18 +114,21 @@ public class ListString implements List<String> {
         this.text = strList.toString();
         this.strList = strList;
         this.pattern = "";
+        sync();
     }
 
     public ListString(List<String> strList) {
         this.text = strList.toString();
         this.strList = StringHash.set(strList);
         this.pattern = "";
+        sync();
     }
 
     public ListString(String[] strList) {
         this.text = strList.toString();
         this.strList = StringHash.set(strList);
         this.pattern = "";
+        sync();
     }
 
     public String conbine(String delimiter){
@@ -112,6 +141,7 @@ public class ListString implements List<String> {
 
     public ListString copy(List<String> aList){
         strList  = StringHash.set(aList);
+        sync();
         return this;
     }
 
@@ -125,6 +155,7 @@ public class ListString implements List<String> {
 
     public void setStrList(List<String> strList) {
         this.strList = StringHash.set(strList);
+        sync();
     }
 
     public String getPattern() {
@@ -137,6 +168,7 @@ public class ListString implements List<String> {
 
     public void setFilteredList(StringHash filteredList) {
         this.filteredList = filteredList;
+        sync();
     }
 
     public ListString copy(ListString aList){
@@ -145,6 +177,7 @@ public class ListString implements List<String> {
         this.filteredList =  aList.getFilteredList();
         this.delimiter  = aList.getDelimiter();
         this.pattern = aList.getPattern();
+        sync();
         return this;
     }
 
@@ -184,6 +217,7 @@ public class ListString implements List<String> {
             allMatches.add(m.group());
         }
         this.strList = StringHash.set(allMatches);
+        sync();
         return this;
     }
 
@@ -195,6 +229,7 @@ public class ListString implements List<String> {
             allMatches.add(m.group());
         }
         this.strList = StringHash.set(allMatches);
+        sync();
         return this;
     }
 
@@ -203,6 +238,7 @@ public class ListString implements List<String> {
 //        strings.removeAll(Arrays.asList(null, "", "\n"));
 //        this.strList = StringHash.set(strings);
         this.strList = StringHash.set(this.text.split(this.delimiter)).removeAll(Arrays.asList(null, "", "\n"));
+        sync();
         return this;
     }
 
@@ -226,7 +262,8 @@ public class ListString implements List<String> {
     }
 
     public StringLocal getItem(int i){
-        return StringLocal.set(this.strList.getItem(i));
+//        return StringLocal.set(this.strList.getItem(i));
+        return StringLocal.set(this.strList.get(positionList.get(i)));
     }
 
     @Override
@@ -270,12 +307,14 @@ public class ListString implements List<String> {
     @Override
     public boolean add(String s) {
         strList.putIn(s);
+        sync();
         return true;
     }
 
     @Override
     public boolean remove(Object o) {
         strList.remove(o);
+        sync();
         return true;
     }
 
@@ -287,35 +326,41 @@ public class ListString implements List<String> {
     @Override
     public boolean addAll(@NonNull Collection<? extends String> collection) {
         strList.putAll(collection);
+        sync();
         return true;
     }
 
     @Override
     public boolean addAll(int i, @NonNull Collection<? extends String> collection) {
         strList.putAll(collection);
+        sync();
         return true;
     }
 
     @Override
     public boolean removeAll(@NonNull Collection<?> collection) {
         strList.removeAll((Collection<? extends String>) collection);
+        sync();
         return true;
     }
 
     @Override
     public boolean retainAll(@NonNull Collection<?> collection) {
         strList.retainAll((Collection<? extends String>) collection);
+        sync();
         return true;
     }
 
     @Override
     public void clear() {
         strList.clear();
+        sync();
     }
 
     @Override
     public String get(int i) {
-        return strList.getItem(i);
+//        return strList.getItem(i);
+        return  strList.get(positionList.get(i));
     }
 
     @Override
@@ -326,11 +371,14 @@ public class ListString implements List<String> {
     @Override
     public void add(int i, String s) {
         strList.add(i, s);
+        sync();
     }
 
     @Override
-    public String remove(int key) {
-        return strList.remove(key);
+    public String remove(int position) {
+        String result =  strList.remove(positionList.get(position));
+        sync();
+        return result;
     }
 
     @Override
