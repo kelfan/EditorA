@@ -266,6 +266,10 @@ public class ListString implements List<String> {
         return StringLocal.set(this.strList.get(positionList.get(i)));
     }
 
+    public StringLocal getFilterItem(int i){
+        return StringLocal.set(this.filteredList.get(positionFilter.get(i)));
+    }
+
     @Override
     public String toString() {
         return toString(this.delimiter);

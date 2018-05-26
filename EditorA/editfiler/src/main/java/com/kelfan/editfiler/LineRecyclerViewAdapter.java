@@ -36,6 +36,7 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
     public String recordTime = "False";
     public String updateTime = "False";
     public String archive = "false";
+    public String filter = "";
 
     public final static String recordTag = "record_time";
     public final static String updateTag = "update_time";
@@ -183,7 +184,7 @@ public class LineRecyclerViewAdapter extends RecyclerView.Adapter<LineItemViewHo
 
     @Override
     public void onBindViewHolder(LineItemViewHolder holder, int position) {
-        StringLocal s = dataList.getItem(position).getRemain("<" + recordTag + ">.*</" + recordTag + ">").getRemain("<" + updateTag + ">.*</" + updateTag + ">");
+        StringLocal s = dataList.filter(this.filter).getFilterItem(position).getRemain("<" + recordTag + ">.*</" + recordTag + ">").getRemain("<" + updateTag + ">.*</" + updateTag + ">");
         String title = s.getPattern(titlePattern).toString();
         setTextView(holder.titleTextView, title);
         setTextView(holder.subContentTextView, s.getPattern(subPattern).toString());
