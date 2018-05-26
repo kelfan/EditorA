@@ -63,7 +63,21 @@ public class ListString implements List<String> {
     }
 
     public ListString sortItem(){
-        strList.sort();
+        if (strList.getItem(0).compareTo(strList.getItem(1))>0){
+            strList.sort_reverse();
+        }else{
+            strList.sort();
+        }
+        syncPositionList();
+        return this;
+    }
+
+    public ListString sortFilterItem(){
+        if (filteredList.getItem(0).compareTo(filteredList.getItem(1))>0){
+            filteredList.sort_reverse();
+        }else{
+            filteredList.sort();
+        }
         sync();
         return this;
     }
@@ -76,13 +90,13 @@ public class ListString implements List<String> {
         this.filter = filter;
     }
 
-    ListString syncPositionList(){
+    public ListString syncPositionList(){
         this.positionList = new ArrayList<>(strList.keySet());
         this.positionFilter = new ArrayList<>(filteredList.keySet());
         return this;
     }
 
-    ListString sync(){
+    public ListString sync(){
         filter(this.filter);
         syncPositionList();
         return  this;
@@ -372,6 +386,18 @@ public class ListString implements List<String> {
         return strList.set(i, s);
     }
 
+    public ListString setItem(int i, String s) {
+        strList.putIn(positionList.get(i), s);
+        sync();
+        return this;
+    }
+
+    public ListString setFilterItem(int i, String s){
+        strList.putIn(positionFilter.get(i), s);
+        sync();
+        return this;
+    }
+
     @Override
     public void add(int i, String s) {
         strList.add(i, s);
@@ -381,6 +407,12 @@ public class ListString implements List<String> {
     @Override
     public String remove(int position) {
         String result =  strList.remove(positionList.get(position));
+        sync();
+        return result;
+    }
+
+    public String removeFilterItem(int position) {
+        String result =  strList.remove(positionFilter.get(position));
         sync();
         return result;
     }
