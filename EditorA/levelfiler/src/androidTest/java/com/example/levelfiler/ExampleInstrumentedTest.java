@@ -1,4 +1,4 @@
-package com.kelfan.textfiler;
+package com.example.levelfiler;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.kelfan.textfiler.test", appContext.getPackageName());
+        assertEquals("com.example.levelfiler.test", appContext.getPackageName());
     }
 }

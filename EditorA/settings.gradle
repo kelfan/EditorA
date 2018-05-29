@@ -1,1 +1,1 @@
-include ':app', ':filepicker', ':logfiler', ':utillibrary', ':textfiler', ':editfiler'
+include ':app', ':filepicker', ':logfiler', ':utillibrary', ':textfiler', ':editfiler', ':levelfiler'

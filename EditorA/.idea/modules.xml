@@ -6,8 +6,8 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/editfiler/editfiler.iml" filepath="$PROJECT_DIR$/editfiler/editfiler.iml" />
       <module fileurl="file://$PROJECT_DIR$/filepicker/filepicker.iml" filepath="$PROJECT_DIR$/filepicker/filepicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/levelfiler/levelfiler.iml" filepath="$PROJECT_DIR$/levelfiler/levelfiler.iml" />
       <module fileurl="file://$PROJECT_DIR$/logfiler/logfiler.iml" filepath="$PROJECT_DIR$/logfiler/logfiler.iml" />
-      <module fileurl="file://$PROJECT_DIR$/textfiler/textfiler.iml" filepath="$PROJECT_DIR$/textfiler/textfiler.iml" />
       <module fileurl="file://$PROJECT_DIR$/utillibrary/utillibrary.iml" filepath="$PROJECT_DIR$/utillibrary/utillibrary.iml" />
     </modules>
   </component>
