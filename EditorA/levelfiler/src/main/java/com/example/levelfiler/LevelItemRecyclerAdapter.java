@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.kelfan.utillibrary.ColorWorker;
 import com.kelfan.utillibrary.StringSplit;
+import com.kelfan.utillibrary.StringWorker;
 
 
 public class LevelItemRecyclerAdapter extends RecyclerView.Adapter<LevelItemViewHolder> {
@@ -18,6 +19,8 @@ public class LevelItemRecyclerAdapter extends RecyclerView.Adapter<LevelItemView
     StringSplit data;
     Context context;
     LayoutInflater inflater;
+    String delimiter="\n# ";
+    String titleSign ="/";
 
     public static LevelItemRecyclerAdapter set(Context context, String text){
         return new LevelItemRecyclerAdapter().withContext(context).withText(text);
@@ -31,7 +34,7 @@ public class LevelItemRecyclerAdapter extends RecyclerView.Adapter<LevelItemView
 
     public LevelItemRecyclerAdapter withText(String text){
         this.text = text;
-        this.data = StringSplit.set(text).withDeilimiter(";");
+        this.data = StringSplit.set(text).withDeilimiter(delimiter);
         return this;
     }
 
@@ -45,7 +48,15 @@ public class LevelItemRecyclerAdapter extends RecyclerView.Adapter<LevelItemView
     public void onBindViewHolder(LevelItemViewHolder holder, int position) {
         String txt = data.get(position);
         holder.recyclerView.setBackgroundColor(ColorWorker.strToColor(txt));
-        holder.textView.setText(txt);
+
+        // process title
+        String title = StringWorker.beginToLastSign(txt, titleSign);
+        if (title.equals("")){
+            title = "others";
+        }
+        holder.textView.setText(title);
+
+        // process recycler view
         if (holder.recyclerView.getAdapter() == null){
             LevelSubRecyclerAdapter levelSubRecyclerAdapter = LevelSubRecyclerAdapter.set(holder.itemView.getContext(), txt);
             holder.recyclerView.setAdapter(levelSubRecyclerAdapter);

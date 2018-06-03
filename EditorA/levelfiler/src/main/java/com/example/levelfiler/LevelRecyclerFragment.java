@@ -10,10 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.kelfan.utillibrary.FileWorker;
+
 public class LevelRecyclerFragment extends Fragment {
 
     String filePath;
-    String fileContent = "hello, t1;test, t2, t3; test, t4;";
+    String fileContent = "";
 
     public static LevelRecyclerFragment set(String filePath) {
         return new LevelRecyclerFragment().withFilePath(filePath);
@@ -21,6 +23,7 @@ public class LevelRecyclerFragment extends Fragment {
 
     public LevelRecyclerFragment withFilePath(String filePath) {
         this.filePath = filePath;
+        this.fileContent = FileWorker.readSmallTxtFile(filePath);
         return this;
     }
 

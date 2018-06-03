@@ -158,4 +158,17 @@ public class StringWorker {
         return true;
     }
 
+    /**
+     * get sub string of a string from the begin to the last occurrence of sign
+     * @param text
+     * @param sign
+     * @return
+     */
+    public static String beginToLastSign(String text, String sign){
+        if (text.contains(sign)){
+            return text.substring(0, text.lastIndexOf(sign));
+        }
+        return "";
+    }
+
 }

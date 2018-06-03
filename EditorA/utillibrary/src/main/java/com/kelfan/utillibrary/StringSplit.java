@@ -2,6 +2,7 @@ package com.kelfan.utillibrary;
 
 import org.w3c.dom.Text;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ public class StringSplit {
     LinkedHashMap<Long, String> listFiltered = new LinkedHashMap<>();
     Object[] positionList;
     Object[] positionFiltered;
+    HashMap<String, String> attributes;
 
     public static StringSplit set(String text) {
         return new StringSplit().withText(text);
