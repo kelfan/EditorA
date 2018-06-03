@@ -35,7 +35,7 @@ public class StringSplit {
         String[] list = this.text.split(delimiter);
         listStr = new LinkedHashMap<>();
         for (String s : list) {
-            Long postion = doPosition();
+            Long postion = doHash(s);
             listStr.put(postion, s);
         }
         return this;
@@ -63,12 +63,9 @@ public class StringSplit {
     }
 
     public static Long doHash(String text) {
-        return text.hashCode() + System.currentTimeMillis();
+        return (long) (text + Math.random()).hashCode();
     }
 
-    public static Long doPosition(){
-        return System.currentTimeMillis();
-    }
 
     public StringSplit syncPositions(){
         positionList = listStr.keySet().toArray();

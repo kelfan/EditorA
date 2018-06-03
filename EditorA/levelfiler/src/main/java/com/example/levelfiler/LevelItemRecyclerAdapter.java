@@ -9,12 +9,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kelfan.utillibrary.ColorWorker;
+import com.kelfan.utillibrary.StringSplit;
 
 
 public class LevelItemRecyclerAdapter extends RecyclerView.Adapter<LevelItemViewHolder> {
 
     String text;
-    String[] data;
+    StringSplit data;
     Context context;
     LayoutInflater inflater;
 
@@ -30,7 +31,7 @@ public class LevelItemRecyclerAdapter extends RecyclerView.Adapter<LevelItemView
 
     public LevelItemRecyclerAdapter withText(String text){
         this.text = text;
-        this.data = text.split(";");
+        this.data = StringSplit.set(text).withDeilimiter(";");
         return this;
     }
 
@@ -42,10 +43,11 @@ public class LevelItemRecyclerAdapter extends RecyclerView.Adapter<LevelItemView
 
     @Override
     public void onBindViewHolder(LevelItemViewHolder holder, int position) {
-        holder.recyclerView.setBackgroundColor(ColorWorker.strToColor(data[position]));
-        holder.textView.setText(data[position]);
+        String txt = data.get(position);
+        holder.recyclerView.setBackgroundColor(ColorWorker.strToColor(txt));
+        holder.textView.setText(txt);
         if (holder.recyclerView.getAdapter() == null){
-            LevelSubRecyclerAdapter levelSubRecyclerAdapter = LevelSubRecyclerAdapter.set(holder.itemView.getContext(), data[position]);
+            LevelSubRecyclerAdapter levelSubRecyclerAdapter = LevelSubRecyclerAdapter.set(holder.itemView.getContext(), txt);
             holder.recyclerView.setAdapter(levelSubRecyclerAdapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(holder.itemView.getContext(), LinearLayoutManager.VERTICAL, false);
             holder.recyclerView.setLayoutManager(linearLayoutManager);
@@ -54,6 +56,6 @@ public class LevelItemRecyclerAdapter extends RecyclerView.Adapter<LevelItemView
 
     @Override
     public int getItemCount() {
-        return data.length;
+        return data.sizeFiltered();
     }
 }
