@@ -1,6 +1,7 @@
 package com.example.levelfiler;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,12 @@ public class LevelItemRecyclerAdapter extends RecyclerView.Adapter<LevelItemView
     @Override
     public void onBindViewHolder(LevelItemViewHolder holder, int position) {
         holder.textView.setText(data[position]);
+        if (holder.recyclerView.getAdapter() == null){
+            LevelSubRecyclerAdapter levelSubRecyclerAdapter = LevelSubRecyclerAdapter.set(holder.itemView.getContext(), data[position]);
+            holder.recyclerView.setAdapter(levelSubRecyclerAdapter);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(holder.itemView.getContext(), LinearLayoutManager.VERTICAL, false);
+            holder.recyclerView.setLayoutManager(linearLayoutManager);
+        }
     }
 
     @Override

@@ -36,4 +36,6 @@ public class LevelRecyclerFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         return view;
     }
+
+
 }

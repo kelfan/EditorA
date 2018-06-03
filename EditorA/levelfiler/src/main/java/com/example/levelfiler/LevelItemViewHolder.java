@@ -7,9 +7,11 @@ import android.widget.TextView;
 public class LevelItemViewHolder extends RecyclerView.ViewHolder{
 
     TextView textView;
+    RecyclerView recyclerView;
 
     public LevelItemViewHolder(View itemView) {
         super(itemView);
         textView = itemView.findViewById(R.id.item_text_view);
+        recyclerView = itemView.findViewById(R.id.item_recycler_view);
     }
 }
