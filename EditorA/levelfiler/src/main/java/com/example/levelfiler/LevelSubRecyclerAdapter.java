@@ -13,6 +13,8 @@ public class LevelSubRecyclerAdapter extends RecyclerView.Adapter<LevelSubViewHo
     StringSplit data;
     Context context;
     LayoutInflater inflater;
+    String style = "line";
+    String delimiter = "\n";
 
     public static LevelSubRecyclerAdapter set(Context context, String text){
         return new LevelSubRecyclerAdapter().withContext(context).withText(text);
@@ -26,13 +28,20 @@ public class LevelSubRecyclerAdapter extends RecyclerView.Adapter<LevelSubViewHo
 
     public LevelSubRecyclerAdapter withText(String text){
         this.text = text;
-        this.data = StringSplit.set(text).withDeilimiter(",");
+        this.data = StringSplit.set(text).withDeilimiter(delimiter);
         return this;
     }
 
     @Override
     public LevelSubViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_view_sub, parent, false);
+        int id = R.layout.item_view_sub;
+        if (style.equals("line")){
+            id = R.layout.item_view_sub_line;
+        }
+        if (style.equals("block")){
+            id = R.layout.item_view_sub_block;
+        }
+        View view = inflater.inflate(id, parent, false);
         return new LevelSubViewHolder(view);
     }
 
