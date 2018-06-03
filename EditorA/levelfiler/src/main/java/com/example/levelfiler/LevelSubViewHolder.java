@@ -10,6 +10,6 @@ public class LevelSubViewHolder extends RecyclerView.ViewHolder {
 
     public LevelSubViewHolder(View itemView) {
         super(itemView);
-        textView = itemView.findViewById(R.id.sub_text_view);
+        textView = itemView.findViewById(R.id.item_content_text_view);
     }
 }
