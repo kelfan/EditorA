@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.kelfan.utillibrary.ColorWorker;
+
 
 public class LevelItemRecyclerAdapter extends RecyclerView.Adapter<LevelItemViewHolder> {
 
@@ -40,6 +42,7 @@ public class LevelItemRecyclerAdapter extends RecyclerView.Adapter<LevelItemView
 
     @Override
     public void onBindViewHolder(LevelItemViewHolder holder, int position) {
+        holder.recyclerView.setBackgroundColor(ColorWorker.strToColor(data[position]));
         holder.textView.setText(data[position]);
         if (holder.recyclerView.getAdapter() == null){
             LevelSubRecyclerAdapter levelSubRecyclerAdapter = LevelSubRecyclerAdapter.set(holder.itemView.getContext(), data[position]);

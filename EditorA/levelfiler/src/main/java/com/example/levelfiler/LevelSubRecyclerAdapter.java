@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.kelfan.utillibrary.StringSplit;
+
 public class LevelSubRecyclerAdapter extends RecyclerView.Adapter<LevelSubViewHolder> {
     String text;
-    String[] data;
+    StringSplit data;
     Context context;
     LayoutInflater inflater;
 
@@ -24,7 +26,7 @@ public class LevelSubRecyclerAdapter extends RecyclerView.Adapter<LevelSubViewHo
 
     public LevelSubRecyclerAdapter withText(String text){
         this.text = text;
-        this.data = text.split(",");
+        this.data = StringSplit.set(text).withDeilimiter(",");
         return this;
     }
 
@@ -36,12 +38,12 @@ public class LevelSubRecyclerAdapter extends RecyclerView.Adapter<LevelSubViewHo
 
     @Override
     public void onBindViewHolder(LevelSubViewHolder holder, int position) {
-        holder.textView.setText(data[position]);
+        holder.textView.setText(data.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return data.length;
+        return data.sizeFiltered();
     }
 
 }
