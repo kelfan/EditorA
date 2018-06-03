@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.levelfiler.LevelRecyclerFragment;
 import com.kelfan.editfiler.EditFilerFragment;
 import com.kelfan.editora.filelist.FilelistAdapter;
 import com.kelfan.filepicker.ActivityFilePicker;
@@ -133,12 +134,12 @@ public class MainActivity extends AppCompatActivity
         setTitle(FileLocal.set(recentFile).fileName);
     }
 
-    public void updateConfig(){
+    public void updateConfig() {
         FileConfiger.writeConfig(FileConfiger.RECENT_OPEN_FILE, currentFilePath);
         FileConfiger.writeConfig(FileConfiger.OPEN_FILE_LIST, StringWorker.listToStringByLine(openFilelist));
     }
 
-    public void doNewFile(String filename){
+    public void doNewFile(String filename) {
         currentFilePath = filename;
         FileConfiger.writeConfig(FileConfiger.RECENT_OPEN_FILE, currentFilePath);
         processFragment(filename);
@@ -152,6 +153,8 @@ public class MainActivity extends AppCompatActivity
 
         } else if (extend.toLowerCase().equals("txt")) {
             mainFragment = new EditFilerFragment().setFilepath(fpath);
+        } else if (extend.toLowerCase().equals("test")) {
+            mainFragment = LevelRecyclerFragment.set(fpath);
         } else {
             mainFragment = new DefaultFragment();
         }
@@ -308,9 +311,9 @@ public class MainActivity extends AppCompatActivity
             public void onClick(DialogInterface dialog, int whichButton) {
                 String value = input.getText().toString();
                 // Do something with value!
-                if (!value.equals("")){
-                    if (FileLocal.set(currentFilePath).rename(value)){
-                        FileLocal f  = FileLocal.set(currentFilePath).setNewFileName(value);
+                if (!value.equals("")) {
+                    if (FileLocal.set(currentFilePath).rename(value)) {
+                        FileLocal f = FileLocal.set(currentFilePath).setNewFileName(value);
                         setTitle(f.fileName);
                         filelistAdapter.removeItem(currentFilePath);
                         filelistAdapter.addItem(f.file.getAbsoluteFile().toString());
@@ -318,7 +321,7 @@ public class MainActivity extends AppCompatActivity
                         currentFilePath = f.file.getAbsolutePath();
                         updateConfig();
                         showSnackbar("Rename success");
-                    }else{
+                    } else {
                         showSnackbar("Rename fail");
                     }
                 }
