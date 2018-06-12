@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.kelfan.utillibrary.FileWorker;
+import com.kelfan.utillibrary.Xmler;
 
 public class LevelRecyclerFragment extends Fragment {
 
@@ -33,8 +34,14 @@ public class LevelRecyclerFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_view, container, false);
         EditText editText = view.findViewById(R.id.fragment_edit_text);
         RecyclerView recyclerView = view.findViewById(R.id.fragment_recycler_view);
-        LevelItemRecyclerAdapter levelItemRecyclerAdapter = LevelItemRecyclerAdapter.set(this.getActivity(), fileContent);
-        recyclerView.setAdapter(levelItemRecyclerAdapter);
+        RecyclerView.Adapter adapter;
+        String style = Xmler.set(fileContent, Constant.style).getContent();
+        if (style.equals(Constant.todo)) {
+            adapter = LevelItemPresetListAdapter.set(this.getActivity(), fileContent);
+        } else {
+            adapter = LevelItemRecyclerAdapter.set(this.getActivity(), fileContent);
+        }
+        recyclerView.setAdapter(adapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         return view;
