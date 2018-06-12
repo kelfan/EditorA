@@ -20,9 +20,8 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> {
     Context context;
     LayoutInflater inflater;
     String delimiter = "\n# ";
-    String titleSign = "/";
-    String[] presetList = {"working", "recent task", "schedule", "waiting", "period", "shopping", "todo", "project"};
-    String[] test={"test"};
+    String[] presetList = {"进行", "最近", "计划", "等待", "周期", "购物", "待做", "项目", "全部"};
+    String[] test = {"test"};
 
     public static ItemPresetAdapter set(Context context, String text) {
         return new ItemPresetAdapter().withContext(context).withText(text);
@@ -49,7 +48,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> {
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        String title = test[position];
+        String title = presetList[position];
         holder.textView.setText(title);
 
 //        String txt = data.get(position);
@@ -64,7 +63,12 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> {
 //
         // process recycler view
         if (holder.recyclerView.getAdapter() == null) {
-            SubRecyclerAdapter levelSubRecyclerAdapter = SubRecyclerAdapter.set(holder.itemView.getContext(), data);
+            SubRecyclerAdapter levelSubRecyclerAdapter;
+            if (title.equals("全部")) {
+                levelSubRecyclerAdapter = SubRecyclerAdapter.set(holder.itemView.getContext(), data);
+            } else {
+                levelSubRecyclerAdapter = SubRecyclerAdapter.set(holder.itemView.getContext(), data.subContain(title + "/"));
+            }
             holder.recyclerView.setAdapter(levelSubRecyclerAdapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(holder.itemView.getContext(), LinearLayoutManager.VERTICAL, false);
             holder.recyclerView.setLayoutManager(linearLayoutManager);
@@ -73,6 +77,6 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> {
 
     @Override
     public int getItemCount() {
-        return test.length;
+        return presetList.length;
     }
 }
