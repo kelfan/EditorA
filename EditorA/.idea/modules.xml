@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/levelfiler/levelfiler.iml" filepath="$PROJECT_DIR$/levelfiler/levelfiler.iml" />
       <module fileurl="file://$PROJECT_DIR$/logfiler/logfiler.iml" filepath="$PROJECT_DIR$/logfiler/logfiler.iml" />
       <module fileurl="file://$PROJECT_DIR$/textfiler/textfiler.iml" filepath="$PROJECT_DIR$/textfiler/textfiler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/todofile/todofile.iml" filepath="$PROJECT_DIR$/todofile/todofile.iml" />
       <module fileurl="file://$PROJECT_DIR$/utillibrary/utillibrary.iml" filepath="$PROJECT_DIR$/utillibrary/utillibrary.iml" />
     </modules>
   </component>

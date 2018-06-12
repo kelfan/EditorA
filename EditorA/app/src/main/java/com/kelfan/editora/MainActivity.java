@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.levelfiler.LevelRecyclerFragment;
+import com.example.todofile.TodoFragment;
 import com.kelfan.editfiler.EditFilerFragment;
 import com.kelfan.editora.filelist.FilelistAdapter;
 import com.kelfan.filepicker.ActivityFilePicker;
@@ -154,7 +155,8 @@ public class MainActivity extends AppCompatActivity
         } else if (extend.toLowerCase().equals("txt")) {
             mainFragment = new EditFilerFragment().setFilepath(fpath);
         } else if (extend.toLowerCase().equals("test")) {
-            mainFragment = LevelRecyclerFragment.set(fpath);
+//            mainFragment = LevelRecyclerFragment.set(fpath);
+            mainFragment = TodoFragment.set(fpath);
         } else {
             mainFragment = new DefaultFragment();
         }

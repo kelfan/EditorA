@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.kelfan.utillibrary.ColorWorker;
 import com.kelfan.utillibrary.StringSplit;
@@ -58,8 +57,8 @@ public class LevelItemRecyclerAdapter extends RecyclerView.Adapter<LevelItemView
 
         // process recycler view
         if (holder.recyclerView.getAdapter() == null){
-            LevelSubRecyclerAdapter levelSubRecyclerAdapter = LevelSubRecyclerAdapter.set(holder.itemView.getContext(), txt);
-            holder.recyclerView.setAdapter(levelSubRecyclerAdapter);
+            LevelSubRecyclerAdapter subRecyclerAdapter = LevelSubRecyclerAdapter.set(holder.itemView.getContext(), txt);
+            holder.recyclerView.setAdapter(subRecyclerAdapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(holder.itemView.getContext(), LinearLayoutManager.VERTICAL, false);
             holder.recyclerView.setLayoutManager(linearLayoutManager);
         }
