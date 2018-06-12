@@ -20,8 +20,14 @@ public class StringHashList {
         return (long) (text + Math.random()).hashCode();
     }
 
-    public StringHashList put(Long key, String value){
+    public StringHashList put(Long key, String value) {
         listStr.put(key, value);
+        sync();
+        return this;
+    }
+
+    public StringHashList add(String s) {
+        listStr.put(doHash(s), s);
         sync();
         return this;
     }
@@ -51,11 +57,11 @@ public class StringHashList {
         return tmp;
     }
 
-    public StringHashList subContain(String filter){
+    public StringHashList subContain(String filter) {
         StringHashList tmp = new StringHashList();
         for (Map.Entry<Long, String> map : listStr.entrySet()) {
             String value = map.getValue();
-            if (value.contains(filter)){
+            if (value.contains(filter)) {
                 tmp.put(map.getKey(), map.getValue());
             }
         }
