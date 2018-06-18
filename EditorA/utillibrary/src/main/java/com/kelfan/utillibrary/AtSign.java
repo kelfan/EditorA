@@ -1,10 +1,10 @@
 package com.kelfan.utillibrary;
 
 public class AtSign {
-    final String pre = "@";
-    final String pos = " ";
-    String sign = "";
-    String content = "";
+    private final String pre = "@";
+    private final String pos = " ";
+    private String sign = "";
+    private String content = "";
     String value = "";
 
     public static AtSign set(String content, String sign){

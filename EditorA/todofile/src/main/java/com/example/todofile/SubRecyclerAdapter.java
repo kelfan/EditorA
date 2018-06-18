@@ -32,12 +32,11 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> {
 
     @Override
     public SubViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        int id = R.layout.item_view_sub;
-        if (style.equals("line")) {
-            id = R.layout.item_view_sub_line;
-        }
+        int id;
         if (style.equals("block")) {
             id = R.layout.item_view_sub_block;
+        }else {
+            id = R.layout.item_view_sub_line;
         }
         View view = inflater.inflate(id, parent, false);
         return new SubViewHolder(view);

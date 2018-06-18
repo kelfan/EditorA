@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.kelfan.utillibrary.AtSign;
 import com.kelfan.utillibrary.ColorWorker;
 import com.kelfan.utillibrary.StringHashList;
 import com.kelfan.utillibrary.StringSplit;
@@ -19,7 +20,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> {
     StringHashList data;
     Context context;
     LayoutInflater inflater;
-    String delimiter = "\n# ";
+    String delimiter = "\n\n# ";
     String[] presetList = {"进行", "最近", "计划", "等待", "周期", "购物", "待做", "项目", "全部"};
     String[] test = {"test"};
 
@@ -69,6 +70,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> {
             } else {
                 levelSubRecyclerAdapter = SubRecyclerAdapter.set(holder.itemView.getContext(), data.subContain(title + "/"));
             }
+            levelSubRecyclerAdapter.style = AtSign.set(text, "style").getValue();
             holder.recyclerView.setAdapter(levelSubRecyclerAdapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(holder.itemView.getContext(), LinearLayoutManager.VERTICAL, false);
             holder.recyclerView.setLayoutManager(linearLayoutManager);
