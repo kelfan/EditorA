@@ -278,12 +278,11 @@ public class FileWorker {
 
     /**
      * function to save string into a file
-     *
-     * @param sFileName filename
+     *  @param sFileName filename
      * @param sBody     string to storage
      * @param mode      0 for append, 1 for write
      */
-    public static int saveFile(String sFileName, String sBody, int mode) {
+    public static boolean saveFile(String sFileName, String sBody, int mode) {
         try {
             File gpxfile = new File(sFileName);
             if (!gpxfile.exists()) {
@@ -306,18 +305,18 @@ public class FileWorker {
             }
             writer.flush();
             writer.close();
-            return RESULT_SUCCESS;
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
-            return RESULT_ERROR;
+            return false;
         }
     }
 
-    public static int writeToFile(String sFileName, String sBody) {
+    public static boolean writeToFile(String sFileName, String sBody) {
         return saveFile(sFileName, sBody, 1);
     }
 
-    public static int appendToFile(String sFileName, String sBody) {
+    public static boolean appendToFile(String sFileName, String sBody) {
         return saveFile(sFileName, sBody, 0);
     }
 

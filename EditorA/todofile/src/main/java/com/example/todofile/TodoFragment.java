@@ -51,7 +51,7 @@ public class TodoFragment extends Fragment {
     }
 
 
-    public int saveNewItem() {
+    public boolean saveNewItem() {
         String text = editText.getText().toString();
         if (currentItem < 0) {
             if (!text.equals("")) {
@@ -63,6 +63,6 @@ public class TodoFragment extends Fragment {
         adapter.notifyDataSetChanged();
         editText.setText("");
         currentItem = -1;
-        return 1;
+        return true;
     }
 }

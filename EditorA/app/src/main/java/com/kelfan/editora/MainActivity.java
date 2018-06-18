@@ -65,12 +65,12 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int actResult = 0;
+                boolean actResult = false;
                 if (mainFragment != null) {
                     if (mainFragment instanceof LogFilerFragment) {
                         logFilerFragment = (LogFilerFragment) mainFragment;
                         logFilerFragment.saveNewItem();
-                        actResult = 1;
+                        actResult = true;
                     }
                     if (mainFragment instanceof EditFilerFragment) {
                         editFilerFragment = (EditFilerFragment) mainFragment;
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
                 String out = "Update File Fail.";
-                if (actResult == 1) {
+                if (actResult) {
                     out = "Update File Success";
                 }
                 Snackbar.make(view, out, Snackbar.LENGTH_LONG)

@@ -6,21 +6,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
-import com.kelfan.utillibrary.FileLocal;
 import com.kelfan.utillibrary.FileWorker;
 import com.kelfan.utillibrary.TimeWorker;
 import com.kelfan.utillibrary.Xmler;
 import com.kelfan.utillibrary.android.TouchHelper;
-
-import java.util.Collections;
 
 public class EditFilerFragment extends Fragment implements TouchHelper.ITouchHelper {
 
@@ -41,7 +36,7 @@ public class EditFilerFragment extends Fragment implements TouchHelper.ITouchHel
         return this;
     }
 
-    public int saveNewItem() {
+    public boolean saveNewItem() {
         String text = editText.getText().toString();
         if (currentItem < 0) {
             if (!text.equals("")) {
@@ -56,16 +51,16 @@ public class EditFilerFragment extends Fragment implements TouchHelper.ITouchHel
             }
             lineRecyclerViewAdapter.setData(text, currentItem);
         }
-        int result = save();
+        boolean result = save();
         lineRecyclerViewAdapter.notifyDataSetChanged();
         editText.setText("");
         currentItem = -1;
         return result;
     }
 
-    public int save() {
+    public boolean save() {
         lineRecyclerViewAdapter.reverse();
-        int result = FileWorker.writeToFile(filepath, lineRecyclerViewAdapter.getDataList().conbine(lineRecyclerViewAdapter.delimiter));
+        boolean result = FileWorker.writeToFile(filepath, lineRecyclerViewAdapter.getDataList().conbine(lineRecyclerViewAdapter.delimiter));
         lineRecyclerViewAdapter.reverse();
         return result;
     }
