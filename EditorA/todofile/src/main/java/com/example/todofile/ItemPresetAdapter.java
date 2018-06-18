@@ -6,14 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.kelfan.utillibrary.AtSign;
-import com.kelfan.utillibrary.ColorWorker;
 import com.kelfan.utillibrary.StringHashList;
-import com.kelfan.utillibrary.StringSplit;
-import com.kelfan.utillibrary.StringWorker;
 
-import java.net.Authenticator;
 
 
 public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> implements View.OnClickListener {
@@ -56,7 +53,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     }
 
     @Override
-    public void onBindViewHolder(ItemViewHolder holder, int position) {
+    public void onBindViewHolder(final ItemViewHolder holder, int position) {
         String title = presetList[position];
         holder.textView.setText(title);
         holder.itemView.setTag(position);

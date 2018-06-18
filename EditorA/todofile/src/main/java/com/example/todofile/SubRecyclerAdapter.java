@@ -6,14 +6,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.kelfan.utillibrary.ColorWorker;
 import com.kelfan.utillibrary.StringHashList;
-import com.kelfan.utillibrary.StringSplit;
 
-public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> {
+public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> implements View.OnClickListener {
     StringHashList data;
     Context context;
     LayoutInflater inflater;
     String style = "line";
+
+    private ItemPresetAdapter.OnItemClickListener onItemClickListener;
+
+    //define interface
+    public static interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
 
     public static SubRecyclerAdapter set(Context context, StringHashList data) {
         return new SubRecyclerAdapter().withContext(context).withText(data);
@@ -35,16 +42,23 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> {
         int id;
         if (style.equals("block")) {
             id = R.layout.item_view_sub_block;
-        }else {
+        } else {
             id = R.layout.item_view_sub_line;
         }
         View view = inflater.inflate(id, parent, false);
+        view.setOnClickListener(this);
         return new SubViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(SubViewHolder holder, int position) {
         holder.textView.setText(data.get(position));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.setBackgroundColor(ColorWorker.BLUE);
+            }
+        });
     }
 
     @Override
@@ -52,4 +66,15 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> {
         return data.size();
     }
 
+    @Override
+    public void onClick(View view) {
+        if (onItemClickListener != null) {
+            //注意这里使用getTag方法获取position
+            onItemClickListener.onItemClick(view, (int) view.getTag());
+        }
+    }
+
+    public void setOnItemClickListener(ItemPresetAdapter.OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
 }
