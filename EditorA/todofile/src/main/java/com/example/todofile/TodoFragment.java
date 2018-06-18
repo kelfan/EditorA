@@ -19,7 +19,7 @@ public class TodoFragment extends Fragment {
     String fileContent = "";
     EditText editText;
     ItemPresetAdapter adapter;
-    int currentItem = -1;
+    Long currentItem = 0L;
 
     public static TodoFragment set(String filePath) {
         return new TodoFragment().withFilePath(filePath);
@@ -60,16 +60,18 @@ public class TodoFragment extends Fragment {
 
     public boolean saveNewItem() {
         String text = editText.getText().toString();
-        if (currentItem < 0) {
+        if (currentItem == 0L) {
             if (!text.equals("")) {
                 adapter.data.add(text);
             }
         } else {
-
+            if (!text.equals("")){
+                adapter.data.put(currentItem, text);
+            }
         }
         adapter.notifyDataSetChanged();
         editText.setText("");
-        currentItem = -1;
+        currentItem = 0L;
         return save();
     }
 

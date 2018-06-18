@@ -36,6 +36,10 @@ public class StringHashList {
         return listStr.get(positionList[position]);
     }
 
+    public Long getKey(int position){
+        return (Long) positionList[position];
+    }
+
     public int size() {
         return listStr.size();
     }

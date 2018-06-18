@@ -6,10 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.kelfan.utillibrary.ColorWorker;
 import com.kelfan.utillibrary.StringHashList;
 
-import java.io.Console;
 
 public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> implements View.OnClickListener {
     StringHashList data;
@@ -60,7 +58,7 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
             public void onClick(View v) {
                 TodoFragment todoFragment = (TodoFragment) Hub.linkedHashMap.get("todoFragment");
                 todoFragment.editText.setText(data.get(position));
-                v.setBackgroundColor(ColorWorker.BLUE);
+                todoFragment.currentItem = data.getKey(position);
             }
         });
     }
