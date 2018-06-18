@@ -14,7 +14,7 @@ import com.kelfan.utillibrary.StringSplit;
 import com.kelfan.utillibrary.StringWorker;
 
 
-public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> {
+public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> implements View.OnClickListener {
 
     String text;
     StringHashList data;
@@ -22,7 +22,12 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> {
     LayoutInflater inflater;
     String delimiter = "\n\n# ";
     String[] presetList = {"进行", "最近", "计划", "等待", "周期", "购物", "待做", "项目", "全部"};
-    String[] test = {"test"};
+    private ItemPresetAdapter.OnItemClickListener onItemClickListener;
+
+    //define interface
+    public static interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
 
     public static ItemPresetAdapter set(Context context, String text) {
         return new ItemPresetAdapter().withContext(context).withText(text);
@@ -44,6 +49,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> {
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.item_view, parent, false);
+        view.setOnClickListener(this);
         return new ItemViewHolder(view);
     }
 
@@ -51,6 +57,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> {
     public void onBindViewHolder(ItemViewHolder holder, int position) {
         String title = presetList[position];
         holder.textView.setText(title);
+        holder.itemView.setTag(position);
 
 //        String txt = data.get(position);
 //        holder.recyclerView.setBackgroundColor(ColorWorker.strToColor(txt));
@@ -89,5 +96,17 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> {
     @Override
     public int getItemCount() {
         return presetList.length;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (onItemClickListener != null) {
+            //注意这里使用getTag方法获取position
+            onItemClickListener.onItemClick(view, (int) view.getTag());
+        }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
     }
 }

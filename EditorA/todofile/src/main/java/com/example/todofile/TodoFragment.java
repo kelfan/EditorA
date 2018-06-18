@@ -44,6 +44,13 @@ public class TodoFragment extends Fragment {
         } else {
             adapter = ItemPresetAdapter.set(this.getActivity(), fileContent);
         }
+        adapter.setOnItemClickListener(new ItemPresetAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                editText.setText(adapter.presetList[position].concat("/ "));
+                editText.setSelection(editText.getText().length());
+            }
+        });
         recyclerView.setAdapter(adapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
