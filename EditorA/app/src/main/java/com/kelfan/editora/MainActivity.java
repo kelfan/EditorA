@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity
     private FilelistAdapter filelistAdapter;
     private LogFilerFragment logFilerFragment = null;
     private EditFilerFragment editFilerFragment = null;
+    private TodoFragment todoFragment = null;
     private Fragment mainFragment = null;
     private String currentFilePath = "";
     private DrawerLayout drawer;
@@ -74,6 +75,10 @@ public class MainActivity extends AppCompatActivity
                     if (mainFragment instanceof EditFilerFragment) {
                         editFilerFragment = (EditFilerFragment) mainFragment;
                         actResult = editFilerFragment.saveNewItem();
+                    }
+                    if (mainFragment instanceof TodoFragment) {
+                        todoFragment = (TodoFragment) mainFragment;
+                        actResult = todoFragment.saveNewItem();
                     }
                 }
                 String out = "Update File Fail.";

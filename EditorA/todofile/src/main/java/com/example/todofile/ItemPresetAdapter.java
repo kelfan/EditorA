@@ -72,6 +72,15 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> {
             holder.recyclerView.setAdapter(levelSubRecyclerAdapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(holder.itemView.getContext(), LinearLayoutManager.VERTICAL, false);
             holder.recyclerView.setLayoutManager(linearLayoutManager);
+        }else {
+            SubRecyclerAdapter levelSubRecyclerAdapter= (SubRecyclerAdapter) holder.recyclerView.getAdapter();
+            if (title.equals("全部")) {
+                levelSubRecyclerAdapter.data = data;
+            } else {
+                levelSubRecyclerAdapter.data = data.subContain(title + "/");
+            }
+
+            levelSubRecyclerAdapter.notifyDataSetChanged();
         }
     }
 

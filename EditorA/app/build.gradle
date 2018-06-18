@@ -32,5 +32,5 @@ dependencies {
     implementation project(path: ':utillibrary')
     implementation project(path: ':editfiler')
     implementation project(path: ':levelfiler')
-    compile project(path: ':todofile')
+    implementation project(path: ':todofile')
 }

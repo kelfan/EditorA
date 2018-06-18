@@ -11,12 +11,16 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.kelfan.utillibrary.FileWorker;
+import com.kelfan.utillibrary.TimeWorker;
 import com.kelfan.utillibrary.Xmler;
 
 public class TodoFragment extends Fragment {
 
     String filePath;
     String fileContent = "";
+    EditText editText;
+    ItemPresetAdapter adapter;
+    private int currentItem = -1;
 
     public static TodoFragment set(String filePath) {
         return new TodoFragment().withFilePath(filePath);
@@ -32,9 +36,8 @@ public class TodoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_view, container, false);
-        EditText editText = view.findViewById(R.id.fragment_edit_text);
+        editText = view.findViewById(R.id.fragment_edit_text);
         RecyclerView recyclerView = view.findViewById(R.id.fragment_recycler_view);
-        RecyclerView.Adapter adapter;
         String style = Xmler.set(fileContent, Constant.style).getContent();
         if (style.equals(Constant.todo)) {
             adapter = ItemPresetAdapter.set(this.getActivity(), fileContent);
@@ -48,4 +51,18 @@ public class TodoFragment extends Fragment {
     }
 
 
+    public int saveNewItem() {
+        String text = editText.getText().toString();
+        if (currentItem < 0) {
+            if (!text.equals("")) {
+                adapter.data.add(text);
+            }
+        } else {
+
+        }
+        adapter.notifyDataSetChanged();
+        editText.setText("");
+        currentItem = -1;
+        return 1;
+    }
 }
