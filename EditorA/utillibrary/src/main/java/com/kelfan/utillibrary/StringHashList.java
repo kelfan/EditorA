@@ -67,4 +67,14 @@ public class StringHashList {
         }
         return tmp;
     }
+
+    public String combine(String delimiter) {
+        String out = "";
+        for (Map.Entry<Long, String> map : listStr.entrySet()) {
+            String value = map.getValue();
+            out += value + delimiter;
+        }
+        out = out.substring(0, out.length() - delimiter.length());
+        return out;
+    }
 }

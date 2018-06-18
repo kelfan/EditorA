@@ -63,6 +63,12 @@ public class TodoFragment extends Fragment {
         adapter.notifyDataSetChanged();
         editText.setText("");
         currentItem = -1;
-        return true;
+        return save();
     }
+
+    public boolean save() {
+        boolean result = FileWorker.writeToFile(filePath, adapter.data.combine(adapter.delimiter));
+        return result;
+    }
+
 }
