@@ -13,6 +13,8 @@ import com.kelfan.utillibrary.StringHashList;
 import com.kelfan.utillibrary.StringSplit;
 import com.kelfan.utillibrary.StringWorker;
 
+import java.net.Authenticator;
+
 
 public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> implements View.OnClickListener {
 
@@ -70,8 +72,8 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
 //        holder.textView.setText(title);
 //
         // process recycler view
+        SubRecyclerAdapter levelSubRecyclerAdapter;
         if (holder.recyclerView.getAdapter() == null) {
-            SubRecyclerAdapter levelSubRecyclerAdapter;
             if (title.equals("全部")) {
                 levelSubRecyclerAdapter = SubRecyclerAdapter.set(holder.itemView.getContext(), data);
             } else {
@@ -81,8 +83,8 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
             holder.recyclerView.setAdapter(levelSubRecyclerAdapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(holder.itemView.getContext(), LinearLayoutManager.VERTICAL, false);
             holder.recyclerView.setLayoutManager(linearLayoutManager);
-        }else {
-            SubRecyclerAdapter levelSubRecyclerAdapter= (SubRecyclerAdapter) holder.recyclerView.getAdapter();
+        } else {
+            levelSubRecyclerAdapter = (SubRecyclerAdapter) holder.recyclerView.getAdapter();
             if (title.equals("全部")) {
                 levelSubRecyclerAdapter.data = data;
             } else {
@@ -90,6 +92,11 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
             }
 
             levelSubRecyclerAdapter.notifyDataSetChanged();
+        }
+        if (levelSubRecyclerAdapter.data.size() == 0) {
+            holder.textView.setVisibility(View.GONE);
+        } else {
+            holder.textView.setVisibility(View.VISIBLE);
         }
     }
 
