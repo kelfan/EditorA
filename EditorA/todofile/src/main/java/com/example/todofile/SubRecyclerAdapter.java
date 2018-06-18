@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import com.kelfan.utillibrary.ColorWorker;
 import com.kelfan.utillibrary.StringHashList;
 
+import java.io.Console;
+
 public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> implements View.OnClickListener {
     StringHashList data;
     Context context;
@@ -51,11 +53,13 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
     }
 
     @Override
-    public void onBindViewHolder(SubViewHolder holder, int position) {
+    public void onBindViewHolder(SubViewHolder holder, final int position) {
         holder.textView.setText(data.get(position));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                TodoFragment todoFragment = (TodoFragment) Hub.linkedHashMap.get("todoFragment");
+                todoFragment.editText.setText(data.get(position));
                 v.setBackgroundColor(ColorWorker.BLUE);
             }
         });

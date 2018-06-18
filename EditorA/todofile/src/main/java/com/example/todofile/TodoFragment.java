@@ -19,7 +19,7 @@ public class TodoFragment extends Fragment {
     String fileContent = "";
     EditText editText;
     ItemPresetAdapter adapter;
-    private int currentItem = -1;
+    int currentItem = -1;
 
     public static TodoFragment set(String filePath) {
         return new TodoFragment().withFilePath(filePath);
@@ -53,6 +53,7 @@ public class TodoFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
+        Hub.linkedHashMap.put("todoFragment", this);
         return view;
     }
 
