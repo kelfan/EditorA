@@ -17,12 +17,13 @@ import com.kelfan.utillibrary.Xmler;
 public class TodoFragment extends Fragment {
 
     Long DEFAULT_CURRENT_ITEM = 0L;
+    public static String MEMBER_NAME = "todoFragment";
 
     String filePath;
+    ItemPresetAdapter adapter;
     String fileContent = "";
     EditText editText;
-    ItemPresetAdapter adapter;
-    Long currentItem = 0L;
+    Long currentItem = DEFAULT_CURRENT_ITEM;
 
     public static TodoFragment set(String filePath) {
         return new TodoFragment().withFilePath(filePath);
@@ -44,7 +45,7 @@ public class TodoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 editText.setText("");
-                currentItem = 0L;
+                currentItem = DEFAULT_CURRENT_ITEM;
             }
         });
 
@@ -66,14 +67,14 @@ public class TodoFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        Hub.linkedHashMap.put("todoFragment", this);
+        Hub.linkedHashMap.put(MEMBER_NAME, this);
         return view;
     }
 
 
     public boolean saveNewItem() {
         String text = editText.getText().toString();
-        if (currentItem == 0L) {
+        if (currentItem == DEFAULT_CURRENT_ITEM) {
             if (!text.equals("")) {
                 adapter.data.add(text);
             }
@@ -84,7 +85,7 @@ public class TodoFragment extends Fragment {
         }
         adapter.notifyDataSetChanged();
         editText.setText("");
-        currentItem = 0L;
+        currentItem = DEFAULT_CURRENT_ITEM;
         return save();
     }
 

@@ -56,7 +56,7 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TodoFragment todoFragment = (TodoFragment) Hub.linkedHashMap.get("todoFragment");
+                TodoFragment todoFragment = (TodoFragment) Hub.linkedHashMap.get(TodoFragment.MEMBER_NAME);
                 todoFragment.editText.setText(data.get(position));
                 todoFragment.currentItem = data.getKey(position);
             }
