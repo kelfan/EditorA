@@ -2,6 +2,7 @@ package com.kelfan.utillibrary;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -25,7 +26,7 @@ public class RegexWorker {
     }
 
     public static Set<String> matchAllSet(String text, String pattern) {
-        Set<String> allMatches = new HashSet<String>();;
+        Set<String> allMatches = new LinkedHashSet<String>();;
         Matcher m = Pattern.compile(pattern).matcher(text);
         while (m.find()) {
             allMatches.add(m.group());

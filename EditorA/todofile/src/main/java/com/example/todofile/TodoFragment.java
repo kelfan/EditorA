@@ -9,11 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.kelfan.utillibrary.FileWorker;
 import com.kelfan.utillibrary.Xmler;
 
 public class TodoFragment extends Fragment {
+
+    Long DEFAULT_CURRENT_ITEM = 0L;
 
     String filePath;
     String fileContent = "";
@@ -35,6 +38,16 @@ public class TodoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_view, container, false);
+        // add
+        ImageButton imageButton = view.findViewById(R.id.fragment_image_button);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editText.setText("");
+                currentItem = 0L;
+            }
+        });
+
         editText = view.findViewById(R.id.fragment_edit_text);
         RecyclerView recyclerView = view.findViewById(R.id.fragment_recycler_view);
         String style = Xmler.set(fileContent, Constant.style).getContent();
@@ -46,7 +59,7 @@ public class TodoFragment extends Fragment {
         adapter.setOnItemClickListener(new ItemPresetAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                editText.setText(adapter.presetList[position].concat("/ "));
+                editText.setText(adapter.presetList[position]);
                 editText.setSelection(editText.getText().length());
             }
         });
@@ -65,7 +78,7 @@ public class TodoFragment extends Fragment {
                 adapter.data.add(text);
             }
         } else {
-            if (!text.equals("")){
+            if (!text.equals("")) {
                 adapter.data.put(currentItem, text);
             }
         }

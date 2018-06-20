@@ -9,11 +9,17 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.kelfan.utillibrary.AtSign;
+import com.kelfan.utillibrary.RegexWorker;
 import com.kelfan.utillibrary.StringHashList;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Set;
 
 
 public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> implements View.OnClickListener {
+
+    String ALL_ITEMS = "All/";
 
     String text;
     StringHashList data;
@@ -29,7 +35,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     }
 
     public static ItemPresetAdapter set(Context context, String text) {
-        return new ItemPresetAdapter().withContext(context).withText(text);
+        return new ItemPresetAdapter().withContext(context).withText(text).doTitleList();
     }
 
     public ItemPresetAdapter withContext(Context context) {
@@ -45,6 +51,13 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         return this;
     }
 
+    public ItemPresetAdapter doTitleList(){
+        Set<String> l = RegexWorker.matchAllSet(text, "# (.*)/");
+        l.add(ALL_ITEMS);
+        this.presetList = l.toArray(new String[l.size()]);
+        return this;
+    }
+
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.item_view, parent, false);
@@ -54,7 +67,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
 
     @Override
     public void onBindViewHolder(final ItemViewHolder holder, int position) {
-        String title = presetList[position];
+        String title = presetList[position].replace("# ", "");
         holder.textView.setText(title);
         holder.itemView.setTag(position);
 
@@ -71,10 +84,10 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         // process recycler view
         SubRecyclerAdapter levelSubRecyclerAdapter;
         if (holder.recyclerView.getAdapter() == null) {
-            if (title.equals("全部")) {
+            if (title.equals(ALL_ITEMS)) {
                 levelSubRecyclerAdapter = SubRecyclerAdapter.set(holder.itemView.getContext(), data);
             } else {
-                levelSubRecyclerAdapter = SubRecyclerAdapter.set(holder.itemView.getContext(), data.subContain(title + "/"));
+                levelSubRecyclerAdapter = SubRecyclerAdapter.set(holder.itemView.getContext(), data.subContain(title));
             }
             levelSubRecyclerAdapter.style = AtSign.set(text, "style").getValue();
             holder.recyclerView.setAdapter(levelSubRecyclerAdapter);
@@ -82,10 +95,10 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
             holder.recyclerView.setLayoutManager(linearLayoutManager);
         } else {
             levelSubRecyclerAdapter = (SubRecyclerAdapter) holder.recyclerView.getAdapter();
-            if (title.equals("全部")) {
+            if (title.equals(ALL_ITEMS)) {
                 levelSubRecyclerAdapter.data = data;
             } else {
-                levelSubRecyclerAdapter.data = data.subContain(title + "/");
+                levelSubRecyclerAdapter.data = data.subContain(title);
             }
 
             levelSubRecyclerAdapter.notifyDataSetChanged();
