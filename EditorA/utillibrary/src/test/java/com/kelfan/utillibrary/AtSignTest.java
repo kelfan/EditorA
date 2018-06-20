@@ -15,5 +15,6 @@ public class AtSignTest {
         String s = "then test @test_123 11124 111";
         AtSign a = AtSign.set(s, "test");
         assertEquals("123", a.value);
+        assertEquals("then test 11124 111", a.remain);
     }
 }

@@ -5,24 +5,26 @@ public class AtSign {
     private final String pos = " ";
     private String sign = "";
     private String content = "";
+    String remain = "";
     String value = "";
 
-    public static AtSign set(String content, String sign){
+
+    public static AtSign set(String content, String sign) {
         AtSign atSign = new AtSign().withSign(sign).withContent(content).auto();
         return atSign;
     }
 
-    public AtSign withSign(String sign){
+    public AtSign withSign(String sign) {
         this.sign = sign;
         return this;
     }
 
-    public AtSign withContent(String content){
+    public AtSign withContent(String content) {
         this.content = content;
         return this;
     }
 
-    AtSign auto(){
+    AtSign auto() {
         doValue();
         return this;
     }
@@ -37,6 +39,7 @@ public class AtSign {
             }
             value = content.substring(start + sign.length(), end);
         }
+        remain = content.replace(sign + value + " ", "");
         return this;
     }
 
