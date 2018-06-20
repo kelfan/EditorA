@@ -1,7 +1,9 @@
 package com.kelfan.utillibrary;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,6 +17,15 @@ public class RegexWorker {
      */
     public static List<String> matchAll(String text, String pattern) {
         List<String> allMatches = new ArrayList<String>();
+        Matcher m = Pattern.compile(pattern).matcher(text);
+        while (m.find()) {
+            allMatches.add(m.group());
+        }
+        return allMatches;
+    }
+
+    public static Set<String> matchAllSet(String text, String pattern) {
+        Set<String> allMatches = new HashSet<String>();;
         Matcher m = Pattern.compile(pattern).matcher(text);
         while (m.find()) {
             allMatches.add(m.group());
