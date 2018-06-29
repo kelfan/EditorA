@@ -78,6 +78,7 @@ public class TodoFragment extends Fragment {
 
     public boolean saveNewItem() {
         String text = editText.getText().toString();
+        text = Replacer.replaceText(text);
         if (currentItem == DEFAULT_CURRENT_ITEM) {
             if (!text.equals("")) {
                 adapter.data.add(text);
