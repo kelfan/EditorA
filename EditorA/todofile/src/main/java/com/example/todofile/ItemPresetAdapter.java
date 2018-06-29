@@ -27,7 +27,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     Context context;
     LayoutInflater inflater;
     String delimiter = "\n\n# ";
-    String[] presetList = {"进行", "最近", "计划", "等待", "周期", "购物", "待做", "项目", "全部"};
+    String[] presetList = {};
     private ItemPresetAdapter.OnItemClickListener onItemClickListener;
 
     //define interface
@@ -52,10 +52,17 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         return this;
     }
 
+    public ItemPresetAdapter doStyle() {
+        this.presetList = new String[]{"进行", "最近", "计划", "等待", "周期", "购物", "待做", "项目", "全部", ALL_ITEMS};
+        return this;
+    }
+
     public ItemPresetAdapter doTitleList() {
-        Set<String> l = RegexWorker.matchAllSet(text, "# (.*)/");
-        l.add(ALL_ITEMS);
-        this.presetList = l.toArray(new String[l.size()]);
+        if (this.presetList.length == 0) {
+            Set<String> l = RegexWorker.matchAllSet(text, "# (.*)/");
+            l.add(ALL_ITEMS);
+            this.presetList = l.toArray(new String[l.size()]);
+        }
         return this;
     }
 
@@ -109,7 +116,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         }
         if (!levelSubRecyclerAdapter.hasTouchHelper) {
             TouchHelper.newHelper(holder.recyclerView, levelSubRecyclerAdapter);
-        }else{
+        } else {
 
         }
     }
