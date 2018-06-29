@@ -123,6 +123,24 @@ public class StringHashList {
         syncFromPosition();
     }
 
+    public void swapByKey(Long key1, Long key2) {
+        int counter = 0;
+        int i = -1, j = -1;
+        for (Object p : positionList) {
+            Long l = (Long) p;
+            if (l == key1) {
+                i = counter;
+            }
+            if (l == key2) {
+                j = counter;
+            }
+            counter++;
+        }
+        if (i != -1 && j != -1) {
+            swap(i, j);
+        }
+    }
+
     public void remove(int position) {
         listStr.remove(positionList[position]);
         sync();
