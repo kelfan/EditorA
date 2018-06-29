@@ -68,7 +68,7 @@ public class TodoFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        Hub.linkedHashMap.put(MEMBER_NAME, this);
+        Hub.linkedHashMap.put(Hub.mainFragment, this);
         return view;
     }
 
