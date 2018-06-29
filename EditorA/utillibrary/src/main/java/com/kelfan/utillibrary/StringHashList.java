@@ -71,6 +71,19 @@ public class StringHashList {
         return tmp;
     }
 
+    public StringHashList notContain(String filter) {
+        StringHashList tmp = new StringHashList();
+        for (Map.Entry<Long, String> map : listStr.entrySet()) {
+            String value = map.getValue();
+            if (value.contains(filter)) {
+                continue;
+            }
+            tmp.put(map.getKey(), map.getValue());
+        }
+        return tmp;
+    }
+
+
     public StringHashList subContain(String filter) {
         StringHashList tmp = new StringHashList();
         for (Map.Entry<Long, String> map : listStr.entrySet()) {

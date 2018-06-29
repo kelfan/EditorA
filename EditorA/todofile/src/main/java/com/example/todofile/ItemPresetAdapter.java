@@ -20,6 +20,7 @@ import java.util.Set;
 public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> implements View.OnClickListener {
 
     String ALL_ITEMS = "All/";
+    String OTHER_ITEMS = "Others/";
 
     String text;
     StringHashList data;
@@ -107,7 +108,9 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
             holder.textView.setVisibility(View.VISIBLE);
         }
         if (!levelSubRecyclerAdapter.hasTouchHelper) {
-            TouchHelper.newHelper(holder.recyclerView, itemData);
+            TouchHelper.newHelper(holder.recyclerView, levelSubRecyclerAdapter);
+        }else{
+
         }
     }
 
