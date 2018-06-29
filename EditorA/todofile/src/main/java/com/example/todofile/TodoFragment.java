@@ -17,7 +17,6 @@ import com.kelfan.utillibrary.Xmler;
 public class TodoFragment extends Fragment {
 
     Long DEFAULT_CURRENT_ITEM = 0L;
-    public static String MEMBER_NAME = "todoFragment";
 
     String filePath;
     ItemPresetAdapter adapter;
@@ -61,7 +60,11 @@ public class TodoFragment extends Fragment {
         adapter.setOnItemClickListener(new ItemPresetAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                editText.setText(adapter.presetList[position]);
+                String title = adapter.presetList[position];
+                if (!title.contains("/")) {
+                    title += "/ ";
+                }
+                editText.setText(title);
                 editText.setSelection(editText.getText().length());
             }
         });
@@ -91,6 +94,7 @@ public class TodoFragment extends Fragment {
     }
 
     public boolean save() {
+        // todo extra \n in save files
         boolean result = FileWorker.writeToFile(filePath, adapter.data.combine(adapter.delimiter));
         return result;
     }
