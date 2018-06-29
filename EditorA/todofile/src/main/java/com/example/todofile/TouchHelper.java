@@ -51,6 +51,8 @@ public class TouchHelper {
                     if (recyclerView.getTag().equals(moveFlag)) {
                         ItemPresetAdapter r = (ItemPresetAdapter) Hub.linkedHashMap.get(Hub.mainRecyclerAdapter);
                         r.notifyDataSetChanged();
+                        TodoFragment todoFragment = (TodoFragment) Hub.linkedHashMap.get(Hub.mainFragment);
+                        todoFragment.save();
                         recyclerView.setTag(emptyFlag);
                     }
                 }
