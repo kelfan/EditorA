@@ -28,7 +28,6 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     LayoutInflater inflater;
     String delimiter = "\n\n# ";
     String[] presetList = {};
-    String style = "todo";
     private ItemPresetAdapter.OnItemClickListener onItemClickListener;
 
     //define interface
@@ -37,6 +36,9 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     }
 
     public static ItemPresetAdapter set(Context context, String text) {
+        if (text.length() > 1) {
+            text = text.substring(0, text.length() - 1);
+        }
         return new ItemPresetAdapter().withContext(context).withText(text).doStyle().doTitleList();
     }
 
@@ -50,7 +52,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         this.text = text;
         if (text.equals("")) {
             this.data = new StringHashList();
-        }else {
+        } else {
             String[] list = text.split(delimiter);
             this.data = StringHashList.set(list);
         }
@@ -58,8 +60,10 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     }
 
     public ItemPresetAdapter doStyle() {
-        if (style == "todo") {
-            this.presetList = new String[]{"进行", "最近", "计划", "等待", "周期", "购物", "待做", "项目", "全部", ALL_ITEMS};
+        AtSign atSign = AtSign.set(text, "style");
+        String style = atSign.getValue();
+        if (style.equals("todo")) {
+            this.presetList = new String[]{"进行/", "最近/", "计划/", "等待/", "周期/", "购物/", "待做/", "项目", ALL_ITEMS};
         }
         return this;
     }
