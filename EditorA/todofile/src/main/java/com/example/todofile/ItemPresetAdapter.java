@@ -51,7 +51,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         return this;
     }
 
-    public ItemPresetAdapter doTitleList(){
+    public ItemPresetAdapter doTitleList() {
         Set<String> l = RegexWorker.matchAllSet(text, "# (.*)/");
         l.add(ALL_ITEMS);
         this.presetList = l.toArray(new String[l.size()]);
@@ -62,6 +62,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.item_view, parent, false);
         view.setOnClickListener(this);
+        Hub.linkedHashMap.put(Hub.mainData, this.data);
         return new ItemViewHolder(view);
     }
 
@@ -83,30 +84,30 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
 //
         // process recycler view
         SubRecyclerAdapter levelSubRecyclerAdapter;
+        StringHashList itemData;
+        if (title.equals(ALL_ITEMS)) {
+            itemData = data;
+        } else {
+            itemData = data.subContain(title);
+        }
         if (holder.recyclerView.getAdapter() == null) {
-            if (title.equals(ALL_ITEMS)) {
-                levelSubRecyclerAdapter = SubRecyclerAdapter.set(holder.itemView.getContext(), data);
-            } else {
-                levelSubRecyclerAdapter = SubRecyclerAdapter.set(holder.itemView.getContext(), data.subContain(title));
-            }
+            levelSubRecyclerAdapter = SubRecyclerAdapter.set(holder.itemView.getContext(), itemData);
             levelSubRecyclerAdapter.style = AtSign.set(text, "style").getValue();
             holder.recyclerView.setAdapter(levelSubRecyclerAdapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(holder.itemView.getContext(), LinearLayoutManager.VERTICAL, false);
             holder.recyclerView.setLayoutManager(linearLayoutManager);
         } else {
             levelSubRecyclerAdapter = (SubRecyclerAdapter) holder.recyclerView.getAdapter();
-            if (title.equals(ALL_ITEMS)) {
-                levelSubRecyclerAdapter.data = data;
-            } else {
-                levelSubRecyclerAdapter.data = data.subContain(title);
-            }
-
+            levelSubRecyclerAdapter.data = itemData;
             levelSubRecyclerAdapter.notifyDataSetChanged();
         }
         if (levelSubRecyclerAdapter.data.size() == 0) {
             holder.textView.setVisibility(View.GONE);
         } else {
             holder.textView.setVisibility(View.VISIBLE);
+        }
+        if (!levelSubRecyclerAdapter.hasTouchHelper) {
+            TouchHelper.newHelper(holder.recyclerView, itemData);
         }
     }
 

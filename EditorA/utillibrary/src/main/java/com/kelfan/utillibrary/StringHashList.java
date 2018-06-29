@@ -1,5 +1,6 @@
 package com.kelfan.utillibrary;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -9,6 +10,15 @@ public class StringHashList {
 
     public StringHashList sync() {
         positionList = listStr.keySet().toArray();
+        return this;
+    }
+
+    public StringHashList syncFromPosition() {
+        LinkedHashMap<Long, String> tmp = new LinkedHashMap<>();
+        for (Object l : positionList) {
+            tmp.put((Long) l, listStr.get(l));
+        }
+        listStr = tmp;
         return this;
     }
 
@@ -36,7 +46,7 @@ public class StringHashList {
         return listStr.get(positionList[position]);
     }
 
-    public Long getKey(int position){
+    public Long getKey(int position) {
         return (Long) positionList[position];
     }
 
@@ -72,6 +82,17 @@ public class StringHashList {
         return tmp;
     }
 
+    public ArrayList<Long> subContainKeys(String filter) {
+        ArrayList<Long> tmp = new ArrayList<Long>();
+        for (Map.Entry<Long, String> map : listStr.entrySet()) {
+            String value = map.getValue();
+            if (value.contains(filter)) {
+                tmp.add(map.getKey());
+            }
+        }
+        return tmp;
+    }
+
     public String combine(String delimiter) {
         String out = "";
         for (Map.Entry<Long, String> map : listStr.entrySet()) {
@@ -81,4 +102,24 @@ public class StringHashList {
         out = out.substring(0, out.length() - delimiter.length());
         return out;
     }
+
+    public void swap(int i, int j) {
+        Object tmp = positionList[i];
+        positionList[i] = positionList[j];
+        positionList[j] = tmp;
+        syncFromPosition();
+    }
+
+    public void remove(int position) {
+        listStr.remove(positionList[position]);
+        sync();
+    }
+
+    public void removeByKey(Long index) {
+//        if (listStr.containsKey(index)) {
+        listStr.remove(index);
+//        }
+        sync();
+    }
+
 }

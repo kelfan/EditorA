@@ -57,6 +57,7 @@ public class TodoFragment extends Fragment {
         } else {
             adapter = ItemPresetAdapter.set(this.getActivity(), fileContent);
         }
+        Hub.linkedHashMap.put(Hub.mainRecyclerAdapter, adapter);
         adapter.setOnItemClickListener(new ItemPresetAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

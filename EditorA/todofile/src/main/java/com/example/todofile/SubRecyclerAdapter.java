@@ -14,6 +14,7 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
     Context context;
     LayoutInflater inflater;
     String style = "line";
+    public boolean hasTouchHelper = false;
 
     private ItemPresetAdapter.OnItemClickListener onItemClickListener;
 
