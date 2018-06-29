@@ -48,13 +48,17 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
 
     public ItemPresetAdapter withText(String text) {
         this.text = text;
-        String[] list = text.split(delimiter);
-        this.data = StringHashList.set(list);
+        if (text.equals("")) {
+            this.data = new StringHashList();
+        }else {
+            String[] list = text.split(delimiter);
+            this.data = StringHashList.set(list);
+        }
         return this;
     }
 
     public ItemPresetAdapter doStyle() {
-        if (style == "todo"){
+        if (style == "todo") {
             this.presetList = new String[]{"进行", "最近", "计划", "等待", "周期", "购物", "待做", "项目", "全部", ALL_ITEMS};
         }
         return this;
@@ -119,8 +123,6 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         }
         if (!levelSubRecyclerAdapter.hasTouchHelper) {
             TouchHelper.newHelper(holder.recyclerView, levelSubRecyclerAdapter);
-        } else {
-
         }
     }
 

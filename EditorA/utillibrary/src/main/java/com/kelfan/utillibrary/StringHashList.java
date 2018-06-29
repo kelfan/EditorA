@@ -112,6 +112,9 @@ public class StringHashList {
             String value = map.getValue();
             out += value + delimiter;
         }
+        if (out.equals("")) {
+            return out;
+        }
         out = out.substring(0, out.length() - delimiter.length());
         return out;
     }
