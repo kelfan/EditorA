@@ -14,6 +14,7 @@ import com.kelfan.utillibrary.StringHashList;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -146,4 +147,5 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;
     }
+
 }

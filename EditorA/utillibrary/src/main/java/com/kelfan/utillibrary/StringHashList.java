@@ -1,6 +1,8 @@
 package com.kelfan.utillibrary;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -44,6 +46,10 @@ public class StringHashList {
 
     public String get(int position) {
         return listStr.get(positionList[position]);
+    }
+
+    public String get(Long key) {
+        return listStr.get(key);
     }
 
     public Long getKey(int position) {
@@ -154,6 +160,28 @@ public class StringHashList {
         listStr.remove(index);
 //        }
         sync();
+    }
+
+    public LinkedHashMap<Long, String> getValues() {
+        return listStr;
+    }
+
+    public void sort() {
+        ArrayList<String> strings = new ArrayList<>();
+        for (Long key : listStr.keySet()) {
+            strings.add(listStr.get(key));
+        }
+        Collections.sort(strings);
+        LinkedHashMap<Long, String> temp = new LinkedHashMap<>();
+        for (String s : strings) {
+            temp.put(doHash(s), s);
+        }
+        listStr = temp;
+        sync();
+    }
+
+    public void sort(String sign){
+        
     }
 
 }

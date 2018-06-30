@@ -283,6 +283,9 @@ public class MainActivity extends AppCompatActivity
             if (mainFragment instanceof EditFilerFragment) {
                 editFilerFragment = (EditFilerFragment) mainFragment;
             }
+            if (mainFragment instanceof TodoFragment){
+                todoFragment = (TodoFragment) mainFragment;
+            }
         }
     }
 
@@ -292,6 +295,9 @@ public class MainActivity extends AppCompatActivity
         if (cId == R.id.sort_menu) {
             if (editFilerFragment != null) {
                 editFilerFragment.sort();
+            }
+            if (todoFragment != null){
+                todoFragment.sort();
             }
         } else if (cId == R.id.action_rename) {
             getUserInput(FileLocal.set(currentFilePath).fileName);
