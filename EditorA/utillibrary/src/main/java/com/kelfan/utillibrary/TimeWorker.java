@@ -1,7 +1,6 @@
 package com.kelfan.utillibrary;
 
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -10,6 +9,13 @@ import java.util.Date;
  */
 
 public class TimeWorker {
+    public static final String DAYWEEKFORMAT = "MM-dd EEE";
+    public static final String SHORT_DATE_FORMAT = "yyyy-MM-dd_Z";
+
+
+    public static Date getNow(){
+        return new Date();
+    }
 
     public static String getDate() {
         return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
@@ -19,7 +25,13 @@ public class TimeWorker {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     }
 
-    public static String getNextWeekday(int weekday) {
+    public static String getNextWeekdayStr(int weekday) {
+        Date date = getNextWeekday(weekday);
+        String format = new SimpleDateFormat(DAYWEEKFORMAT).format(date);
+        return format;
+    }
+
+    public static Date getNextWeekday(int weekday) {
         Calendar now = Calendar.getInstance();
         int cWeekday = now.get(Calendar.DAY_OF_WEEK);
         int difference = weekday - cWeekday;
@@ -27,22 +39,27 @@ public class TimeWorker {
             difference += 7;
         }
         now.add(Calendar.DAY_OF_YEAR, difference);
-        Date date = now.getTime();
-        String format = new SimpleDateFormat(UtilConstant.DAYWEEKFORMAT).format(date);
+        return now.getTime();
+    }
+
+    public static String getNextDayStr(int days) {
+        Date date = getNextDay(days);
+        String format = new SimpleDateFormat(DAYWEEKFORMAT).format(date);
         return format;
     }
 
-
-    public static String getNextDay(int days) {
+    public static Date getNextDay(int days) {
         Calendar now = Calendar.getInstance();
         now.add(Calendar.DAY_OF_YEAR, days);
-        Date date = now.getTime();
-        String format = new SimpleDateFormat(UtilConstant.DAYWEEKFORMAT).format(date);
-        return format;
+        return now.getTime();
     }
 
-    public static String getLocalTime(){
+    public static String getLocalTime() {
         return new Date().toString();
+    }
+
+    public static String formatDate(String format, Date date) {
+        return new SimpleDateFormat(format).format(date);
     }
 
 }
