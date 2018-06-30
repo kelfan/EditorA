@@ -17,6 +17,10 @@ public class TimeWorker {
         return new Date();
     }
 
+    public static String getDate(String format) {
+        return new SimpleDateFormat(format).format(new Date());
+    }
+
     public static String getDate() {
         return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
     }
@@ -29,6 +33,11 @@ public class TimeWorker {
         Date date = getNextWeekday(weekday);
         String format = new SimpleDateFormat(DAYWEEKFORMAT).format(date);
         return format;
+    }
+
+    public static String getNextWeekdayStr(int weekday, String format) {
+        Date date = getNextWeekday(weekday);
+        return new SimpleDateFormat(format).format(date);
     }
 
     public static Date getNextWeekday(int weekday) {
@@ -46,6 +55,11 @@ public class TimeWorker {
         Date date = getNextDay(days);
         String format = new SimpleDateFormat(DAYWEEKFORMAT).format(date);
         return format;
+    }
+
+    public static String getNextDayStr(int days, String format) {
+        Date date = getNextDay(days);
+        return  new SimpleDateFormat(format).format(date);
     }
 
     public static Date getNextDay(int days) {
