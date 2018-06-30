@@ -101,10 +101,11 @@ public class TodoFragment extends Fragment {
     }
 
     public void sort() {
-        this.adapter.data.sort();
+        this.adapter.data.sort("date");
         this.adapter.notifyDataSetChanged();
         editText.setText("");
         currentItem = DEFAULT_CURRENT_ITEM;
+        save();
     }
 
 }

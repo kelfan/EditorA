@@ -168,8 +168,8 @@ public class StringHashList {
 
     public void sort() {
         ArrayList<String> strings = new ArrayList<>();
-        for (Long key : listStr.keySet()) {
-            strings.add(listStr.get(key));
+        for (String s : listStr.values()) {
+            strings.add(s);
         }
         Collections.sort(strings);
         LinkedHashMap<Long, String> temp = new LinkedHashMap<>();
@@ -180,8 +180,23 @@ public class StringHashList {
         sync();
     }
 
-    public void sort(String sign){
-        
+    public void sort(String sign) {
+        int len = 10;
+        ArrayList<String> strings = new ArrayList<>();
+        for (String s : listStr.values()) {
+            String prefix = AtSign.set(s, sign).getValue();
+            prefix = String.format("%" + len + "s", prefix).replace(" ", "`");
+            prefix = prefix.substring(0, len);
+            strings.add(prefix + s);
+        }
+        Collections.sort(strings);
+        LinkedHashMap<Long, String> temp = new LinkedHashMap<>();
+        for (String s : strings) {
+            s = s.substring(len, s.length());
+            temp.put(doHash(s), s);
+        }
+        listStr = temp;
+        sync();
     }
 
 }
