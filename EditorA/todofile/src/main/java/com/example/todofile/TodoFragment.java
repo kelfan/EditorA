@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.kelfan.utillibrary.FileLocal;
 import com.kelfan.utillibrary.FileWorker;
 import com.kelfan.utillibrary.Xmler;
 
@@ -107,6 +109,10 @@ public class TodoFragment extends Fragment {
         editText.setText("");
         currentItem = DEFAULT_CURRENT_ITEM;
         save();
+    }
+
+    public boolean logItem(String text) {
+        return FileLocal.set(filePath).addPostfix("_log").appendToFile(adapter.delimiter + text);
     }
 
 }

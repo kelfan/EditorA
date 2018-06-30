@@ -2,6 +2,7 @@ package com.example.todofile;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 
 import com.kelfan.utillibrary.StringHashList;
 
@@ -36,13 +37,13 @@ public class TouchHelper {
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
                 StringHashList list = (StringHashList) Hub.linkedHashMap.get(Hub.mainData);
-
+                String item = adapter.data.get(position);
                 list.removeByKey(adapter.data.getKey(position));
 //                adapter.data.remove(position);
                 recyclerView.getAdapter().notifyItemRemoved(position);
                 recyclerView.setTag(moveFlag);
-
-
+                TodoFragment todoFragment = (TodoFragment) Hub.linkedHashMap.get(Hub.mainFragment);
+                todoFragment.logItem(item);
             }
 
             @Override

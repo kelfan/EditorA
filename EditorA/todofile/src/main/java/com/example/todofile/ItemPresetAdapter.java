@@ -30,6 +30,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     String delimiter = "\n\n# ";
     String[] presetList = {};
     private ItemPresetAdapter.OnItemClickListener onItemClickListener;
+    boolean isLog = false;
 
     //define interface
     public static interface OnItemClickListener {
@@ -65,6 +66,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         String style = atSign.getValue();
         if (style.equals("todo")) {
             this.presetList = new String[]{"进行/", "最近/", "计划/", "等待/", "周期/", "购物/", "待做/", "项目", ALL_ITEMS};
+            isLog = true;
         }
         return this;
     }
@@ -159,5 +161,4 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;
     }
-
 }
