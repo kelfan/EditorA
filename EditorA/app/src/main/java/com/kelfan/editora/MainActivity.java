@@ -159,8 +159,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (extend.toLowerCase().equals("txt")) {
             mainFragment = new EditFilerFragment().setFilepath(fpath);
-        } else if (extend.toLowerCase().equals("test")) {
-//            mainFragment = LevelRecyclerFragment.set(fpath);
+        } else if (extend.toLowerCase().equals("md")) {
             mainFragment = TodoFragment.set(fpath);
         } else {
             mainFragment = new DefaultFragment();

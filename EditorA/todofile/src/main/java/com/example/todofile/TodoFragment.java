@@ -82,7 +82,7 @@ public class TodoFragment extends Fragment {
     public boolean saveNewItem() {
         String text = editText.getText().toString();
         text = Replacer.replaceTime(text);
-        if (currentItem == DEFAULT_CURRENT_ITEM) {
+        if (currentItem.equals(DEFAULT_CURRENT_ITEM)) {
             if (!text.equals("")) {
                 adapter.data.add(text);
             }
@@ -98,9 +98,7 @@ public class TodoFragment extends Fragment {
     }
 
     public boolean save() {
-        // todo extra \n in save files
-        boolean result = FileWorker.writeToFile(filePath, adapter.data.combine(adapter.delimiter));
-        return result;
+        return FileWorker.writeToFile(filePath, adapter.data.combine(adapter.delimiter));
     }
 
     public void sort() {

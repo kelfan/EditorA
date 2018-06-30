@@ -13,7 +13,9 @@ import com.kelfan.utillibrary.RegexWorker;
 import com.kelfan.utillibrary.StringHashList;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -55,8 +57,13 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         if (text.equals("")) {
             this.data = new StringHashList();
         } else {
-            String[] list = text.split(delimiter);
-            this.data = StringHashList.set(list);
+            String[] aList = text.split(delimiter);
+            List<String> list = new ArrayList<String>(Arrays.asList(aList));
+            if (list.contains("")) {
+                list.removeAll(Arrays.asList("", null));
+                aList = list.toArray(new String[0]);
+            }
+            this.data = StringHashList.set(aList);
         }
         return this;
     }
