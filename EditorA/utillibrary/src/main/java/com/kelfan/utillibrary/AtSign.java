@@ -35,6 +35,9 @@ public class AtSign {
         if (!(start < 0)) {
             int end = content.indexOf(pos, start);
             if (end == -1) {
+                end = content.indexOf("\n", start);
+            }
+            if (end == -1) {
                 end = content.length();
             }
             value = content.substring(start + sign.length(), end);

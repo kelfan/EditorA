@@ -40,7 +40,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         if (text.length() > 1) {
             text = text.substring(0, text.length() - 1);
         }
-        return new ItemPresetAdapter().withContext(context).withText(text).doStyle().doTitleList();
+        return new ItemPresetAdapter().withContext(context).withText(text).doStyle().doList().doTitleList();
     }
 
     public ItemPresetAdapter withContext(Context context) {
@@ -69,6 +69,15 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         return this;
     }
 
+    public ItemPresetAdapter doList() {
+        AtSign atSign = AtSign.set(text, "list");
+        if (!atSign.getValue().equals("")) {
+            String text = atSign.getValue() + "_" + ALL_ITEMS;
+            this.presetList = text.split("_");
+        }
+        return this;
+    }
+
     public ItemPresetAdapter doTitleList() {
         if (this.presetList.length == 0) {
             Set<String> l = RegexWorker.matchAllSet(text, "# (.*)/");
@@ -89,6 +98,9 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     @Override
     public void onBindViewHolder(final ItemViewHolder holder, int position) {
         String title = presetList[position].replace("# ", "");
+        if (!title.contains("/")) {
+            title += "/";
+        }
         holder.textView.setText(title);
         holder.itemView.setTag(position);
 
