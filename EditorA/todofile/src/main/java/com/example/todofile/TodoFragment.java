@@ -24,6 +24,7 @@ public class TodoFragment extends Fragment {
     EditText editText;
     Long currentItem = DEFAULT_CURRENT_ITEM;
 
+
     public static TodoFragment set(String filePath) {
         return new TodoFragment().withFilePath(filePath);
     }
