@@ -6,10 +6,10 @@ import java.util.Calendar;
 
 public class Replacer {
 
-    public static final String DATE_FORMAT = "yyyy-MM-dd_Z";
+    public static final String DATE_FORMAT = "yyyy-MM-dd_Z EEE";
     public static final String PREFIX = "@date_";
 
-    public static String replaceText(String s) {
+    public static String replaceTime(String s) {
         // all string command codes can change to Constant files for change or setting
         s = s.replace(".rq", PREFIX + TimeWorker.getDate(DATE_FORMAT)); // get Current time
         s = s.replace(".mon", PREFIX + TimeWorker.getNextWeekdayStr(Calendar.MONDAY, DATE_FORMAT));

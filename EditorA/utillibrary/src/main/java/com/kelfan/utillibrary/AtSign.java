@@ -47,4 +47,7 @@ public class AtSign {
         return value;
     }
 
+    public String getRemain() {
+        return remain;
+    }
 }

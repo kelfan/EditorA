@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.kelfan.utillibrary.AtSign;
+import com.kelfan.utillibrary.ColorWorker;
 import com.kelfan.utillibrary.StringHashList;
 
 
@@ -53,7 +55,19 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
 
     @Override
     public void onBindViewHolder(SubViewHolder holder, final int position) {
-        holder.textView.setText(data.get(position));
+        String text = data.get(position);
+        AtSign atSign = AtSign.set(text, "date");
+        String title = atSign.getValue();
+        if (title.equals("")) {
+            holder.titleView.setVisibility(View.GONE);
+        } else {
+            title = title.substring(5, 10);
+            holder.titleView.setText(title);
+            holder.titleView.setVisibility(View.VISIBLE);
+            holder.titleView.setBackgroundColor(ColorWorker.strToColor(title));
+        }
+        holder.textView.setText(atSign.getRemain());
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
