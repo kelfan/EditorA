@@ -4,8 +4,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 
+import com.kelfan.utillibrary.AtSign;
 import com.kelfan.utillibrary.StringHashList;
 import com.kelfan.utillibrary.TimeWorker;
+
+import java.util.Date;
 
 public class TouchHelper {
     public static final int emptyFlag = 0;
@@ -39,14 +42,25 @@ public class TouchHelper {
                 int position = viewHolder.getAdapterPosition();
                 StringHashList list = (StringHashList) Hub.linkedHashMap.get(Hub.mainData);
                 String item = adapter.data.get(position);
+                if (item.contains("@repeat_")) {
+                    try {
+                        Date date = TimeWorker.parseDate(AtSign.set(item, "date").getValue(), Replacer.TO_DATE);
+                        int days = Integer.parseInt(AtSign.set(item, "repeat").getValue());
+                        date = TimeWorker.addDay(date, days);
+                        String newItem = "@date_" + TimeWorker.formatDate(Replacer.DATE_FORMAT, date) + " " + AtSign.set(item, "date").getRemain();
+                        list.add(newItem);
+                    } catch (Exception ignored) {
+
+                    }
+                }
                 list.removeByKey(adapter.data.getKey(position));
 //                adapter.data.remove(position);
                 recyclerView.getAdapter().notifyItemRemoved(position);
                 recyclerView.setTag(moveFlag);
                 TodoFragment todoFragment = (TodoFragment) Hub.linkedHashMap.get(Hub.mainFragment);
-                if (direction == 32){
+                if (direction == 32) {
                     item += " [complete(" + TimeWorker.getLocalTime() + ")]";
-                }else {
+                } else {
                     item += " [delete(" + TimeWorker.getLocalTime() + ")]";
                 }
                 todoFragment.logItem(item);
