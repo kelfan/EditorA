@@ -3,6 +3,7 @@ package com.example.todofile;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,12 @@ import android.widget.EditText;
 import com.kelfan.utillibrary.AtSign;
 import com.kelfan.utillibrary.RegexWorker;
 import com.kelfan.utillibrary.StringHashList;
+import com.kelfan.utillibrary.TimeWorker;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -91,18 +94,18 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
             Set<String> l = RegexWorker.matchAllSet(text, "# (.*)/");
             l.add(ALL_ITEMS);
             String[] out;
-            if (this.style.equals("todo")){
-                out = new String[l.size()+1];
+            if (this.style.equals("todo")) {
+                out = new String[l.size() + 1];
                 out[0] = RECENT_ITEMS;
                 int counter = 1;
-                for (String s: l){
+                for (String s : l) {
                     out[counter] = s;
                     counter++;
                 }
-            }else {
-                out =  l.toArray(new String[l.size()]);
+            } else {
+                out = l.toArray(new String[l.size()]);
             }
-            this.presetList =out;
+            this.presetList = out;
         }
         return this;
     }
@@ -140,7 +143,22 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         if (title.equals(ALL_ITEMS)) {
             itemData = data;
         } else if (title.equals(RECENT_ITEMS)) {
-            itemData = data;
+            StringHashList stringHashList = new StringHashList();
+            for (Long key : data.getValues().keySet()) {
+                String s = data.get(key);
+                if (s.contains("@date_")) {
+                    String sDate = AtSign.set(s, "date").getValue();
+                    Date date = TimeWorker.parseDate(sDate, Replacer.TO_DATE);
+                    if (date != null) {
+                        Long days = TimeWorker.difToday(date);
+                        Log.e("fan", days.toString());
+                        if (days >-1 && days < 14){
+                            stringHashList.put(key, data.get(key));
+                        }
+                    }
+                }
+            }
+            itemData = stringHashList;
         } else {
             itemData = data.subContain(title);
         }
