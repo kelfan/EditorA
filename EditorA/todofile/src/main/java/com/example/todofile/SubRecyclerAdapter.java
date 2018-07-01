@@ -65,17 +65,8 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
         if (title.equals("")) {
             holder.titleView.setVisibility(View.GONE);
         } else {
-            if (text.contains("@repeat")) {
-                String[] repeat = AtSign.set(text, "repeat").getValue().split("_");
-                if (repeat.length == 2) {
-                    Date date = TimeWorker.parseDate(title, Replacer.TO_DATE);
-                    int days = Integer.parseInt(repeat[0]) * (Integer.parseInt(repeat[1]) + 1);
-                    date = TimeWorker.addDay(date, days);
-                    title = TimeWorker.formatDate("MM-dd", date);
-                }
-            } else {
-                title = title.substring(5, 10);
-            }
+
+            title = title.substring(5, 10);
             holder.titleView.setText(title);
             holder.titleView.setVisibility(View.VISIBLE);
             holder.titleView.setBackgroundColor(ColorWorker.strToColor(title));

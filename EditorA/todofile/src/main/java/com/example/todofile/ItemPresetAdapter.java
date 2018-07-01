@@ -155,13 +155,6 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
                 if (s.contains("@date_")) {
                     String sDate = AtSign.set(s, "date").getValue();
                     Date date = TimeWorker.parseDate(sDate, Replacer.TO_DATE);
-                    if (s.contains("@repeat")) {
-                        String[] repeat = AtSign.set(s, "repeat").getValue().split("_");
-                        if (repeat.length == 2) {
-                            int days = Integer.parseInt(repeat[0]) * (Integer.parseInt(repeat[1]) + 1);
-                            date = TimeWorker.addDay(date, days);
-                        }
-                    }
                     if (date != null) {
                         Long days = TimeWorker.difToday(date);
                         if (days > -1 && days < 14) {
