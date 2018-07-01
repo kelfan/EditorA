@@ -77,6 +77,9 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     public ItemPresetAdapter doStyle() {
         AtSign atSign = AtSign.set(text, "style");
         style = atSign.getValue();
+        if (style.equals("todo")){
+            isLog = true;
+        }
         return this;
     }
 

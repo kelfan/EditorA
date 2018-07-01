@@ -5,6 +5,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 
 import com.kelfan.utillibrary.StringHashList;
+import com.kelfan.utillibrary.TimeWorker;
 
 public class TouchHelper {
     public static final int emptyFlag = 0;
@@ -43,6 +44,11 @@ public class TouchHelper {
                 recyclerView.getAdapter().notifyItemRemoved(position);
                 recyclerView.setTag(moveFlag);
                 TodoFragment todoFragment = (TodoFragment) Hub.linkedHashMap.get(Hub.mainFragment);
+                if (direction == 32){
+                    item += " [complete(" + TimeWorker.getLocalTime() + ")]";
+                }else {
+                    item += " [delete(" + TimeWorker.getLocalTime() + ")]";
+                }
                 todoFragment.logItem(item);
             }
 

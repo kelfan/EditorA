@@ -111,8 +111,10 @@ public class TodoFragment extends Fragment {
     }
 
     public boolean logItem(String text) {
-        text += " [log(" + TimeWorker.getLocalTime() + ")]";
-        return FileLocal.set(filePath).addPostfix("_log").appendToFile(adapter.delimiter + text);
+        if (adapter.isLog) {
+            return FileLocal.set(filePath).addPostfix("_log").appendToFile(adapter.delimiter + text);
+        }
+        return false;
     }
 
 }
