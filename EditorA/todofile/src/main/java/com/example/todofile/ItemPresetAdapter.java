@@ -23,6 +23,7 @@ import java.util.Set;
 public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> implements View.OnClickListener {
 
     String ALL_ITEMS = "All/";
+    String RECENT_ITEMS = "Recent/";
     String OTHER_ITEMS = "Others/";
 
     String text;
@@ -32,6 +33,8 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     String delimiter = "\n\n# ";
     String[] presetList = {};
     private ItemPresetAdapter.OnItemClickListener onItemClickListener;
+
+    String style = "";
     boolean isLog = false;
 
     //define interface
@@ -70,11 +73,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
 
     public ItemPresetAdapter doStyle() {
         AtSign atSign = AtSign.set(text, "style");
-        String style = atSign.getValue();
-        if (style.equals("todo")) {
-            this.presetList = new String[]{"进行/", "最近/", "计划/", "等待/", "周期/", "购物/", "待做/", "项目", ALL_ITEMS};
-            isLog = true;
-        }
+        style = atSign.getValue();
         return this;
     }
 
@@ -91,7 +90,19 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         if (this.presetList.length == 0) {
             Set<String> l = RegexWorker.matchAllSet(text, "# (.*)/");
             l.add(ALL_ITEMS);
-            this.presetList = l.toArray(new String[l.size()]);
+            String[] out;
+            if (this.style.equals("todo")){
+                out = new String[l.size()+1];
+                out[0] = RECENT_ITEMS;
+                int counter = 1;
+                for (String s: l){
+                    out[counter] = s;
+                    counter++;
+                }
+            }else {
+                out =  l.toArray(new String[l.size()]);
+            }
+            this.presetList =out;
         }
         return this;
     }
@@ -127,6 +138,8 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         SubRecyclerAdapter levelSubRecyclerAdapter;
         StringHashList itemData;
         if (title.equals(ALL_ITEMS)) {
+            itemData = data;
+        } else if (title.equals(RECENT_ITEMS)) {
             itemData = data;
         } else {
             itemData = data.subContain(title);
