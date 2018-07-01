@@ -157,8 +157,11 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
                     String sDate = AtSign.set(s, "date").getValue();
                     date = TimeWorker.parseDate(sDate, Replacer.TO_DATE);
                 }
-                if (s.contains("@lunar")) {
+                if (s.contains("@lunar_")) {
                     date = StringParser.parseLunar(AtSign.set(s, "lunar").getValue());
+                }
+                if (s.contains("@repeaty_")) {
+                    date = StringParser.parseRepeatY(AtSign.set(s, "repeaty").getValue());
                 }
                 if (date != null) {
                     Long days = TimeWorker.difToday(date);
