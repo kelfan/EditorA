@@ -27,6 +27,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
 
     String ALL_ITEMS = "All/";
     String RECENT_ITEMS = "Recent/";
+    String REPEAT_ITEMS = "Repeat/";
     String OTHER_ITEMS = "Others/";
 
     String text;
@@ -77,7 +78,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     public ItemPresetAdapter doStyle() {
         AtSign atSign = AtSign.set(text, "style");
         style = atSign.getValue();
-        if (style.equals("todo")){
+        if (style.equals("todo")) {
             isLog = true;
         }
         return this;
@@ -98,13 +99,15 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
             l.add(ALL_ITEMS);
             String[] out;
             if (this.style.equals("todo")) {
-                out = new String[l.size() + 1];
+                out = new String[l.size() + 2];
                 out[0] = RECENT_ITEMS;
                 int counter = 1;
                 for (String s : l) {
                     out[counter] = s;
                     counter++;
                 }
+                out[l.size()] = REPEAT_ITEMS;
+                out[l.size() + 1] = ALL_ITEMS;
             } else {
                 out = l.toArray(new String[l.size()]);
             }
@@ -152,6 +155,13 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
                 if (s.contains("@date_")) {
                     String sDate = AtSign.set(s, "date").getValue();
                     Date date = TimeWorker.parseDate(sDate, Replacer.TO_DATE);
+                    if (s.contains("@repeat")) {
+                        String[] repeat = AtSign.set(s, "repeat").getValue().split("_");
+                        if (repeat.length == 2) {
+                            int days = Integer.parseInt(repeat[0]) * (Integer.parseInt(repeat[1]) + 1);
+                            date = TimeWorker.addDay(date, days);
+                        }
+                    }
                     if (date != null) {
                         Long days = TimeWorker.difToday(date);
                         if (days > -1 && days < 14) {

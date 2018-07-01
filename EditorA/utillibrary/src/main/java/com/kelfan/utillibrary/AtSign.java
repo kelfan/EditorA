@@ -33,9 +33,10 @@ public class AtSign {
         String sign = pre + this.sign + "_";
         int start = content.indexOf(sign);
         if (!(start < 0)) {
-            int end = content.indexOf("\n", start);
-            if (end == -1) {
-                end = content.indexOf(pos, start);
+            int end2 = content.indexOf("\n", start);
+            int end = content.indexOf(pos, start);
+            if (end > end2 && end2 != -1) {
+                end = end2;
             }
             if (end == -1) {
                 end = content.length();
