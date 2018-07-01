@@ -62,23 +62,10 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
     public void onBindViewHolder(SubViewHolder holder, final int position) {
         String text = data.get(position);
         AtSign atSign = AtSign.set(text, "date");
+        AtSign lunar = AtSign.set(text, "lunar");
         String title = atSign.getValue();
-        if (title.equals("")) {
-            AtSign lunar = atSign.set(text, "lunar");
-            if (lunar.getValue().equals("")) {
-                holder.titleView.setVisibility(View.GONE);
-            } else {
-                Date date = StringParser.parseLunar(lunar.getValue());
-                if (date==null){
-                    holder.titleView.setVisibility(View.GONE);
-                }else{
-                    title = TimeWorker.formatDate("MM-dd EEE", date);
-                    holder.titleView.setText(title);
-                    holder.titleView.setVisibility(View.VISIBLE);
-                    holder.titleView.setBackgroundColor(ColorWorker.strToColor(title));
-                }
-            }
-        } else {
+
+        if (!title.equals("")){
             try {
                 Date date = TimeWorker.parseDate(atSign.getValue(), Replacer.TO_DATE);
                 title = TimeWorker.formatDate("MM-dd EEE", date);
@@ -88,7 +75,20 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
             holder.titleView.setText(title);
             holder.titleView.setVisibility(View.VISIBLE);
             holder.titleView.setBackgroundColor(ColorWorker.strToColor(title));
+        }else if(!lunar.getValue().equals("")){
+            Date date = StringParser.parseLunar(lunar.getValue());
+            if (date==null){
+                holder.titleView.setVisibility(View.GONE);
+            }else{
+                title = TimeWorker.formatDate("MM-dd EEE", date);
+                holder.titleView.setText(title);
+                holder.titleView.setVisibility(View.VISIBLE);
+                holder.titleView.setBackgroundColor(ColorWorker.strToColor(title));
+            }
+        }else{
+            holder.titleView.setVisibility(View.GONE);
         }
+
         text = atSign.getRemain();
         text = RegexWorker.dropFirstMatch(text, ".*/");
         holder.textView.setText(text);
