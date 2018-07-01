@@ -23,7 +23,7 @@ public class TodoFragment extends Fragment {
     String filePath;
     ItemPresetAdapter adapter;
     String fileContent = "";
-    EditText editText;
+    public EditText editText;
     Long currentItem = DEFAULT_CURRENT_ITEM;
 
 

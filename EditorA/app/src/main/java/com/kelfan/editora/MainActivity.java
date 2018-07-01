@@ -32,6 +32,7 @@ import com.kelfan.editora.filelist.FilelistAdapter;
 import com.kelfan.filepicker.ActivityFilePicker;
 import com.kelfan.filepicker.MaterialFilePicker;
 import com.kelfan.logfiler.LogFilerFragment;
+import com.kelfan.utillibrary.CalendarWorker;
 import com.kelfan.utillibrary.FileConfiger;
 import com.kelfan.utillibrary.FileLocal;
 import com.kelfan.utillibrary.FileWorker;
@@ -282,7 +283,7 @@ public class MainActivity extends AppCompatActivity
             if (mainFragment instanceof EditFilerFragment) {
                 editFilerFragment = (EditFilerFragment) mainFragment;
             }
-            if (mainFragment instanceof TodoFragment){
+            if (mainFragment instanceof TodoFragment) {
                 todoFragment = (TodoFragment) mainFragment;
             }
         }
@@ -295,8 +296,12 @@ public class MainActivity extends AppCompatActivity
             if (editFilerFragment != null) {
                 editFilerFragment.sort();
             }
-            if (todoFragment != null){
+            if (todoFragment != null) {
                 todoFragment.sort();
+            }
+        } else if (cId == R.id.date_menu) {
+            if (todoFragment != null) {
+                CalendarWorker.setDate(todoFragment.editText, this);
             }
         } else if (cId == R.id.action_rename) {
             getUserInput(FileLocal.set(currentFilePath).fileName);

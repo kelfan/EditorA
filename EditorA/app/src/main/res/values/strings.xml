@@ -9,4 +9,5 @@
     <string name="sd_storage">SD Storage</string>
     <string name="sort">sort</string>
     <string name="rename_file">rename file</string>
+    <string name="pick_date">pick date</string>
 </resources>
