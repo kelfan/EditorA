@@ -151,8 +151,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
                     Date date = TimeWorker.parseDate(sDate, Replacer.TO_DATE);
                     if (date != null) {
                         Long days = TimeWorker.difToday(date);
-                        Log.e("fan", days.toString());
-                        if (days >-1 && days < 14){
+                        if (days > -1 && days < 14) {
                             stringHashList.put(key, data.get(key));
                         }
                     }

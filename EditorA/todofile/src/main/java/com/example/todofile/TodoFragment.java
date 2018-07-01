@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 
 import com.kelfan.utillibrary.FileLocal;
 import com.kelfan.utillibrary.FileWorker;
+import com.kelfan.utillibrary.TimeWorker;
 import com.kelfan.utillibrary.Xmler;
 
 public class TodoFragment extends Fragment {
@@ -110,6 +111,7 @@ public class TodoFragment extends Fragment {
     }
 
     public boolean logItem(String text) {
+        text += " [log(" + TimeWorker.getLocalTime() + ")]";
         return FileLocal.set(filePath).addPostfix("_log").appendToFile(adapter.delimiter + text);
     }
 
