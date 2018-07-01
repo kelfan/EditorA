@@ -63,6 +63,9 @@ public class TouchHelper {
                     }
                 }
                 list.removeByKey(adapter.data.getKey(position));
+                if (item.contains("@repeaty_")) {
+                    list.add(item);
+                }
 //                adapter.data.remove(position);
                 recyclerView.getAdapter().notifyItemRemoved(position);
                 recyclerView.setTag(moveFlag);
