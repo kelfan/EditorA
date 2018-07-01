@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.kelfan.utillibrary.AtSign;
 import com.kelfan.utillibrary.ColorWorker;
+import com.kelfan.utillibrary.LunarSolarConverter;
 import com.kelfan.utillibrary.RegexWorker;
 import com.kelfan.utillibrary.StringHashList;
 import com.kelfan.utillibrary.TimeWorker;
@@ -63,7 +64,20 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
         AtSign atSign = AtSign.set(text, "date");
         String title = atSign.getValue();
         if (title.equals("")) {
-            holder.titleView.setVisibility(View.GONE);
+            AtSign lunar = atSign.set(text, "lunar");
+            if (lunar.getValue().equals("")) {
+                holder.titleView.setVisibility(View.GONE);
+            } else {
+                Date date = StringParser.parseLunar(lunar.getValue());
+                if (date==null){
+                    holder.titleView.setVisibility(View.GONE);
+                }else{
+                    title = TimeWorker.formatDate("MM-dd EEE", date);
+                    holder.titleView.setText(title);
+                    holder.titleView.setVisibility(View.VISIBLE);
+                    holder.titleView.setBackgroundColor(ColorWorker.strToColor(title));
+                }
+            }
         } else {
             try {
                 Date date = TimeWorker.parseDate(atSign.getValue(), Replacer.TO_DATE);

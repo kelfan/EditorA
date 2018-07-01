@@ -126,4 +126,14 @@ public class TimeWorker {
         return cal.getTime();
     }
 
+    public static Date int2date(int year, int month, int day) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month - 1, day);
+        return cal.getTime();
+    }
+
+    public static int currentYear(){
+        return Calendar.getInstance().get(Calendar.YEAR);
+    }
+
 }

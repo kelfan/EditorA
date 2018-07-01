@@ -152,16 +152,21 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
             StringHashList stringHashList = new StringHashList();
             for (Long key : data.getValues().keySet()) {
                 String s = data.get(key);
+                Date date = null;
                 if (s.contains("@date_")) {
                     String sDate = AtSign.set(s, "date").getValue();
-                    Date date = TimeWorker.parseDate(sDate, Replacer.TO_DATE);
-                    if (date != null) {
-                        Long days = TimeWorker.difToday(date);
-                        if (days > -1 && days < 14) {
-                            stringHashList.put(key, data.get(key));
-                        }
+                    date = TimeWorker.parseDate(sDate, Replacer.TO_DATE);
+                }
+                if (s.contains("@lunar")) {
+                    date = StringParser.parseLunar(AtSign.set(s, "lunar").getValue());
+                }
+                if (date != null) {
+                    Long days = TimeWorker.difToday(date);
+                    if (days > -1 && days < 14) {
+                        stringHashList.put(key, data.get(key));
                     }
                 }
+
             }
             itemData = stringHashList;
         } else {
