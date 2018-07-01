@@ -10,8 +10,8 @@ import android.widget.TimePicker;
 import java.util.Calendar;
 
 public class CalendarWorker {
-    public static void setDate(final EditText editText, Context context) {
-        Calendar c = Calendar.getInstance();
+    public static void setDate(final EditText editText, Context context, final String format, final String prefix) {
+        final Calendar c = Calendar.getInstance();
         int day = c.get(Calendar.DAY_OF_MONTH);
         int month = c.get(Calendar.MONTH);
         int year = c.get(Calendar.YEAR);
@@ -19,7 +19,9 @@ public class CalendarWorker {
         DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
-                String text = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                c.set(year, monthOfYear, dayOfMonth);
+//                String text = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                String text = prefix + TimeWorker.formatDate(format, c.getTime()) + " ";
                 editText.setText(text);
                 editText.setSelection(text.length());
             }
@@ -35,7 +37,7 @@ public class CalendarWorker {
         TimePickerDialog timePickerDialog = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
-                String text = hourOfDay + ":" + minutes;
+                String text = hourOfDay + ":" + minutes + " ";
                 editText.setText(text);
                 editText.setSelection(text.length());
             }

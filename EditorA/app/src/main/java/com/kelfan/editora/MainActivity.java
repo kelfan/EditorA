@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.levelfiler.LevelRecyclerFragment;
+import com.example.todofile.Replacer;
 import com.example.todofile.TodoFragment;
 import com.kelfan.editfiler.EditFilerFragment;
 import com.kelfan.editora.filelist.FilelistAdapter;
@@ -301,7 +302,7 @@ public class MainActivity extends AppCompatActivity
             }
         } else if (cId == R.id.date_menu) {
             if (todoFragment != null) {
-                CalendarWorker.setDate(todoFragment.editText, this);
+                CalendarWorker.setDate(todoFragment.editText, this, Replacer.DATE_FORMAT, Replacer.PREFIX);
             }
         } else if (cId == R.id.action_rename) {
             getUserInput(FileLocal.set(currentFilePath).fileName);
