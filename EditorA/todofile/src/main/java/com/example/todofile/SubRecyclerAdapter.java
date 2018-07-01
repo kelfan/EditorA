@@ -65,8 +65,12 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
         if (title.equals("")) {
             holder.titleView.setVisibility(View.GONE);
         } else {
-
-            title = title.substring(5, 10);
+            try {
+                Date date = TimeWorker.parseDate(atSign.getValue(), Replacer.TO_DATE);
+                title = TimeWorker.formatDate("MM-dd EEE", date);
+            } catch (Exception e) {
+                title = title.substring(5, 10);
+            }
             holder.titleView.setText(title);
             holder.titleView.setVisibility(View.VISIBLE);
             holder.titleView.setBackgroundColor(ColorWorker.strToColor(title));
