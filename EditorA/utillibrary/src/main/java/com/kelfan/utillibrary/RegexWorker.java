@@ -41,4 +41,9 @@ public class RegexWorker {
     }
 
 
+    public static String dropFirstMatch(String text, String pattern){
+        List<String> matches = matchAll(text, pattern);
+        return text.replace(matches.get(0), "");
+    }
+
 }

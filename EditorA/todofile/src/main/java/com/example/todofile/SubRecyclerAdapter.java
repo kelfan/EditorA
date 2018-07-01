@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.kelfan.utillibrary.AtSign;
 import com.kelfan.utillibrary.ColorWorker;
+import com.kelfan.utillibrary.RegexWorker;
 import com.kelfan.utillibrary.StringHashList;
 
 
@@ -65,8 +66,10 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
             holder.titleView.setText(title);
             holder.titleView.setVisibility(View.VISIBLE);
             holder.titleView.setBackgroundColor(ColorWorker.strToColor(title));
+            text = atSign.getRemain();
+            text = RegexWorker.dropFirstMatch(text, ".*/");
         }
-        holder.textView.setText(atSign.getRemain());
+        holder.textView.setText(text);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

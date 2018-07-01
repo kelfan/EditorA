@@ -36,4 +36,13 @@ public class RegexWorkerUnitTest {
         String out = l.toString();
         assertEquals("[# 待做/, # 待做/安卓/, # 别的/别的/别的/, # 全部/]", out);
     }
+
+    @Test
+    public void dropFirstMatch() {
+        assertEquals(4, 2 + 2);
+        String i = "test/t/t: hello";
+        assertEquals("t/t: hello", RegexWorker.dropFirstMatch(i, ".*?/"));
+
+    }
+
 }
