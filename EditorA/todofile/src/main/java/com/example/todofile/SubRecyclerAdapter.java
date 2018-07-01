@@ -66,9 +66,9 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
             holder.titleView.setText(title);
             holder.titleView.setVisibility(View.VISIBLE);
             holder.titleView.setBackgroundColor(ColorWorker.strToColor(title));
-            text = atSign.getRemain();
-            text = RegexWorker.dropFirstMatch(text, ".*/");
         }
+        text = atSign.getRemain();
+        text = RegexWorker.dropFirstMatch(text, ".*/");
         holder.textView.setText(text);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
