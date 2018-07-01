@@ -45,8 +45,17 @@ public class TouchHelper {
                 if (item.contains("@repeat_")) {
                     try {
                         Date date = TimeWorker.parseDate(AtSign.set(item, "date").getValue(), Replacer.TO_DATE);
-                        int days = Integer.parseInt(AtSign.set(item, "repeat").getValue());
-                        date = TimeWorker.addDay(date, days);
+                        String sRepeat = AtSign.set(item, "repeat").getValue();
+                        if (sRepeat.contains("m")) {
+                            int months = Integer.parseInt(sRepeat.replace("m", ""));
+                            date = TimeWorker.addMonth(date, months);
+                        } else if (sRepeat.contains("y")) {
+                            int years = Integer.parseInt(sRepeat.replace("y", ""));
+                            date = TimeWorker.addYear(date, years);
+                        } else {
+                            int days = Integer.parseInt(sRepeat);
+                            date = TimeWorker.addDay(date, days);
+                        }
                         String newItem = "@date_" + TimeWorker.formatDate(Replacer.DATE_FORMAT, date) + " " + AtSign.set(item, "date").getRemain();
                         list.add(newItem);
                     } catch (Exception ignored) {
