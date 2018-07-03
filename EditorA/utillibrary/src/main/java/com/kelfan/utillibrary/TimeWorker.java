@@ -31,6 +31,9 @@ public class TimeWorker {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     }
 
+    public static String getDatetime(String format) {
+        return new SimpleDateFormat(format).format(new Date());
+    }
     public static String getNextWeekdayStr(int weekday) {
         Date date = getNextWeekday(weekday);
         String format = new SimpleDateFormat(DAYWEEKFORMAT).format(date);

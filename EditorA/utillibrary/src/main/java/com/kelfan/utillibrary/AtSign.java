@@ -7,6 +7,7 @@ public class AtSign {
     private String content = "";
     String remain = "";
     String value = "";
+    String separator = "_";
 
 
     public static AtSign set(String content, String sign) {
@@ -30,7 +31,7 @@ public class AtSign {
     }
 
     AtSign doValue() {
-        String sign = pre + this.sign + "_";
+        String sign = pre + this.sign + separator;
         int start = content.indexOf(sign);
         if (!(start < 0)) {
             int end2 = content.indexOf("\n", start);
@@ -47,11 +48,26 @@ public class AtSign {
         return this;
     }
 
+    public AtSign updateValue(String text) {
+        if (content.contains(pre + sign)) {
+            content = content.replace(pre + sign + separator + value, pre + sign + separator + text);
+        } else {
+            content += pos + pre + sign + separator + text + pos;
+        }
+        value = text;
+        return this;
+    }
+
     public String getValue() {
         return value;
     }
 
     public String getRemain() {
         return remain;
+    }
+
+    @Override
+    public String toString() {
+        return content;
     }
 }

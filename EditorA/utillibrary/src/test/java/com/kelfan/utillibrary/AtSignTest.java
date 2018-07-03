@@ -16,8 +16,12 @@ public class AtSignTest {
         AtSign a = AtSign.set(s, "test");
         assertEquals("123", a.value);
         assertEquals("then test 11124 111", a.remain);
+        a.updateValue("new");
+        assertEquals("then test @test_new 11124 111", a.toString());
         s = "123123";
         a = AtSign.set(s, "test");
         assertEquals("", a.value);
+        a.updateValue("new");
+        assertEquals("123123 @test_new ", a.toString());
     }
 }

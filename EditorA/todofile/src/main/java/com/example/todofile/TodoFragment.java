@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.kelfan.utillibrary.AtSign;
 import com.kelfan.utillibrary.FileLocal;
 import com.kelfan.utillibrary.FileWorker;
 import com.kelfan.utillibrary.TimeWorker;
@@ -83,6 +83,13 @@ public class TodoFragment extends Fragment {
     public boolean saveNewItem() {
         String text = editText.getText().toString();
         text = Replacer.replaceTime(text);
+        if (adapter.isLog) {
+            String time = TimeWorker.getDatetime(Replacer.DATE_TIME_FORMAT);
+            if (!text.contains("@create_")) {
+                text = AtSign.set(text, "create").updateValue(time).toString();
+            }
+            text = AtSign.set(text, "modify").updateValue(time).toString();
+        }
         if (currentItem.equals(DEFAULT_CURRENT_ITEM)) {
             if (!text.equals("")) {
                 adapter.data.add(text);
@@ -111,7 +118,7 @@ public class TodoFragment extends Fragment {
     }
 
     public boolean logItem(String text) {
-        if (adapter.isLog) {
+        if (adapter.logDelete) {
             return FileLocal.set(filePath).addPostfix("_log").appendToFile(adapter.delimiter + text);
         }
         return false;

@@ -3,11 +3,9 @@ package com.example.todofile;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import com.kelfan.utillibrary.AtSign;
 import com.kelfan.utillibrary.RegexWorker;
@@ -16,10 +14,8 @@ import com.kelfan.utillibrary.TimeWorker;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 
@@ -39,6 +35,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     private ItemPresetAdapter.OnItemClickListener onItemClickListener;
 
     String style = "";
+    boolean logDelete = false;
     boolean isLog = false;
 
     //define interface
@@ -79,6 +76,10 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         AtSign atSign = AtSign.set(text, "style");
         style = atSign.getValue();
         if (style.equals("todo")) {
+            logDelete = true;
+        }
+        if (style.equals("log")) {
+            logDelete = true;
             isLog = true;
         }
         return this;
