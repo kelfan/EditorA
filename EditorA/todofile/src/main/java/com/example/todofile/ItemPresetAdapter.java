@@ -78,6 +78,10 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     public ItemPresetAdapter doStyle() {
         AtSign atSign = AtSign.set(text, "style");
         style = atSign.getValue();
+        if (style.equals("list")) {
+            titleSeparator = "[:：]";
+            subSeparator = "\n";
+        }
         if (style.equals("todo")) {
             logDelete = true;
             titleSeparator = "[:：]";
@@ -89,7 +93,14 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
             titleSeparator = "[:：]";
             subSeparator = "\n";
         }
+        if (style.equals("block")) {
+            titleSeparator = "\n";
+            subSeparator = "~";
+            this.display = "block";
+        }
         if (style.equals("note")) {
+            titleSeparator = "\n";
+            subSeparator = "~";
             this.display = "block";
         }
         return this;
