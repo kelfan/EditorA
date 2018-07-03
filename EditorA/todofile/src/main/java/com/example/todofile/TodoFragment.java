@@ -83,7 +83,7 @@ public class TodoFragment extends Fragment {
     public boolean saveNewItem() {
         String text = editText.getText().toString();
         text = Replacer.replaceTime(text);
-        if (adapter.isLog) {
+        if (adapter.logTime) {
             String time = TimeWorker.getDatetime(Replacer.DATE_TIME_FORMAT);
             if (!text.contains("@create_")) {
                 text = AtSign.set(text, "create").updateValue(time).toString();

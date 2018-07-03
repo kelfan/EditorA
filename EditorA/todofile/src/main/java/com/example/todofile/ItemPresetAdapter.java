@@ -38,8 +38,9 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     String titleSeparator = "";
     String subSeparator = "";
     String display = "";
+    boolean titleDate = false;
     boolean logDelete = false;
-    boolean isLog = false;
+    boolean logTime = false;
 
     //define interface
     public static interface OnItemClickListener {
@@ -84,12 +85,20 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         }
         if (style.equals("todo")) {
             logDelete = true;
+            titleDate = true;
             titleSeparator = "[:：]";
             subSeparator = "\n";
         }
         if (style.equals("log")) {
             logDelete = true;
-            isLog = true;
+            logTime = true;
+            titleSeparator = "[:：]";
+            subSeparator = "\n";
+        }
+        if (style.equals("record")) {
+            logDelete = true;
+            logTime = true;
+            titleDate = true;
             titleSeparator = "[:：]";
             subSeparator = "\n";
         }
@@ -225,7 +234,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         levelSubRecyclerAdapter.titleSeparator = this.titleSeparator;
         levelSubRecyclerAdapter.subSeparator = this.subSeparator;
         levelSubRecyclerAdapter.style = this.display;
-        if (style.equals("todo")) {
+        if (titleDate) {
             levelSubRecyclerAdapter.titleDate = true;
         }
         if (levelSubRecyclerAdapter.data.size() == 0) {

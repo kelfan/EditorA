@@ -74,6 +74,7 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
             AtSign atSign = AtSign.set(text, "date");
             AtSign lunar = AtSign.set(text, "lunar");
             AtSign repeatY = AtSign.set(text, "repeaty");
+            AtSign create = AtSign.set(text, "create");
             title = atSign.getValue();
             Date date = null;
             if (!title.equals("")) {
@@ -86,6 +87,8 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
                 date = StringParser.parseLunar(lunar.getValue());
             } else if (!repeatY.getValue().equals("")) {
                 date = StringParser.parseRepeatY(repeatY.getValue());
+            } else if (!create.getValue().equals("")) {
+                date = TimeWorker.parseDate(create.getValue(), Replacer.DATE_TIME_FORMAT);
             }
             if (date != null) {
                 title = TimeWorker.formatDate("MM-dd EEE", date);
