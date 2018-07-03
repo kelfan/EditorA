@@ -36,6 +36,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
 
     String style = "";
     String titleSeparator = "";
+    String subSeparator = "";
     boolean logDelete = false;
     boolean isLog = false;
 
@@ -48,7 +49,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         if (text.length() > 1) {
             text = text.substring(0, text.length() - 1);
         }
-        return new ItemPresetAdapter().withContext(context).withText(text).doStyle().doList().doTitleList().doTitleSeparator();
+        return new ItemPresetAdapter().withContext(context).withText(text).doStyle().doList().doTitleList().doTitleSeparator().doSubSeparator();
     }
 
     public ItemPresetAdapter withContext(Context context) {
@@ -79,6 +80,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         if (style.equals("todo")) {
             logDelete = true;
             titleSeparator = "[:：]";
+//            subSeparator = "\n";
         }
         if (style.equals("log")) {
             logDelete = true;
@@ -100,6 +102,14 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         String title = AtSign.set(text, "title").getValue();
         if (!title.equals("")) {
             this.titleSeparator = title;
+        }
+        return this;
+    }
+
+    ItemPresetAdapter doSubSeparator() {
+        String sub = AtSign.set(text, "sub").getValue();
+        if (!sub.equals("")) {
+            this.subSeparator = sub;
         }
         return this;
     }
@@ -144,16 +154,6 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         holder.textView.setText(title);
         holder.itemView.setTag(position);
 
-//        String txt = data.get(position);
-//        holder.recyclerView.setBackgroundColor(ColorWorker.strToColor(txt));
-//
-//        // process title
-//        String title = StringWorker.beginToLastSign(txt, titleSign);
-//        if (title.equals("")) {
-//            title = "preset list";
-//        }
-//        holder.textView.setText(title);
-//
         // process recycler view
         SubRecyclerAdapter levelSubRecyclerAdapter;
         StringHashList itemData;
@@ -198,6 +198,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
             levelSubRecyclerAdapter.notifyDataSetChanged();
         }
         levelSubRecyclerAdapter.titleSeparator = this.titleSeparator;
+        levelSubRecyclerAdapter.subSeparator = this.subSeparator;
         if (style.equals("todo")) {
             levelSubRecyclerAdapter.titleDate = true;
         }

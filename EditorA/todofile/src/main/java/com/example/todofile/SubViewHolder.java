@@ -8,10 +8,12 @@ public class SubViewHolder extends RecyclerView.ViewHolder {
 
     TextView textView;
     TextView titleView;
+    TextView subView;
 
     public SubViewHolder(View itemView) {
         super(itemView);
         textView = itemView.findViewById(R.id.item_content_text_view);
         titleView = itemView.findViewById(R.id.item_title_view);
+        subView = itemView.findViewById(R.id.item_subcontent_textview);
     }
 }

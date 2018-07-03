@@ -23,7 +23,8 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
     Context context;
     LayoutInflater inflater;
     boolean titleDate = false;
-    String titleSeparator = ":";
+    String titleSeparator = "";
+    String subSeparator = "";
     String style = "line";
     public boolean hasTouchHelper = false;
 
@@ -67,6 +68,7 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
         String text = data.get(position);
         text = RegexWorker.dropFirstMatch(text, ".*/");
         String title = "";
+        String sub = "";
 
         if (titleDate) {
             AtSign atSign = AtSign.set(text, "date");
@@ -93,10 +95,19 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
 
         if (!titleSeparator.equals("")) {
             List<String> match = RegexWorker.matchAll(text, "^.*?" + titleSeparator);
-            ;
+
             if (match.size() > 0) {
                 title = match.get(0);
                 text = text.replace(title, "");
+            }
+        }
+
+        if (!subSeparator.equals("")) {
+            List<String> match = RegexWorker.matchAll(text, "^.*?" + subSeparator);
+            if (match.size() > 0) {
+                String content = match.get(0);
+                sub = text.replace(content, "");
+                text = content.substring(0, content.length() - 1);
             }
         }
 
@@ -108,8 +119,14 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
             holder.titleView.setBackgroundColor(ColorWorker.strToColor(title));
         }
 
-        holder.textView.setText(text);
+        if (sub.equals("")) {
+            holder.subView.setVisibility(View.GONE);
+        } else {
+            holder.subView.setText(sub);
+            holder.subView.setVisibility(View.VISIBLE);
+        }
 
+        holder.textView.setText(text);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
