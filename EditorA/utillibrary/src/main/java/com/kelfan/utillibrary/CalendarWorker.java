@@ -22,6 +22,7 @@ public class CalendarWorker {
                 c.set(year, monthOfYear, dayOfMonth);
 //                String text = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
                 String text = prefix + TimeWorker.formatDate(format, c.getTime()) + " ";
+                text = editText.getText() + text;
                 editText.setText(text);
                 editText.setSelection(text.length());
             }
