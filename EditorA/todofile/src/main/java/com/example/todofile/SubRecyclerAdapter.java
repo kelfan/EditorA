@@ -93,6 +93,14 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
             text = atSign.getRemain();
         }
 
+        String[] dropList = new String[]{"create", "modify"};
+        for (String s : dropList) {
+            AtSign value = AtSign.set(text, s);
+            if (!value.getValue().equals("")) {
+                text = value.getRemain();
+            }
+        }
+
         if (!titleSeparator.equals("")) {
             List<String> match = RegexWorker.matchAll(text, "^.*?" + titleSeparator);
 

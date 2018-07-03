@@ -71,9 +71,11 @@ public class TouchHelper {
                 recyclerView.setTag(moveFlag);
                 TodoFragment todoFragment = (TodoFragment) Hub.linkedHashMap.get(Hub.mainFragment);
                 if (direction == 32) {
-                    item += " [complete(" + TimeWorker.getLocalTime() + ")]";
+//                    item += " [complete(" + TimeWorker.getLocalTime() + ")]";
+                    item += " @complete_" + TimeWorker.getDatetime(Replacer.DATE_TIME_FORMAT);
                 } else {
-                    item += " [delete(" + TimeWorker.getLocalTime() + ")]";
+//                    item += " [delete(" + TimeWorker.getLocalTime() + ")]";
+                    item += " @delete_" + TimeWorker.getDatetime(Replacer.DATE_TIME_FORMAT);
                 }
                 todoFragment.logItem(item);
             }

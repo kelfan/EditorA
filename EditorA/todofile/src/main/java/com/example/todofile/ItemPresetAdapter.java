@@ -81,11 +81,13 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         if (style.equals("todo")) {
             logDelete = true;
             titleSeparator = "[:：]";
-//            subSeparator = "\n";
+            subSeparator = "\n";
         }
         if (style.equals("log")) {
             logDelete = true;
             isLog = true;
+            titleSeparator = "[:：]";
+            subSeparator = "\n";
         }
         if (style.equals("note")) {
             this.display = "block";
