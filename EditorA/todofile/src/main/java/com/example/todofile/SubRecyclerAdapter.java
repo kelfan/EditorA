@@ -11,9 +11,11 @@ import com.kelfan.utillibrary.ColorWorker;
 import com.kelfan.utillibrary.LunarSolarConverter;
 import com.kelfan.utillibrary.RegexWorker;
 import com.kelfan.utillibrary.StringHashList;
+import com.kelfan.utillibrary.StringWorker;
 import com.kelfan.utillibrary.TimeWorker;
 
 import java.util.Date;
+import java.util.List;
 
 
 public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> implements View.OnClickListener {
@@ -63,6 +65,7 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
     @Override
     public void onBindViewHolder(SubViewHolder holder, final int position) {
         String text = data.get(position);
+        text = RegexWorker.dropFirstMatch(text, ".*/");
         String title = "";
 
         if (titleDate) {
@@ -84,18 +87,27 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
             }
             if (date != null) {
                 title = TimeWorker.formatDate("MM-dd EEE", date);
-                holder.titleView.setText(title);
-                holder.titleView.setVisibility(View.VISIBLE);
-                holder.titleView.setBackgroundColor(ColorWorker.strToColor(title));
             }
             text = atSign.getRemain();
         }
 
-        if (title.equals("")) {
-            holder.titleView.setVisibility(View.GONE);
+        if (!titleSeparator.equals("")) {
+            List<String> match = RegexWorker.matchAll(text, "^.*?" + titleSeparator);
+            ;
+            if (match.size() > 0) {
+                title = match.get(0);
+                text = text.replace(title, "");
+            }
         }
 
-        text = RegexWorker.dropFirstMatch(text, ".*/");
+        if (title.equals("")) {
+            holder.titleView.setVisibility(View.GONE);
+        } else {
+            holder.titleView.setText(title);
+            holder.titleView.setVisibility(View.VISIBLE);
+            holder.titleView.setBackgroundColor(ColorWorker.strToColor(title));
+        }
+
         holder.textView.setText(text);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

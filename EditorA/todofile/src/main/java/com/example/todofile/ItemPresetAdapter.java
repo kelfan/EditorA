@@ -35,6 +35,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     private ItemPresetAdapter.OnItemClickListener onItemClickListener;
 
     String style = "";
+    String titleSeparator = "";
     boolean logDelete = false;
     boolean isLog = false;
 
@@ -47,7 +48,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         if (text.length() > 1) {
             text = text.substring(0, text.length() - 1);
         }
-        return new ItemPresetAdapter().withContext(context).withText(text).doStyle().doList().doTitleList();
+        return new ItemPresetAdapter().withContext(context).withText(text).doStyle().doList().doTitleList().doTitleSeparator();
     }
 
     public ItemPresetAdapter withContext(Context context) {
@@ -77,6 +78,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         style = atSign.getValue();
         if (style.equals("todo")) {
             logDelete = true;
+            titleSeparator = "[:：]";
         }
         if (style.equals("log")) {
             logDelete = true;
@@ -90,6 +92,14 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         if (!atSign.getValue().equals("")) {
             String text = atSign.getValue() + "_" + ALL_ITEMS;
             this.presetList = text.split("_");
+        }
+        return this;
+    }
+
+    ItemPresetAdapter doTitleSeparator() {
+        String title = AtSign.set(text, "title").getValue();
+        if (!title.equals("")) {
+            this.titleSeparator = title;
         }
         return this;
     }
@@ -187,6 +197,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
             levelSubRecyclerAdapter.data = itemData;
             levelSubRecyclerAdapter.notifyDataSetChanged();
         }
+        levelSubRecyclerAdapter.titleSeparator = this.titleSeparator;
         if (style.equals("todo")) {
             levelSubRecyclerAdapter.titleDate = true;
         }
