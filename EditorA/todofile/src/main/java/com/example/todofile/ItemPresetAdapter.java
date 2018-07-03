@@ -187,6 +187,9 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
             levelSubRecyclerAdapter.data = itemData;
             levelSubRecyclerAdapter.notifyDataSetChanged();
         }
+        if (style.equals("todo")) {
+            levelSubRecyclerAdapter.titleDate = true;
+        }
         if (levelSubRecyclerAdapter.data.size() == 0) {
             holder.textView.setVisibility(View.GONE);
         } else {

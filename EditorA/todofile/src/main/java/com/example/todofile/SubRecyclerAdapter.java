@@ -20,6 +20,8 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
     StringHashList data;
     Context context;
     LayoutInflater inflater;
+    boolean titleDate = false;
+    String titleSeparator = ":";
     String style = "line";
     public boolean hasTouchHelper = false;
 
@@ -61,32 +63,38 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
     @Override
     public void onBindViewHolder(SubViewHolder holder, final int position) {
         String text = data.get(position);
-        AtSign atSign = AtSign.set(text, "date");
-        AtSign lunar = AtSign.set(text, "lunar");
-        AtSign repeatY = AtSign.set(text, "repeaty");
-        String title = atSign.getValue();
+        String title = "";
 
-        Date date = null;
-        if (!title.equals("")) {
-            try {
-                date = TimeWorker.parseDate(atSign.getValue(), Replacer.TO_DATE);
-            } catch (Exception e) {
-                title = title.substring(5, 10);
+        if (titleDate) {
+            AtSign atSign = AtSign.set(text, "date");
+            AtSign lunar = AtSign.set(text, "lunar");
+            AtSign repeatY = AtSign.set(text, "repeaty");
+            title = atSign.getValue();
+            Date date = null;
+            if (!title.equals("")) {
+                try {
+                    date = TimeWorker.parseDate(atSign.getValue(), Replacer.TO_DATE);
+                } catch (Exception e) {
+                    title = title.substring(5, 10);
+                }
+            } else if (!lunar.getValue().equals("")) {
+                date = StringParser.parseLunar(lunar.getValue());
+            } else if (!repeatY.getValue().equals("")) {
+                date = StringParser.parseRepeatY(repeatY.getValue());
             }
-        } else if (!lunar.getValue().equals("")) {
-            date = StringParser.parseLunar(lunar.getValue());
-        } else if (!repeatY.getValue().equals("")) {
-            date = StringParser.parseRepeatY(repeatY.getValue());
+            if (date != null) {
+                title = TimeWorker.formatDate("MM-dd EEE", date);
+                holder.titleView.setText(title);
+                holder.titleView.setVisibility(View.VISIBLE);
+                holder.titleView.setBackgroundColor(ColorWorker.strToColor(title));
+            }
+            text = atSign.getRemain();
         }
-        if (date == null) {
+
+        if (title.equals("")) {
             holder.titleView.setVisibility(View.GONE);
-        } else {
-            title = TimeWorker.formatDate("MM-dd EEE", date);
-            holder.titleView.setText(title);
-            holder.titleView.setVisibility(View.VISIBLE);
-            holder.titleView.setBackgroundColor(ColorWorker.strToColor(title));
         }
-        text = atSign.getRemain();
+
         text = RegexWorker.dropFirstMatch(text, ".*/");
         holder.textView.setText(text);
 
