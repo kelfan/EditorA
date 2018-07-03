@@ -25,7 +25,7 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
     boolean titleDate = false;
     String titleSeparator = "";
     String subSeparator = "";
-    String style = "line";
+    String style = "";
     public boolean hasTouchHelper = false;
 
     private ItemPresetAdapter.OnItemClickListener onItemClickListener;
