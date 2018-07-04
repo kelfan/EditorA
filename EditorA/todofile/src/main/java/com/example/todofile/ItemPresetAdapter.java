@@ -118,7 +118,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     public ItemPresetAdapter doList() {
         AtSign atSign = AtSign.set(text, "list");
         if (!atSign.getValue().equals("")) {
-            String text = atSign.getValue() + "_" + ALL_ITEMS;
+            String text = atSign.getValue() + "_" + OTHER_ITEMS + "_" + ALL_ITEMS;
             this.presetList = text.split("_");
         }
         return this;
@@ -151,6 +151,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     public ItemPresetAdapter doTitleList() {
         if (this.presetList.length == 0) {
             Set<String> l = RegexWorker.matchAllSet(text, "# (.*)/");
+            l.add(OTHER_ITEMS);
             l.add(ALL_ITEMS);
             String[] out;
             if (this.style.equals("todo")) {
@@ -161,7 +162,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
                     out[counter] = s;
                     counter++;
                 }
-                out[l.size()] = REPEAT_ITEMS;
+                out[l.size()] = OTHER_ITEMS;
                 out[l.size() + 1] = ALL_ITEMS;
             } else {
                 out = l.toArray(new String[l.size()]);
@@ -217,6 +218,15 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
 
             }
             itemData = stringHashList;
+        } else if (title.equals(OTHER_ITEMS)) {
+            itemData = data;
+            for (String s : presetList) {
+                s = s.replace("# ", "");
+                if (!s.contains("/")) {
+                    s += "/";
+                }
+                itemData = itemData.notContain(s);
+            }
         } else {
             itemData = data.subContain(title);
         }
