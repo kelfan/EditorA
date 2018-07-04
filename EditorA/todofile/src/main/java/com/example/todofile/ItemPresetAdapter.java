@@ -162,7 +162,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
                     out[counter] = s;
                     counter++;
                 }
-                out[l.size()] = OTHER_ITEMS;
+                out[l.size()] = REPEAT_ITEMS;
                 out[l.size() + 1] = ALL_ITEMS;
             } else {
                 out = l.toArray(new String[l.size()]);
@@ -218,6 +218,8 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
 
             }
             itemData = stringHashList;
+        } else if (title.equals(REPEAT_ITEMS)) {
+            itemData = data.subContain("@repeat");
         } else if (title.equals(OTHER_ITEMS)) {
             itemData = data;
             for (String s : presetList) {
