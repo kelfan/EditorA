@@ -119,7 +119,7 @@ public class TodoFragment extends Fragment {
     public boolean save() {
         editText.setText("");
         currentItem = DEFAULT_CURRENT_ITEM;
-        return FileWorker.writeToFile(filePath, adapter.data.combine(adapter.delimiter));
+        return FileWorker.writeToFile(filePath, adapter.delimiter + adapter.data.combine(adapter.delimiter));
     }
 
     public void sort() {
