@@ -110,6 +110,12 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
             if (match.size() > 0) {
                 title = match.get(0);
                 text = text.replace(title, "");
+                if (title.length() > 0) {
+                    title = title.substring(0, title.length() - 1);
+                }
+            } else if (style.equals("block")) {
+                title = text;
+                text = "";
             }
         }
 
@@ -137,7 +143,13 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
             holder.subView.setVisibility(View.VISIBLE);
         }
 
-        holder.textView.setText(text);
+        if (text.equals("")) {
+            holder.textView.setVisibility(View.GONE);
+        } else {
+            holder.textView.setText(text);
+            holder.textView.setVisibility(View.VISIBLE);
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

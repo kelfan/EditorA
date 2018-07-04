@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.kelfan.utillibrary.AtSign;
+import com.kelfan.utillibrary.ColorWorker;
 import com.kelfan.utillibrary.FileLocal;
 import com.kelfan.utillibrary.FileWorker;
 import com.kelfan.utillibrary.TimeWorker;
@@ -106,6 +107,8 @@ public class TodoFragment extends Fragment {
     }
 
     public boolean save() {
+        editText.setText("");
+        currentItem = DEFAULT_CURRENT_ITEM;
         return FileWorker.writeToFile(filePath, adapter.data.combine(adapter.delimiter));
     }
 

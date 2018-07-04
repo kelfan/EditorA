@@ -41,6 +41,7 @@ public class ColorWorker {
     public static final int RED_CRIMSON = Color.parseColor("#BC1717");
     public static final int SALMON = Color.parseColor("#6F4242");
     public static final int GREEN_SEA = Color.parseColor("#238E68");
+    public static  final  int GREY_VERY_LIGHT = Color.parseColor("#F0F0F0");
 
     /**
      * Returns the complimentary (opposite) color.
