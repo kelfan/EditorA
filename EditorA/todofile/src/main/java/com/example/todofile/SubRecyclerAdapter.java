@@ -8,10 +8,8 @@ import android.view.ViewGroup;
 
 import com.kelfan.utillibrary.AtSign;
 import com.kelfan.utillibrary.ColorWorker;
-import com.kelfan.utillibrary.LunarSolarConverter;
 import com.kelfan.utillibrary.RegexWorker;
 import com.kelfan.utillibrary.StringHashList;
-import com.kelfan.utillibrary.StringWorker;
 import com.kelfan.utillibrary.TimeWorker;
 
 import java.util.Date;
@@ -54,7 +52,7 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
     public SubViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         int id;
         if (style.equals("block")) {
-            id = R.layout.item_view_sub_block;
+            id = R.layout.item_view_sub_block_note;
         } else {
             id = R.layout.item_view_sub_line;
         }
