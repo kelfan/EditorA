@@ -63,7 +63,7 @@ public class StringWorker {
         return (inStr.length() - inStr.replace(letter, "").length()) / letter.length();
     }
 
-    public static String getStart2First(String inStr, String delimiter){
+    public static String getStart2First(String inStr, String delimiter) {
         if (inStr.contains(delimiter)) {
             if (delimiter.equals(".")) {
                 delimiter = "[.]";
@@ -140,18 +140,19 @@ public class StringWorker {
 
     /**
      * check wether a String contain a list of Strings in subStr
-     * @param intext a String
-     * @param subStr a String
+     *
+     * @param intext    a String
+     * @param subStr    a String
      * @param delimiter default is " "
      * @return true or false
      */
-    public static boolean contain(String intext, String subStr, String delimiter){
-        if (delimiter == null){
+    public static boolean contain(String intext, String subStr, String delimiter) {
+        if (delimiter == null) {
             delimiter = " ";
         }
         String[] aList = subStr.split(delimiter);
-        for (String s: aList){
-            if (!intext.contains(s)){
+        for (String s : aList) {
+            if (!intext.contains(s)) {
                 return false;
             }
         }
@@ -160,15 +161,22 @@ public class StringWorker {
 
     /**
      * get sub string of a string from the begin to the last occurrence of sign
+     *
      * @param text
      * @param sign
      * @return
      */
-    public static String beginToLastSign(String text, String sign){
-        if (text.contains(sign)){
+    public static String beginToLastSign(String text, String sign) {
+        if (text.contains(sign)) {
             return text.substring(0, text.lastIndexOf(sign));
         }
         return "";
+    }
+
+    public static String insert(String insertStr, int position, String text) {
+        String sub1 = text.substring(0, position);
+        String sub2 = text.substring(position);
+        return sub1 + insertStr + sub2;
     }
 
 }

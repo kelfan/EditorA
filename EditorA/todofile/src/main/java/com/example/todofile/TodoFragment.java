@@ -15,6 +15,7 @@ import com.kelfan.utillibrary.AtSign;
 import com.kelfan.utillibrary.ColorWorker;
 import com.kelfan.utillibrary.FileLocal;
 import com.kelfan.utillibrary.FileWorker;
+import com.kelfan.utillibrary.RegexWorker;
 import com.kelfan.utillibrary.TimeWorker;
 import com.kelfan.utillibrary.Xmler;
 
@@ -69,7 +70,16 @@ public class TodoFragment extends Fragment {
                 if (!title.contains("/")) {
                     title += "/ ";
                 }
-                editText.setText(title);
+                if (title.matches("# .*")) {
+                    title = title.substring(2);
+                }
+                String text = editText.getText().toString();
+                if (text.matches(".*/[\\S\\s]*")) {
+                    String s = RegexWorker.matchAll(text, ".*/").get(0);
+                    text = text.replace(s, "");
+                }
+                text = String.format("%s%s", title, text);
+                editText.setText(text);
                 editText.setSelection(editText.getText().length());
             }
         });

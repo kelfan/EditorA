@@ -21,4 +21,10 @@ public class StringWorkerTest {
         assert StringWorker.contain(s, "", " ");
         assertEquals(4, 2 + 2);
     }
+
+    @Test
+    public void insert() {
+        String s = "abcefg";
+        assertEquals("abcdddefg", StringWorker.insert("ddd", 3, s));
+    }
 }
