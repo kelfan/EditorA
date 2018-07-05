@@ -95,11 +95,13 @@ public class TodoFragment extends Fragment {
         String text = editText.getText().toString();
         text = Replacer.replaceTime(text);
         if (adapter.logTime) {
-            String time = TimeWorker.getDatetime(Replacer.DATE_TIME_FORMAT);
-            if (!text.contains("@create_")) {
-                text = AtSign.set(text, "create").updateValue(time).toString();
+            if (!text.equals("")) {
+                String time = TimeWorker.getDatetime(Replacer.DATE_TIME_FORMAT);
+                if (!text.contains("@create_")) {
+                    text = AtSign.set(text, "create").updateValue(time).toString();
+                }
+                text = AtSign.set(text, "modify").updateValue(time).toString();
             }
-            text = AtSign.set(text, "modify").updateValue(time).toString();
         }
         if (currentItem.equals(DEFAULT_CURRENT_ITEM)) {
             if (!text.equals("")) {
