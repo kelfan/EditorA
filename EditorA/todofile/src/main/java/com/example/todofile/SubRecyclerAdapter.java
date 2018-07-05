@@ -94,7 +94,7 @@ public class SubRecyclerAdapter extends RecyclerView.Adapter<SubViewHolder> impl
             text = atSign.getRemain();
         }
 
-        String[] dropList = new String[]{"create", "modify"};
+        String[] dropList = new String[]{"create", "modify", "date"};
         for (String s : dropList) {
             AtSign value = AtSign.set(text, s);
             if (!value.getValue().equals("")) {

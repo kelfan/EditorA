@@ -45,6 +45,9 @@ public class AtSign {
             value = content.substring(start + sign.length(), end);
         }
         remain = content.replace(sign + value + " ", "");
+        if (remain.length() == content.length()) {
+            remain = remain.replace(sign + value, "");
+        }
         return this;
     }
 
