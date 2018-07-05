@@ -21,8 +21,13 @@ public class CalendarWorker {
             public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
                 c.set(year, monthOfYear, dayOfMonth);
 //                String text = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
-                String text = prefix + TimeWorker.formatDate(format, c.getTime()) + " ";
-                text = editText.getText() + text;
+                String text = editText.getText().toString();
+                String time = prefix + TimeWorker.formatDate(format, c.getTime()) + " ";
+                if (text.contains("@date_")) {
+                    text = AtSign.set(text, "date").getRemain() + time;
+                } else {
+                    text += time;
+                }
                 editText.setText(text);
                 editText.setSelection(text.length());
             }
