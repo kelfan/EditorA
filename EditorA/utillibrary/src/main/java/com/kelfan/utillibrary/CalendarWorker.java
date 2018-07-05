@@ -35,15 +35,26 @@ public class CalendarWorker {
         datePickerDialog.show();
     }
 
-    public static void setTime(final EditText editText, Context context) {
-        Calendar c = Calendar.getInstance();
+    public static void setTime(final EditText editText, Context context, final String format, final String prefix) {
+        final Calendar c = Calendar.getInstance();
+        final int day = c.get(Calendar.DAY_OF_MONTH);
+        final int month = c.get(Calendar.MONTH);
+        final int year = c.get(Calendar.YEAR);
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minutes = c.get(Calendar.MINUTE);
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
-                String text = hourOfDay + ":" + minutes + " ";
+                c.set(year, month, day, hourOfDay, minutes);
+//                String text = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                String text = editText.getText().toString();
+                String time = prefix + TimeWorker.formatDate(format, c.getTime()) + " ";
+                if (text.contains("@time_")) {
+                    text = AtSign.set(text, "time").getRemain() + time;
+                } else {
+                    text += time;
+                }
                 editText.setText(text);
                 editText.setSelection(text.length());
             }

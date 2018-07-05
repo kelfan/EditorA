@@ -293,18 +293,21 @@ public class MainActivity extends AppCompatActivity
     public void onClick(MenuItem item) {
         getFragments();
         int cId = item.getItemId();
-        if (cId == R.id.sort_menu) {
-            if (editFilerFragment != null) {
+        if (todoFragment != null) {
+            if (cId == R.id.sort_menu) {
+                todoFragment.sort();
+            } else if (cId == R.id.date_menu) {
+                CalendarWorker.setDate(todoFragment.editText, this, Replacer.DATE_FORMAT, Replacer.PREFIX);
+            } else if (cId == R.id.time_menu) {
+                CalendarWorker.setTime(todoFragment.editText, this, Replacer.TIME_FORMAT, "@time_");
+            }
+        }
+        if (editFilerFragment != null) {
+            if (cId == R.id.sort_menu) {
                 editFilerFragment.sort();
             }
-            if (todoFragment != null) {
-                todoFragment.sort();
-            }
-        } else if (cId == R.id.date_menu) {
-            if (todoFragment != null) {
-                CalendarWorker.setDate(todoFragment.editText, this, Replacer.DATE_FORMAT, Replacer.PREFIX);
-            }
-        } else if (cId == R.id.action_rename) {
+        }
+        if (cId == R.id.action_rename) {
             getUserInput(FileLocal.set(currentFilePath).fileName);
         }
     }

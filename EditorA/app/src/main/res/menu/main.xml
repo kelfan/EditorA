@@ -19,6 +19,14 @@
         android:title="@string/pick_date"
         />
 
+    <item
+        android:id="@+id/time_menu"
+        android:icon="@drawable/ic_access_time_white_24dp"
+        android:orderInCategory="80"
+        app:showAsAction="ifRoom"
+        android:onClick="onClick"
+        android:title="@string/pick_time"
+        />
 
     <item
         android:id="@+id/action_rename"

@@ -9,6 +9,7 @@ public class Replacer {
     public static final String TO_DATE = "yyyy-MM-dd_Z";
     public static final String DATE_FORMAT = "yyyy-MM-dd_Z";
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd_Z_HH-mm-ss";
+    public static final String TIME_FORMAT="hh.mma";
     public static final String PREFIX = "@date_";
 
     public static String replaceTime(String s) {
