@@ -1,6 +1,7 @@
 package com.kelfan.utillibrary;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -197,6 +198,13 @@ public class StringHashList {
         }
         listStr = temp;
         sync();
+    }
+
+    public void reverse() {
+        ArrayList<Object> tmp = new ArrayList<>(Arrays.asList(positionList));
+        Collections.reverse(tmp);
+        positionList = tmp.toArray();
+        syncFromPosition();
     }
 
 }

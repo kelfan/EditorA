@@ -192,14 +192,16 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
         holder.itemView.setTag(position);
 
         // process recycler view
+        StringHashList displayData = data.copy();
+        displayData.reverse();
         SubRecyclerAdapter levelSubRecyclerAdapter;
         StringHashList itemData;
         if (title.equals(ALL_ITEMS)) {
-            itemData = data;
+            itemData = displayData;
         } else if (title.equals(RECENT_ITEMS)) {
             StringHashList stringHashList = new StringHashList();
-            for (Long key : data.getValues().keySet()) {
-                String s = data.get(key);
+            for (Long key : displayData.getValues().keySet()) {
+                String s = displayData.get(key);
                 Date date = null;
                 if (s.contains("@date_")) {
                     String sDate = AtSign.set(s, "date").getValue();
@@ -214,16 +216,16 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
                 if (date != null) {
                     Long days = TimeWorker.difToday(date);
                     if (days > -7 && days < 14) {
-                        stringHashList.put(key, data.get(key));
+                        stringHashList.put(key, displayData.get(key));
                     }
                 }
 
             }
             itemData = stringHashList;
         } else if (title.equals(REPEAT_ITEMS)) {
-            itemData = data.subContain("@repeat");
+            itemData = displayData.subContain("@repeat");
         } else if (title.equals(OTHER_ITEMS)) {
-            itemData = data;
+            itemData = displayData;
             for (String s : presetList) {
                 s = s.replace("# ", "");
                 if (!s.contains("/")) {
@@ -232,7 +234,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
                 itemData = itemData.notContain(s);
             }
         } else {
-            itemData = data.subContain(title);
+            itemData = displayData.subContain(title);
         }
         if (holder.recyclerView.getAdapter() == null) {
             levelSubRecyclerAdapter = SubRecyclerAdapter.set(holder.itemView.getContext(), itemData);
