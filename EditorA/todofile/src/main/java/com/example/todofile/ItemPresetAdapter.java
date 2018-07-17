@@ -14,7 +14,9 @@ import com.kelfan.utillibrary.TimeWorker;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -158,6 +160,11 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     public ItemPresetAdapter doTitleList() {
         if (this.presetList.length == 0) {
             Set<String> l = RegexWorker.matchAllSet(text, "# (.*)/");
+            if (isReverse) {
+                List list = new ArrayList(l);
+                Collections.reverse(list);
+                l = new LinkedHashSet(list);
+            }
             if (l.size() > 1) {
                 l.add(OTHER_ITEMS);
             }
