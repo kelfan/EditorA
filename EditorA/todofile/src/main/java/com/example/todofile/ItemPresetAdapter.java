@@ -41,6 +41,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     boolean titleDate = false;
     boolean logDelete = false;
     boolean logTime = false;
+    boolean isReverse = false;
 
     //define interface
     public static interface OnItemClickListener {
@@ -111,6 +112,12 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
             titleSeparator = "\n";
             subSeparator = "~";
             this.display = "block";
+            isReverse = true;
+        }
+        if (style.equals("summary")) {
+            titleSeparator = "[:：]";
+            subSeparator = "\n";
+            isReverse = true;
         }
         return this;
     }
@@ -193,7 +200,9 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
 
         // process recycler view
         StringHashList displayData = data.copy();
-        displayData.reverse();
+        if (isReverse) {
+            displayData.reverse();
+        }
         SubRecyclerAdapter levelSubRecyclerAdapter;
         StringHashList itemData;
         if (title.equals(ALL_ITEMS)) {
