@@ -151,7 +151,9 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     public ItemPresetAdapter doTitleList() {
         if (this.presetList.length == 0) {
             Set<String> l = RegexWorker.matchAllSet(text, "# (.*)/");
-            l.add(OTHER_ITEMS);
+            if (l.size() > 1) {
+                l.add(OTHER_ITEMS);
+            }
             l.add(ALL_ITEMS);
             String[] out;
             if (this.style.equals("todo")) {
