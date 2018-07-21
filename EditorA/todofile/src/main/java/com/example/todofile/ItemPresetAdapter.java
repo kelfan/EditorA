@@ -97,6 +97,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
             logTime = true;
             titleSeparator = "[:：]";
             subSeparator = "\n";
+            isReverse = true;
         }
         if (style.equals("record")) {
             logDelete = true;
@@ -104,6 +105,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
             titleDate = true;
             titleSeparator = "[:：]";
             subSeparator = "\n";
+            isReverse = true;
         }
         if (style.equals("block")) {
             titleSeparator = "\n";
