@@ -186,6 +186,7 @@ public class StringHashList {
         ArrayList<String> strings = new ArrayList<>();
         for (String s : listStr.values()) {
             String prefix = AtSign.set(s, sign).getValue();
+            len = prefix.length();
             prefix = String.format("%" + len + "s", prefix).replace(" ", "`");
             prefix = prefix.substring(0, len);
             strings.add(prefix + s);
