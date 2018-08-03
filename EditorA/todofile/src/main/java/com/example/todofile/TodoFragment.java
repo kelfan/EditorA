@@ -125,7 +125,11 @@ public class TodoFragment extends Fragment {
     }
 
     public void sort() {
-        this.adapter.data.sort("date");
+        if (this.adapter.sortCreate){
+            this.adapter.data.sort("create");
+        }else{
+            this.adapter.data.sort("date");
+        }
         this.adapter.notifyDataSetChanged();
         editText.setText("");
         currentItem = DEFAULT_CURRENT_ITEM;

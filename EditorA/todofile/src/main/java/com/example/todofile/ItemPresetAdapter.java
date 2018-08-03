@@ -44,6 +44,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
     boolean logDelete = false;
     boolean logTime = false;
     boolean isReverse = false;
+    boolean sortCreate = false;
 
     //define interface
     public static interface OnItemClickListener {
@@ -106,15 +107,16 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
             titleSeparator = "[:：]";
             subSeparator = "\n";
             isReverse = true;
+            sortCreate = true;
         }
         if (style.equals("block")) {
             titleSeparator = "\n";
-            subSeparator = "~";
+            subSeparator = "\n~";
             this.display = "block";
         }
         if (style.equals("note")) {
             titleSeparator = "\n";
-            subSeparator = "~";
+            subSeparator = "\n~";
             this.display = "block";
             isReverse = true;
         }
