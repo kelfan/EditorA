@@ -182,16 +182,13 @@ public class StringHashList {
     }
 
     public void sort(String sign) {
-        int len = 10;
+        int len = 20;
         ArrayList<String> strings = new ArrayList<>();
         for (String s : listStr.values()) {
             String prefix = AtSign.set(s, sign).getValue();
-            len = prefix.length();
-            if (len>0){
-                prefix = String.format("%" + len + "s", prefix).replace(" ", "`");
-                prefix = prefix.substring(0, len);
-                strings.add(prefix + s);
-            }
+            prefix = String.format("%" + len + "s", prefix).replace(" ", "`");
+            prefix = prefix.substring(0, len);
+            strings.add(prefix + s);
         }
         Collections.sort(strings);
         LinkedHashMap<Long, String> temp = new LinkedHashMap<>();
