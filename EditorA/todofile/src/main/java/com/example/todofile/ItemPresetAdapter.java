@@ -92,7 +92,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
             titleDate = true;
             titleSeparator = "[:：]";
             subSeparator = "\n";
-            isReverse = true;
+//            isReverse = true;
         }
         if (style.equals("log")) {
             logDelete = true;
@@ -242,7 +242,7 @@ public class ItemPresetAdapter extends RecyclerView.Adapter<ItemViewHolder> impl
                 }
 
             }
-            stringHashList.sort();
+//            stringHashList.sort();
             itemData = stringHashList;
         } else if (title.equals(REPEAT_ITEMS)) {
             itemData = displayData.subContain("@repeat");
