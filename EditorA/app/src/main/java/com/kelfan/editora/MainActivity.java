@@ -37,6 +37,7 @@ import com.kelfan.utillibrary.CalendarWorker;
 import com.kelfan.utillibrary.FileConfiger;
 import com.kelfan.utillibrary.FileLocal;
 import com.kelfan.utillibrary.FileWorker;
+import com.kelfan.utillibrary.PermissionWorker;
 import com.kelfan.utillibrary.StringWorker;
 import com.kelfan.utillibrary.android.TouchHelper;
 
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PermissionWorker.getReadMediaPermission(this);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
