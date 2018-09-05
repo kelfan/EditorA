@@ -56,7 +56,8 @@ public class TouchHelper {
                             int days = Integer.parseInt(sRepeat);
                             date = TimeWorker.addDay(date, days);
                         }
-                        String newItem = "@date_" + TimeWorker.formatDate(Replacer.DATE_FORMAT, date) + " " + AtSign.set(item, "date").getRemain();
+                        String s1 = AtSign.set(item, "date").getRemain();
+                        String newItem = AtSign.set(item, "date").getRemain() + " @date_" + TimeWorker.formatDate(Replacer.DATE_FORMAT, date);
                         list.add(newItem);
                     } catch (Exception ignored) {
 
